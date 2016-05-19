@@ -7,7 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 /**
  * @author timmolter
  */
-public final class BitcoinAccount {
+public final class CryptoAccount {
+
+/*
+    "id":25929,
+    "balance":0.0,
+    "address":"0x51555af27757769c89d1397c9d223c4b8d514fc4",
+    "currency":"ETH",
+    "currency_symbol":"Ξ",
+    "pusher_channel":"user_137_account_eth",
+    "minimum_withdraw":2,
+    "lowest_offer_interest_rate":"0.00020",
+    "highest_offer_interest_rate":"0.00020",
+    "currency_type":"crypto"}
+*/
 
   private final Integer id;
   private final BigDecimal balance;
@@ -18,7 +31,8 @@ public final class BitcoinAccount {
   private final BigDecimal btcMinimumWithdraw;
   private final BigDecimal lowestOfferInterestRate;
   private final BigDecimal highestOfferInterestRate;
-  private final BigDecimal freeBalance;
+  private final String currencyType;
+//  private final BigDecimal freeBalance;
 
   /**
    * Constructor
@@ -32,13 +46,14 @@ public final class BitcoinAccount {
    * @param btcMinimumWithdraw
    * @param lowestOfferInterestRate
    * @param highestOfferInterestRate
-   * @param freeBalance
+   * @param currencyType
    */
-  public BitcoinAccount(@JsonProperty("id") Integer id, @JsonProperty("balance") BigDecimal balance, @JsonProperty("address") String address,
-      @JsonProperty("currency") String currency, @JsonProperty("currency_symbol") String currencySymbol,
-      @JsonProperty("pusher_channel") String pusherChannel, @JsonProperty("btc_minimum_withdraw") BigDecimal btcMinimumWithdraw,
-      @JsonProperty("lowest_offer_interest_rate") BigDecimal lowestOfferInterestRate,
-      @JsonProperty("highest_offer_interest_rate") BigDecimal highestOfferInterestRate, @JsonProperty("free_balance") BigDecimal freeBalance) {
+  public CryptoAccount(@JsonProperty("id") Integer id, @JsonProperty("balance") BigDecimal balance, @JsonProperty("address") String address,
+                       @JsonProperty("currency") String currency, @JsonProperty("currency_symbol") String currencySymbol,
+                       @JsonProperty("pusher_channel") String pusherChannel, @JsonProperty("btc_minimum_withdraw") BigDecimal btcMinimumWithdraw,
+                       @JsonProperty("lowest_offer_interest_rate") BigDecimal lowestOfferInterestRate,
+                       @JsonProperty("highest_offer_interest_rate") BigDecimal highestOfferInterestRate,
+                       @JsonProperty("currency_type") String currencyType) {
     this.id = id;
     this.balance = balance;
     this.address = address;
@@ -48,7 +63,7 @@ public final class BitcoinAccount {
     this.btcMinimumWithdraw = btcMinimumWithdraw;
     this.lowestOfferInterestRate = lowestOfferInterestRate;
     this.highestOfferInterestRate = highestOfferInterestRate;
-    this.freeBalance = freeBalance;
+    this.currencyType = currencyType;
   }
 
   public Integer getId() {
@@ -87,15 +102,15 @@ public final class BitcoinAccount {
     return highestOfferInterestRate;
   }
 
-  public BigDecimal getFreeBalance() {
-    return freeBalance;
+  public String getCurrencyType() {
+    return currencyType;
   }
 
   @Override
   public String toString() {
     return "BitcoinAccount [id=" + id + ", balance=" + balance + ", address=" + address + ", currency=" + currency + ", currencySymbol="
         + currencySymbol + ", pusherChannel=" + pusherChannel + ", btcMinimumWithdraw=" + btcMinimumWithdraw + ", lowestOfferInterestRate="
-        + lowestOfferInterestRate + ", highestOfferInterestRate=" + highestOfferInterestRate + ", freeBalance=" + freeBalance + "]";
+        + lowestOfferInterestRate + ", highestOfferInterestRate=" + highestOfferInterestRate + ", currencyType=" + currencyType + "]";
   }
 
 }

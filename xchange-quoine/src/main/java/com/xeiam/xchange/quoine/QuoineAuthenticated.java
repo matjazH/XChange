@@ -15,46 +15,74 @@ import javax.ws.rs.core.MediaType;
 
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
+import com.xeiam.xchange.quoine.dto.marketdata.QuoineTradesList;
 import com.xeiam.xchange.quoine.dto.trade.QuoineNewOrderRequest;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrderResponse;
 import com.xeiam.xchange.quoine.dto.trade.QuoineOrdersList;
-
+import com.xeiam.xchange.quoine.service.QuoineHmacPostBodyDigest;
 import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 @Path("/")
 @Produces(MediaType.APPLICATION_JSON)
 public interface QuoineAuthenticated extends Quoine {
-
   @GET
   @Path("accounts")
-  public QuoineAccountInfo getAccountInfo(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
+  @Consumes(MediaType.APPLICATION_JSON)
+  public QuoineAccountInfo getAccountInfo(@HeaderParam("X-Quoine-Vendor") String vendor,
+                                          @HeaderParam("Date") String date,
+                                          @HeaderParam("NONCE") SynchronizedValueFactory<String> nonce,
+                                          @HeaderParam("Authorization") ParamsDigest digest) throws IOException;
 
   @GET
   @Path("trading_accounts")
-  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer) throws IOException;
-
+  public QuoineTradingAccountInfo[] getTradingAccountInfo(@HeaderParam("Date") String date,
+                                                          @HeaderParam("NONCE") SynchronizedValueFactory<String> nonce,
+                                                          @HeaderParam("Authorization") ParamsDigest digest) throws IOException;
+  
   @POST
   @Path("orders")
   @Consumes(MediaType.APPLICATION_JSON)
-  public QuoineOrderResponse placeOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, QuoineNewOrderRequest quoineNewOrderRequest) throws IOException;
+  public QuoineOrderResponse placeOrder(@HeaderParam("X-Quoine-Vendor") String vendor,
+                                        @HeaderParam("Date") String date,
+                                        @HeaderParam("NONCE") SynchronizedValueFactory<String> nonce,
+                                        @HeaderParam("Authorization") ParamsDigest digest,
+                                        QuoineNewOrderRequest quoineNewOrderRequest) throws IOException;
 
   @PUT
   @Path("orders/{order_id}/cancel")
-  public QuoineOrderResponse cancelOrder(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, @PathParam("order_id") String orderID) throws IOException;
+  @Consumes(MediaType.APPLICATION_JSON)
+  public QuoineOrderResponse cancelOrder(@HeaderParam("X-Quoine-Vendor") String vendor,
+                                         @HeaderParam("Date") String date,
+                                         @HeaderParam("NONCE") SynchronizedValueFactory<String> nonce,
+                                         @HeaderParam("Authorization") ParamsDigest digest,
+                                         @PathParam("order_id") String orderID) throws IOException;
 
   @GET
   @Path("orders/{order_id}")
-  public QuoineOrderDetailsResponse orderDetails(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, @PathParam("order_id") String orderID) throws IOException;
+  @Consumes(MediaType.APPLICATION_JSON)
+  public QuoineOrderDetailsResponse orderDetails(@HeaderParam("Date") String date,
+                                                 @HeaderParam("NONCE") SynchronizedValueFactory<String> nonce,
+                                                 @HeaderParam("Authorization") ParamsDigest digest,
+                                                 @PathParam("order_id") String orderID) throws IOException;
 
   @GET
   @Path("orders")
-  public QuoineOrdersList listOrders(@HeaderParam("Content-Type") String contentType, @HeaderParam("Content-MD5") ParamsDigest contentMD5, @HeaderParam("Date") String date,
-      @HeaderParam("NONCE") String nonce, @HeaderParam("Authorization") ParamsDigest signer, @QueryParam("currency_pair_code") String currencyPair) throws IOException;
+  @Consumes(MediaType.APPLICATION_JSON)
+  public QuoineOrdersList listOrders(@HeaderParam("Date") String date,
+                                     @HeaderParam("NONCE") SynchronizedValueFactory<String> nonce,
+                                     @HeaderParam("Authorization") ParamsDigest digest,
+                                     @QueryParam("currency_pair_code") String currencyPair) throws IOException;
 
+  @GET
+  @Path("executions/me")
+  @Consumes(MediaType.APPLICATION_JSON)
+  QuoineTradesList listExecutions(@HeaderParam("X-Quoine-Vendor") String vendor,
+                                  @HeaderParam("Date") String date,
+                                  @HeaderParam("NONCE") SynchronizedValueFactory<String> nonce,
+                                  @HeaderParam("Authorization") ParamsDigest digest,
+                                  @QueryParam("currency_pair_code") String currencyPairCode,
+                                  @QueryParam("limit") Integer limit,
+                                  @QueryParam("page") Integer page) throws IOException;
 }

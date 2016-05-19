@@ -9,23 +9,22 @@ import com.fasterxml.jackson.annotation.JsonProperty;
  */
 public final class QuoineAccountInfo {
 
-  private final BitcoinAccount bitcoinAccount;
+  private final CryptoAccount[] cryptoAccounts;
   private final FiatAccount[] fiatAccounts;
 
   /**
    * Constructor
    *
-   * @param bitcoinAccount
+   * @param cryptoAccounts
    * @param fiatAccounts
    */
-  public QuoineAccountInfo(@JsonProperty("bitcoin_account") BitcoinAccount bitcoinAccount,
-      @JsonProperty("fiat_accounts") FiatAccount[] fiatAccounts) {
-    this.bitcoinAccount = bitcoinAccount;
+  public QuoineAccountInfo(@JsonProperty("crypto_accounts") CryptoAccount[] cryptoAccounts, @JsonProperty("fiat_accounts") FiatAccount[] fiatAccounts) {
+    this.cryptoAccounts = cryptoAccounts;
     this.fiatAccounts = fiatAccounts;
   }
 
-  public BitcoinAccount getBitcoinAccount() {
-    return bitcoinAccount;
+  public CryptoAccount[] getCryptoAccounts() {
+    return cryptoAccounts;
   }
 
   public FiatAccount[] getFiatAccounts() {
@@ -34,7 +33,7 @@ public final class QuoineAccountInfo {
 
   @Override
   public String toString() {
-    return "QuoineAccountInfo [bitcoinAccount=" + bitcoinAccount + ", fiatAccounts=" + Arrays.toString(fiatAccounts) + "]";
+    return "QuoineAccountInfo [bitcoinAccount=" + Arrays.toString(cryptoAccounts) + ", fiatAccounts=" + Arrays.toString(fiatAccounts) + "]";
   }
 
 }

@@ -12,6 +12,7 @@ import com.xeiam.xchange.quoine.QuoineAdapters;
 import com.xeiam.xchange.quoine.QuoineUtils;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import com.xeiam.xchange.quoine.dto.marketdata.QuoineProduct;
+import com.xeiam.xchange.quoine.dto.marketdata.QuoineTradesList;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class QuoineMarketDataService extends QuoineMarketDataServiceRaw implements PollingMarketDataService {
@@ -43,7 +44,8 @@ public class QuoineMarketDataService extends QuoineMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    QuoineTradesList quoineTradesList = getExecutions(QuoineUtils.toPairString(currencyPair));
+    return QuoineAdapters.adaptTrades(quoineTradesList, currencyPair);
   }
 
 }

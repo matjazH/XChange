@@ -1,21 +1,21 @@
 package com.xeiam.xchange.quoine;
 
+import com.xeiam.xchange.utils.nonce.Random32CharsStringNonceFactory;
+import si.mazi.rescu.SynchronizedValueFactory;
+
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
 import com.xeiam.xchange.quoine.service.polling.QuoineAccountService;
 import com.xeiam.xchange.quoine.service.polling.QuoineMarketDataService;
 import com.xeiam.xchange.quoine.service.polling.QuoineTradeService;
-import com.xeiam.xchange.utils.nonce.CurrentTimeNonceFactory;
-
-import si.mazi.rescu.SynchronizedValueFactory;
 
 public class QuoineExchange extends BaseExchange implements Exchange {
 
   public static final String KEY_USER_ID = "KEY_USER_ID";
-  public static final String KEY_USER_SECRET = "KEY_USER_SECRET";
+  public static final String KEY_DEVICE_NAME = "KEY_DEVICE_NAME";
+  public static final String KEY_USER_TOKEN = "KEY_USER_TOKEN";
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -40,6 +40,6 @@ public class QuoineExchange extends BaseExchange implements Exchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
-    return nonceFactory;
+    return null;
   }
 }

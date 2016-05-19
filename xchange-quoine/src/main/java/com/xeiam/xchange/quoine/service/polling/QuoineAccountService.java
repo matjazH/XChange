@@ -6,7 +6,9 @@ import java.math.BigDecimal;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
+import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
 import com.xeiam.xchange.quoine.QuoineAdapters;
 import com.xeiam.xchange.quoine.dto.account.QuoineAccountInfo;
 import com.xeiam.xchange.quoine.dto.account.QuoineTradingAccountInfo;
@@ -22,17 +24,17 @@ import com.xeiam.xchange.service.polling.account.PollingAccountService;
  */
 public class QuoineAccountService extends QuoineAccountServiceRaw implements PollingAccountService {
 
-  private final boolean useMargin;
+	private final boolean useMargin;	
 
-  /**
-   * Constructor
-   */
-  public QuoineAccountService(BaseExchange baseExchange, boolean useMargin) {
+	/**
+	 * Constructor
+	 */
+	public QuoineAccountService(BaseExchange baseExchange, boolean useMargin) {
 
-    super(baseExchange);
+		super(baseExchange);
 
-    this.useMargin = useMargin;
-  }
+		this.useMargin = useMargin;
+	}
 
   @Override
   public AccountInfo getAccountInfo() throws IOException {
@@ -46,16 +48,15 @@ public class QuoineAccountService extends QuoineAccountServiceRaw implements Pol
     }
   }
 
-  @Override
-  public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
+	@Override
+	public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotAvailableFromExchangeException();
-  }
+		throw new NotAvailableFromExchangeException();
+	}
 
-  @Override
-  public String requestDepositAddress(Currency currency, String... args) throws IOException {
+	@Override
+	public String requestDepositAddress(Currency currency, String... args) throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
 
-    throw new NotAvailableFromExchangeException();
-  }
-
+		throw new NotAvailableFromExchangeException();
+	}
 }

@@ -1,16 +1,18 @@
 {
-   "bitcoin_account":{
-      "id":59,
-      "balance":2.63499784,
-      "address":"15hybRabh6cspBDQRTQ7vTdcwTkPYNAz1f",
-      "currency":"BTC",
-      "currency_symbol":"\u0e3f",
-      "pusher_channel":"user_59_account_btc",
-      "btc_minimum_withdraw":0.02,
-      "lowest_offer_interest_rate":"0.00029",
-      "highest_offer_interest_rate":"0.05000",
-      "free_balance":2.63499784
-   },
+   "crypto_accounts":[
+      {
+         "id":59,
+         "balance":2.63499784,
+         "address":"15hybRabh6cspBDQRTQ7vTdcwTkPYNAz1f",
+         "currency":"BTC",
+         "currency_symbol":"\u0e3f",
+         "pusher_channel":"user_59_account_btc",
+         "btc_minimum_withdraw":0.02,
+         "lowest_offer_interest_rate":"0.00029",
+         "highest_offer_interest_rate":"0.05000",
+         "free_balance":2.63499784
+      }
+   ],
    "fiat_accounts":[
       {
          "id":52,
