@@ -1,12 +1,8 @@
 package com.xeiam.xchange;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -91,7 +87,7 @@ public abstract class BaseExchange implements Exchange {
             "An exception occured while loading the metadata file from the classpath. This is just a warning and can be ignored, but it may lead to unexpected results, so it's better to address it.",
             e);
       } finally {
-        IOUtils.closeQuietly(is);
+        closeQuietly(is);
       }
 
     } else if (this.exchangeSpecification.getExchangeName() != null) { // load the metadata from the classpath
@@ -101,7 +97,7 @@ public abstract class BaseExchange implements Exchange {
         is = BaseExchangeService.class.getClassLoader().getResourceAsStream(getMetaDataFileName(exchangeSpecification) + ".json");
         loadMetaData(is);
       } finally {
-        IOUtils.closeQuietly(is);
+        closeQuietly(is);
       }
 
     } else {
@@ -144,6 +140,15 @@ public abstract class BaseExchange implements Exchange {
   public String getMetaDataFileName(ExchangeSpecification exchangeSpecification) {
 
     return exchangeSpecification.getExchangeName().toLowerCase().replace(" ", "").replace("-", "").replace(".", "");
+  }
+
+  public static void closeQuietly(Closeable closeable) {
+    try {
+      if (closeable != null) {
+        closeable.close();
+      }
+    } catch (IOException ioe) {
+    }
   }
 
   @Override
