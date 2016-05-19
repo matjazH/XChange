@@ -3,8 +3,10 @@ package com.xeiam.xchange.bitbay;
 import com.xeiam.xchange.BaseExchange;
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.ExchangeSpecification;
+import com.xeiam.xchange.bitbay.service.polling.BitbayAccountService;
 import com.xeiam.xchange.bitbay.service.polling.BitbayMarketDataService;
-
+import com.xeiam.xchange.bitbay.service.polling.BitbayTradeService;
+import com.xeiam.xchange.utils.nonce.CurrentTime1000NonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -12,11 +14,14 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class BitbayExchange extends BaseExchange implements Exchange {
 
+
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://market.bitbay.pl/API/Public");
+    exchangeSpecification.setSslUri("https://market.bitbay.pl");
     exchangeSpecification.setHost("bitbay.pl");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitbay");
@@ -28,11 +33,12 @@ public class BitbayExchange extends BaseExchange implements Exchange {
   @Override
   protected void initServices() {
     this.pollingMarketDataService = new BitbayMarketDataService(this);
+    this.pollingTradeService = new BitbayTradeService(this);
+    this.pollingAccountService = new BitbayAccountService(this);
   }
 
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
-    // No private API implemented. Not needed for this exchange at the moment.
-    return null;
+    return nonceFactory;
   }
 }

@@ -1,25 +1,35 @@
 package com.xeiam.xchange.bitbay;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
+import com.xeiam.xchange.bitbay.dto.account.BitbayAccount;
+import com.xeiam.xchange.bitbay.dto.account.BitbayBalance;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
 import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
-import com.xeiam.xchange.currency.CurrencyPair;
+import com.xeiam.xchange.bitbay.dto.trade.BitbayOrder;
+import com.xeiam.xchange.bitbay.dto.trade.BitbayTransaction;
+import com.xeiam.xchange.currency.*;
 import com.xeiam.xchange.dto.Order.OrderType;
+import com.xeiam.xchange.dto.account.AccountInfo;
+import com.xeiam.xchange.dto.account.Balance;
+import com.xeiam.xchange.dto.account.Wallet;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
 import com.xeiam.xchange.dto.marketdata.Trade;
 import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.LimitOrder;
+import com.xeiam.xchange.dto.trade.*;
+import com.xeiam.xchange.exceptions.ExchangeException;
 
 /**
  * @author kpysniak
  */
 public class BitbayAdapters {
+
+  private static final SimpleDateFormat dateFormatter = new SimpleDateFormat("yyy-MM-dd HH:mm:ss");
 
   /**
    * Singleton
@@ -98,4 +108,67 @@ public class BitbayAdapters {
     return trades;
   }
 
+  public static AccountInfo adaptAccount(BitbayAccount bitbayAccount) {
+
+    List<Balance> balances = new ArrayList<Balance>();
+
+    for (Map.Entry<String, BitbayBalance> entry : bitbayAccount.getBalances().entrySet()) {
+      com.xeiam.xchange.currency.Currency currency = com.xeiam.xchange.currency.Currency.getInstance(entry.getKey());
+      BitbayBalance bitbayBalance = entry.getValue();
+      BigDecimal total = bitbayBalance.getAvailable().add(bitbayBalance.getLocked());
+      balances.add(new Balance(currency, total, bitbayBalance.getAvailable(), bitbayBalance.getLocked()));
+    }
+
+    return new AccountInfo(new Wallet(balances));
+  }
+
+  public static OpenOrders adaptOpenOrders(List<BitbayOrder> bitbayOrders) {
+    List<LimitOrder> orders = new ArrayList<LimitOrder>();
+
+    for (BitbayOrder bitbayOrder : bitbayOrders) {
+      if ("active".equals(bitbayOrder.getStatus())) {
+
+        OrderType type = "ask".equals(bitbayOrder.getType()) ? OrderType.ASK : OrderType.BID;
+        CurrencyPair pair = new CurrencyPair(bitbayOrder.getOrderCurrency(), bitbayOrder.getPaymentCurrency());
+
+        Date date = parseDate(bitbayOrder.getOrderDate());
+        BigDecimal rate = bitbayOrder.getStartPrice().divide(bitbayOrder.getStartUnits());
+        orders.add(new LimitOrder(type, bitbayOrder.getUnits(), pair, bitbayOrder.getOrderId(), date, rate));
+      }
+    }
+
+    return new OpenOrders(orders);
+  }
+
+  public static UserTrades adaptTradeHistory(List<BitbayTransaction> transactions) {
+
+    List<UserTrade> trades = new ArrayList<UserTrade>();
+
+    for (BitbayTransaction transaction : transactions) {
+      OrderType orderType = "BID".equals(transaction.getType()) ? OrderType.BID : OrderType.ASK;
+
+      BigDecimal tradableAmount = transaction.getAmount();
+      BigDecimal price = transaction.getPrice();
+
+      Date timestamp = parseDate(transaction.getDate());
+
+      String market = transaction.getMarket();
+      String[] currencies = market.split("-");
+      CurrencyPair pair = new CurrencyPair(currencies[0], currencies[1]);
+
+      UserTrade trade = new UserTrade(orderType, tradableAmount, pair, price, timestamp, null, null);
+      trades.add(trade);
+    }
+
+    return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
+  }
+
+
+  public static Date parseDate(String dateString) {
+    try {
+      return dateFormatter.parse(dateString);
+    } catch (ParseException e) {
+      throw new ExchangeException("Illegal date/time format", e);
+    }
+  }
 }
