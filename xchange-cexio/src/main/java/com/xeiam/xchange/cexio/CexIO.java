@@ -11,9 +11,8 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
-import com.xeiam.xchange.cexio.dto.marketdata.CexIODepth;
-import com.xeiam.xchange.cexio.dto.marketdata.CexIOTicker;
-import com.xeiam.xchange.cexio.dto.marketdata.CexIOTrade;
+import com.xeiam.xchange.cexio.dto.CexIOResponse;
+import com.xeiam.xchange.cexio.dto.marketdata.*;
 
 /**
  * @author brox
@@ -38,5 +37,9 @@ public interface CexIO {
   @Path("trade_history/{ident}/{currency}/")
   CexIOTrade[] getTradesSince(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
       @DefaultValue("1") @FormParam("since") long since) throws IOException;
+
+  @GET
+  @Path("currency_boundaries")
+  CexIOResponse<CexIOPairs> getCurrencyBoundaries() throws IOException;
 
 }
