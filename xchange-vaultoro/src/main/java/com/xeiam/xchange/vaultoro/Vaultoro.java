@@ -9,6 +9,8 @@ import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
+import com.xeiam.xchange.vaultoro.dto.VaultoroResponse;
+import com.xeiam.xchange.vaultoro.dto.marketdata.VaultoroMarket;
 import com.xeiam.xchange.vaultoro.dto.marketdata.VaultoroOrderBookResponse;
 import com.xeiam.xchange.vaultoro.dto.marketdata.VaultoroTrade;
 
@@ -28,4 +30,7 @@ public interface Vaultoro {
   @Path("transactions/month")
   List<VaultoroTrade> getVaultoroTrades(String time) throws IOException, VaultoroException;
 
+  @GET
+  @Path("markets")
+  VaultoroResponse<VaultoroMarket> getVaultoroMarkets() throws IOException, VaultoroException;
 }
