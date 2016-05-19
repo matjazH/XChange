@@ -1,8 +1,8 @@
 package com.xeiam.xchange.gatecoin.service;
 
 import com.xeiam.xchange.service.BaseParamsDigest;
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
+import si.mazi.rescu.utils.Base64;
 
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;

@@ -8,8 +8,8 @@ import javax.ws.rs.HeaderParam;
 import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.service.BaseParamsDigest;
 
-import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
+import si.mazi.rescu.utils.Base64;
 
 public class CoinbaseExDigest extends BaseParamsDigest {
 
