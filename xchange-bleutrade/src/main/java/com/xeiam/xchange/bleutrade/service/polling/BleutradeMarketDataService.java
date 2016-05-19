@@ -1,6 +1,7 @@
 package com.xeiam.xchange.bleutrade.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import com.xeiam.xchange.Exchange;
@@ -69,4 +70,12 @@ public class BleutradeMarketDataService extends BleutradeMarketDataServiceRaw im
     return BleutradeAdapters.adaptBleutradeMarketHistory(bleutradeTrades, currencyPair);
   }
 
+  public List<Ticker> getTickers() throws IOException {
+    List<BleutradeTicker> bleutradeTickers = getBleutradeTickers();
+    List<Ticker> result = new ArrayList<>();
+    for (BleutradeTicker bleutradeTicker : bleutradeTickers) {
+      result.add(BleutradeAdapters.adaptBleutradeTicker(bleutradeTicker));
+    }
+    return result;
+  }
 }
