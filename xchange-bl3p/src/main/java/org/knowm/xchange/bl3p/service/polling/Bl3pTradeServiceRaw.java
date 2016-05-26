@@ -1,6 +1,6 @@
 package org.knowm.xchange.bl3p.service.polling;
 
-import com.xeiam.xchange.Exchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bl3p.Bl3pAuthenticated;
 import org.knowm.xchange.bl3p.dto.Bl3pError;
 import org.knowm.xchange.bl3p.dto.Bl3pResult;

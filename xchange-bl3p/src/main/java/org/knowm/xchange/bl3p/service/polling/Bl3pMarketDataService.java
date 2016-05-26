@@ -1,17 +1,17 @@
 package org.knowm.xchange.bl3p.service.polling;
 
-import com.xeiam.xchange.Exchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bl3p.Bl3pAdapters;
 import org.knowm.xchange.bl3p.dto.marketdata.Bl3pOrderbook;
 import org.knowm.xchange.bl3p.dto.Bl3pResult;
 import org.knowm.xchange.bl3p.dto.marketdata.Bl3pTicker;
 import org.knowm.xchange.bl3p.dto.marketdata.Bl3pTrades;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 
 import java.io.IOException;
 

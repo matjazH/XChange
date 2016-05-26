@@ -3,8 +3,8 @@ package org.knowm.xchange.exmo.service.polling;
 import java.io.IOException;
 import java.util.*;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.currency.CurrencyPair;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.exmo.Exmo;
 
 import org.knowm.xchange.exmo.dto.marketdata.ExmoOrderbook;

@@ -2,6 +2,7 @@ package org.knowm.xchange.bter.service.polling;
 
 import java.io.IOException;
 
+import com.fasterxml.jackson.databind.JsonMappingException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bter.dto.account.BTERFunds;
 
@@ -18,9 +19,13 @@ public class BTERPollingAccountServiceRaw extends BTERBasePollingService {
   }
 
   public BTERFunds getBTERAccountInfo() throws IOException {
-
-    BTERFunds bterFunds = bter.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
-    return handleResponse(bterFunds);
+    try {
+      BTERFunds bterFunds = bter.getFunds(exchange.getExchangeSpecification().getApiKey(), signatureCreator, exchange.getNonceFactory());
+      return handleResponse(bterFunds);
+    } catch (JsonMappingException exception) {
+      // Empty list instead of empty Object
+      return handleResponse(new BTERFunds(null, null, true, null));
+    }
   }
 
 }

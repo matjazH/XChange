@@ -2,7 +2,7 @@ package org.knowm.xchange.exmo.service;
 
 import javax.crypto.Mac;
 
-import com.xeiam.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
 

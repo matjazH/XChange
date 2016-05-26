@@ -1,7 +1,7 @@
 package org.knowm.xchange.exmo.service.polling;
 
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 
 /**
  * Created with IntelliJ IDEA.

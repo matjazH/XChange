@@ -155,7 +155,8 @@ public class KrakenAdapters {
 
     String currencyCode = (krakenCurrencyCode.length() == 4) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
 
-    return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
+    //TODO TT uses XBT instead of BTC
+    return Currency.getInstance(currencyCode); //.getCommonlyUsedCurrency();
   }
 
   public static CurrencyPair adaptCurrencyPair(String krakenCurrencyPair) {

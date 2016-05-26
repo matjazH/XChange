@@ -1,8 +1,8 @@
 package org.knowm.xchange.bl3p;
 
-import com.xeiam.xchange.BaseExchange;
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
+import org.knowm.xchange.BaseExchange;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bl3p.service.polling.Bl3pAccountService;
 import org.knowm.xchange.bl3p.service.polling.Bl3pMarketDataService;
 import org.knowm.xchange.bl3p.service.polling.Bl3pTradeService;

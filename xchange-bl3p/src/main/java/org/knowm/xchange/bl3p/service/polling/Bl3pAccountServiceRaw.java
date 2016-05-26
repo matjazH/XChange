@@ -1,11 +1,11 @@
 package org.knowm.xchange.bl3p.service.polling;
 
-import com.xeiam.xchange.Exchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bl3p.Bl3pAuthenticated;
 import org.knowm.xchange.bl3p.dto.Bl3pResult;
 import org.knowm.xchange.bl3p.dto.account.Bl3pAccountInfo;
 import org.knowm.xchange.bl3p.service.Bl3pDigest;
-import com.xeiam.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.ExchangeException;
 import si.mazi.rescu.RestProxyFactory;
 
 import java.io.IOException;

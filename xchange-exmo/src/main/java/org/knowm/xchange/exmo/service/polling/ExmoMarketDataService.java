@@ -3,17 +3,17 @@ package org.knowm.xchange.exmo.service.polling;
 import java.io.IOException;
 import java.util.*;
 
-import com.xeiam.xchange.Exchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exmo.ExmoAdapters;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoOrderbook;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoPair;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoTicker;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoTrade;
-import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class ExmoMarketDataService extends ExmoMarketDataServiceRaw implements PollingMarketDataService {
 

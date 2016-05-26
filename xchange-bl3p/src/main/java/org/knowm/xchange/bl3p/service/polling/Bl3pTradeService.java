@@ -1,21 +1,21 @@
 package org.knowm.xchange.bl3p.service.polling;
 
-import com.xeiam.xchange.Exchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bl3p.Bl3pAdapters;
 import org.knowm.xchange.bl3p.dto.trade.Bl3pOpenOrders;
 import org.knowm.xchange.bl3p.dto.trade.Bl3pOrder;
 import org.knowm.xchange.bl3p.dto.trade.Bl3pOrderId;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.trade.LimitOrder;
-import com.xeiam.xchange.dto.trade.MarketOrder;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.MarketOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 
 import java.io.IOException;
 import java.util.Collection;

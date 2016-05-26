@@ -1,13 +1,13 @@
 package org.knowm.xchange.bl3p.service.polling;
 
-import com.xeiam.xchange.Exchange;
+import org.knowm.xchange.Exchange;
 
 import org.knowm.xchange.bl3p.dto.Bl3pError;
 import org.knowm.xchange.bl3p.dto.Bl3pResult;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.service.BaseExchangeService;
-import com.xeiam.xchange.service.polling.BasePollingService;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.service.BaseExchangeService;
+import org.knowm.xchange.service.polling.BasePollingService;
 
 import java.io.IOException;
 import java.util.List;

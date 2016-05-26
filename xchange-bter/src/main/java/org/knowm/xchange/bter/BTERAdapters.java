@@ -148,12 +148,16 @@ public final class BTERAdapters {
   public static Wallet adaptWallet(BTERFunds bterAccountInfo) {
 
     List<Balance> balances = new ArrayList<Balance>();
-    for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
-      Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
-      BigDecimal amount = funds.getValue();
-      BigDecimal locked = bterAccountInfo.getLockedFunds().get(currency.toString());
-
-      balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
+    if (bterAccountInfo.getAvailableFunds() != null) {
+      for (Entry<String, BigDecimal> funds : bterAccountInfo.getAvailableFunds().entrySet()) {
+        Currency currency = Currency.getInstance(funds.getKey().toUpperCase());
+        BigDecimal amount = funds.getValue();
+        BigDecimal locked = null;
+        if (bterAccountInfo.getLockedFunds() != null) {
+          locked = bterAccountInfo.getLockedFunds().get(currency.toString());
+        }
+        balances.add(new Balance(currency, null, amount, locked == null ? BigDecimal.ZERO : locked));
+      }
     }
 
     return new Wallet(balances);
@@ -175,8 +179,7 @@ public final class BTERAdapters {
     Date timestamp = DateUtils.fromMillisUtc(bterTrade.getTimeUnix() * 1000);
     CurrencyPair currencyPair = adaptCurrencyPair(bterTrade.getPair());
 
-    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null,
-        (Currency) null);
+    return new UserTrade(orderType, bterTrade.getAmount(), currencyPair, bterTrade.getRate(), timestamp, bterTrade.getId(), null, null, (Currency)null);
   }
 
 }

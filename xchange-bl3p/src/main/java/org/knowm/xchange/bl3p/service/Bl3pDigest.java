@@ -1,6 +1,6 @@
 package org.knowm.xchange.bl3p.service;
 
-import com.xeiam.xchange.service.BaseParamsDigest;
+import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
 import si.mazi.rescu.utils.Base64;
 

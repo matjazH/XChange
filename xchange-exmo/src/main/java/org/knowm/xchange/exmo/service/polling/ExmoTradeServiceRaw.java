@@ -1,7 +1,7 @@
 package org.knowm.xchange.exmo.service.polling;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exmo.ExmoAuthenticated;
 import org.knowm.xchange.exmo.dto.ExmoResult;
 import org.knowm.xchange.exmo.dto.trade.*;

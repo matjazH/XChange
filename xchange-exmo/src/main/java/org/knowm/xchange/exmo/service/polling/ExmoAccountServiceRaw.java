@@ -1,6 +1,6 @@
 package org.knowm.xchange.exmo.service.polling;
 
-import com.xeiam.xchange.Exchange;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exmo.ExmoAuthenticated;
 import org.knowm.xchange.exmo.dto.account.ExmoUserInfo;
 import org.knowm.xchange.exmo.service.ExmoDigest;

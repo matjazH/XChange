@@ -1,25 +1,25 @@
 package org.knowm.xchange.exmo;
 
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.Order;
-import com.xeiam.xchange.dto.Order.OrderType;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.account.Balance;
-import com.xeiam.xchange.dto.account.Wallet;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trade;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.marketdata.Trades.TradeSortType;
-import com.xeiam.xchange.dto.trade.*;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.Order.OrderType;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.Wallet;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trade;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.exmo.dto.account.ExmoUserInfo;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoOrderbook;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoTicker;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoTrade;
 import org.knowm.xchange.exmo.dto.trade.ExmoOrder;
 import org.knowm.xchange.exmo.dto.trade.ExmoUserTrade;
-import com.xeiam.xchange.utils.DateUtils;
+import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -141,7 +141,7 @@ public final class ExmoAdapters {
 
         OrderType type = "buy".equals(exmoTrade.getType()) ? OrderType.BID : OrderType.ASK;
         trades.add(new UserTrade(type, exmoTrade.getQuantity(), pair, exmoTrade.getPrice(), new Date(exmoTrade.getDate() * 1000),
-                String.valueOf(exmoTrade.getTradeId()), String.valueOf(exmoTrade.getOrderId())));
+                String.valueOf(exmoTrade.getTradeId()), String.valueOf(exmoTrade.getOrderId()), null, null));
       }
     }
 
