@@ -104,12 +104,14 @@ public class BitMarketAdapters {
 
     List<Trade> tradeList = new ArrayList<Trade>();
 
-    for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
+    if (bitMarketTrades != null) {
+      for (BitMarketTrade bitMarketTrade : bitMarketTrades) {
 
-      Trade trade = new Trade(bitMarketTrade.getType().equals("bid") ? OrderType.BID : OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
-          bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate() * 1000), bitMarketTrade.getTid());
+        Trade trade = new Trade(bitMarketTrade.getType().equals("bid") ? OrderType.BID : OrderType.BID, bitMarketTrade.getAmount(), currencyPair,
+            bitMarketTrade.getPrice(), new Date(bitMarketTrade.getDate() * 1000), bitMarketTrade.getTid());
 
-      tradeList.add(trade);
+        tradeList.add(trade);
+      }
     }
 
     Trades trades = new Trades(tradeList, Trades.TradeSortType.SortByTimestamp);

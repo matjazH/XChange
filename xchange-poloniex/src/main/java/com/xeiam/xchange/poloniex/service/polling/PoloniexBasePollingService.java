@@ -49,7 +49,7 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
             new JacksonConfigureListener() {
                 @Override
                 public void configureObjectMapper(ObjectMapper objectMapper) {
-                    objectMapper.configure(DeserializationFeature. ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
+                    objectMapper.configure(DeserializationFeature.ACCEPT_EMPTY_ARRAY_AS_NULL_OBJECT, true);
                 }
             }
     );

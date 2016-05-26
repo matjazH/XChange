@@ -1,6 +1,9 @@
 package com.xeiam.xchange.bter.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
 import com.xeiam.xchange.bter.BTERAdapters;
@@ -51,4 +54,15 @@ public class BTERPollingMarketDataService extends BTERPollingMarketDataServiceRa
     return BTERAdapters.adaptTrades(tradeHistory, currencyPair);
   }
 
+  public List<Ticker> getTickers() throws IOException {
+
+    Map<CurrencyPair, BTERTicker> bterTickers = getBTERTickers();
+    List<Ticker> tickers = new ArrayList<Ticker>();
+
+    for (Map.Entry<CurrencyPair, BTERTicker> entry : bterTickers.entrySet()) {
+      tickers.add(BTERAdapters.adaptTicker(entry.getKey(), entry.getValue()));
+    }
+
+    return tickers;
+  }
 }

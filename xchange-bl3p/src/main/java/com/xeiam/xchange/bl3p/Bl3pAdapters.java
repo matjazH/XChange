@@ -101,7 +101,7 @@ public class Bl3pAdapters {
       balances.add(new Balance(currency, balance.getValue(), available.getValue()));
     }
 
-    return new AccountInfo(String.valueOf(new Wallet(balances)));
+    return new AccountInfo(new Wallet(balances));
   }
 
   public static OpenOrders adaptOpenOprder(Bl3pOpenOrders bl3pOpenOrders) {

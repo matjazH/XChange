@@ -1,8 +1,13 @@
 package com.xeiam.xchange.kraken.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 import com.xeiam.xchange.Exchange;
+import com.xeiam.xchange.currency.Currency;
 import com.xeiam.xchange.currency.CurrencyPair;
 import com.xeiam.xchange.dto.marketdata.OrderBook;
 import com.xeiam.xchange.dto.marketdata.Ticker;
@@ -11,6 +16,7 @@ import com.xeiam.xchange.exceptions.ExchangeException;
 import com.xeiam.xchange.kraken.KrakenAdapters;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenDepth;
 import com.xeiam.xchange.kraken.dto.marketdata.KrakenPublicTrades;
+import com.xeiam.xchange.kraken.dto.marketdata.KrakenTicker;
 import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implements PollingMarketDataService {
@@ -71,4 +77,25 @@ public class KrakenMarketDataService extends KrakenMarketDataServiceRaw implemen
     return trades;
   }
 
+  public List<Ticker> getTickers() throws IOException {
+
+    List<Ticker> tickers = new ArrayList<>();
+
+    Collection<CurrencyPair> exchangeSymbols = getExchangeSymbols();
+    Map<String, KrakenTicker> krakenTickerMap = getKrakenTicker(exchangeSymbols.toArray(new CurrencyPair[exchangeSymbols.size()]));
+
+    for (Map.Entry<String, KrakenTicker> tickerEntry : krakenTickerMap.entrySet()) {
+
+      String baseCurrency = tickerEntry.getKey().substring(0, 4);
+      String counterCurrency = tickerEntry.getKey().substring(4);
+
+      Currency base = KrakenAdapters.adaptCurrency(baseCurrency);
+      Currency counter = KrakenAdapters.adaptCurrency(counterCurrency);
+
+      CurrencyPair currencyPair = new CurrencyPair(base, counter);
+      tickers.add(KrakenAdapters.adaptTicker(tickerEntry.getValue(), currencyPair));
+    }
+
+    return tickers;
+  }
 }
