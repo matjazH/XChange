@@ -1,14 +1,13 @@
 package org.knowm.xchange.bitbay.service.polling;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAuthentiacated;
-import com.xeiam.xchange.bitbay.dto.BitbayBaseResponse;
+import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayTransaction;
 import org.knowm.xchange.bitbay.service.BitbayDigest;
-import com.xeiam.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.LimitOrder;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 

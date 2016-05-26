@@ -1,7 +1,6 @@
 package org.knowm.xchange.quoine.dto.marketdata;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.quoine.dto.trade.Model;
 
 import java.util.List;
 

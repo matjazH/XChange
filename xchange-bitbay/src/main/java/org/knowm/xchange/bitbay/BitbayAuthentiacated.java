@@ -1,6 +1,6 @@
 package org.knowm.xchange.bitbay;
 
-import com.xeiam.xchange.bitbay.dto.BitbayBaseResponse;
+import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 import org.knowm.xchange.bitbay.dto.account.BitbayAccount;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;

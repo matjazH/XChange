@@ -4,9 +4,6 @@ import java.math.BigDecimal;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * @author timmolter
- */
 public final class CryptoAccount {
 
 /*

@@ -6,11 +6,8 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.quoine.QuoineUtils;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewMarginOrderRequest;
-import org.knowm.xchange.quoine.dto.trade.QuoineNewOrderRequest;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderDetailsResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrderResponse;
-import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
+import org.knowm.xchange.quoine.dto.marketdata.QuoineTradesList;
+import org.knowm.xchange.quoine.dto.trade.*;
 
 import si.mazi.rescu.HttpStatusIOException;
 
@@ -44,7 +41,7 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
         ? new QuoineNewMarginOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel)
         : new QuoineNewOrderRequest("limit", QuoineUtils.toPairString(currencyPair), type, tradableAmount, price);
     try {
-      return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);
+      return quoine.placeOrder(VENDOR, getDate(), nonceFactory, signatureCreator, quoineNewOrderRequest);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -56,7 +53,17 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
         ? new QuoineNewMarginOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null, leverageLevel)
         : new QuoineNewOrderRequest("market", QuoineUtils.toPairString(currencyPair), type, tradableAmount, null);
     try {
-      return quoine.placeOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, quoineNewOrderRequest);
+      return quoine.placeOrder(VENDOR, getDate(), nonceFactory, signatureCreator, quoineNewOrderRequest);
+    } catch (HttpStatusIOException e) {
+      throw handleHttpError(e);
+    }
+  }
+
+  public QuoineOrderResponse placeQuoineOrder(QuoineOrderType quoineOrderType, CurrencyPair currencyPair, String type, BigDecimal tradableAmount, BigDecimal price, Integer leverageLevel) throws IOException {
+
+    QuoineNewOrderRequest quoineNewOrderRequest = new QuoineNewMarginOrderRequest(quoineOrderType.name(), QuoineUtils.toPairString(currencyPair), type, tradableAmount, price, leverageLevel);
+    try {
+      return quoine.placeOrder(VENDOR, getDate(), nonceFactory, signatureCreator, quoineNewOrderRequest);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -65,7 +72,7 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
   public QuoineOrderResponse cancelQuoineOrder(String orderID) throws IOException {
 
     try {
-      return quoine.cancelOrder(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, orderID);
+      return quoine.cancelOrder(VENDOR, getDate(), nonceFactory, signatureCreator, orderID);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -74,7 +81,7 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
   public QuoineOrderDetailsResponse getQuoineOrderDetails(String orderID) throws IOException {
 
     try {
-      return quoine.orderDetails(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, orderID);
+      return quoine.orderDetails(getDate(), nonceFactory, signatureCreator, orderID);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }
@@ -83,7 +90,16 @@ public class QuoineTradeServiceRaw extends QuoineBasePollingService {
   public QuoineOrdersList listQuoineOrders(String currencyPair) throws IOException {
 
     try {
-      return quoine.listOrders(contentType, contentMD5Creator, getDate(), getNonce(), signatureCreator, currencyPair);
+      return quoine.listOrders(getDate(), nonceFactory, signatureCreator, currencyPair);
+    } catch (HttpStatusIOException e) {
+      throw handleHttpError(e);
+    }
+  }
+
+
+  public QuoineTradesList listQuoineExecutions(String currencyPair) throws IOException {
+    try {
+      return quoine.listExecutions(VENDOR, getDate(), nonceFactory, signatureCreator, currencyPair, 50, null);
     } catch (HttpStatusIOException e) {
       throw handleHttpError(e);
     }

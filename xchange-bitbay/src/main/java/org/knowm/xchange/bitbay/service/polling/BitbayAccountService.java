@@ -1,14 +1,14 @@
 package org.knowm.xchange.bitbay.service.polling;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.bitbay.BitbayAdapters;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitbay.BitbayAdapters;
 import org.knowm.xchange.bitbay.dto.account.BitbayAccount;
-import com.xeiam.xchange.currency.Currency;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.exceptions.ExchangeException;
-import com.xeiam.xchange.exceptions.NotAvailableFromExchangeException;
-import com.xeiam.xchange.exceptions.NotYetImplementedForExchangeException;
-import com.xeiam.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.currency.Currency;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
+import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
+import org.knowm.xchange.service.polling.account.PollingAccountService;
 
 import java.io.IOException;
 import java.math.BigDecimal;

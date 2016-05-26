@@ -1,16 +1,9 @@
 package org.knowm.xchange.bitbay.service.polling;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.bitbay.Bitbay;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAuthentiacated;
 import org.knowm.xchange.bitbay.dto.account.BitbayAccount;
-import com.xeiam.xchange.bitbay.dto.marketdata.BitbayOrderBook;
-import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTicker;
-import com.xeiam.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.bitbay.service.BitbayDigest;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 

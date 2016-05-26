@@ -1,14 +1,15 @@
 package org.knowm.xchange.cexio.service.polling;
 
 import java.io.IOException;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIO;
-import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
-import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
-import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
+import org.knowm.xchange.cexio.dto.CexIOResponse;
+import org.knowm.xchange.cexio.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 
+import org.knowm.xchange.exceptions.ExchangeException;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -56,5 +57,14 @@ public class CexIOMarketDataServiceRaw extends CexIOBasePollingService {
 
     return trades;
   }
+
+  public List<CexIOCurrency> getCexIOCurrencies() throws IOException {
+    CexIOResponse<CexIOPairs> response = cexio.getCurrencyBoundaries();
+    if ("ok".equals(response.getOk())) {
+      return response.getData().getPairs();
+    }
+    throw new ExchangeException("CexIO response error");
+  }
+
 
 }

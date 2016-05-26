@@ -12,6 +12,7 @@ import org.knowm.xchange.quoine.QuoineAdapters;
 import org.knowm.xchange.quoine.QuoineUtils;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
+import org.knowm.xchange.quoine.dto.marketdata.QuoineTradesList;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class QuoineMarketDataService extends QuoineMarketDataServiceRaw implements PollingMarketDataService {
@@ -43,7 +44,8 @@ public class QuoineMarketDataService extends QuoineMarketDataServiceRaw implemen
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    throw new NotAvailableFromExchangeException();
+    QuoineTradesList quoineTradesList = getExecutions(QuoineUtils.toPairString(currencyPair));
+    return QuoineAdapters.adaptTrades(quoineTradesList, currencyPair);
   }
 
 }

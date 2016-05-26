@@ -1,6 +1,5 @@
 package org.knowm.xchange.bitbay.service;
 
-import com.xeiam.xchange.utils.DigestUtils;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestInvocation;
 

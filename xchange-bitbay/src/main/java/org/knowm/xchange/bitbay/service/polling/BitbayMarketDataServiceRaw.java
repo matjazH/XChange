@@ -1,15 +1,15 @@
 package org.knowm.xchange.bitbay.service.polling;
 
-import java.io.IOException;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.Bitbay;
+import org.knowm.xchange.bitbay.dto.marketdata.BitbayMarketAll;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
 import org.knowm.xchange.currency.CurrencyPair;
-
 import si.mazi.rescu.RestProxyFactory;
+
+import java.io.IOException;
 
 /**
  * @author kpysniak
@@ -31,7 +31,7 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayTicker(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
+    return bitbay.getBitbayTicker(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
   }
 
   public BitbayOrderBook getBitbayOrderBook(CurrencyPair currencyPair) throws IOException {
@@ -39,9 +39,13 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
     return bitbay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
-  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair) throws IOException {
+  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Long since) throws IOException {
 
-    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
+    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode(), since);
   }
 
+  public BitbayMarketAll getBitbatAllMarketData(CurrencyPair currencyPair) throws IOException {
+
+    return bitbay.getAll(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
+  }
 }

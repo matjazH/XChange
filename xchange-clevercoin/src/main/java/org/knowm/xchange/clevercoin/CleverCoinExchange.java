@@ -6,6 +6,7 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.clevercoin.service.polling.CleverCoinAccountService;
 import org.knowm.xchange.clevercoin.service.polling.CleverCoinMarketDataService;
 import org.knowm.xchange.clevercoin.service.polling.CleverCoinTradeService;
+import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -15,7 +16,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class CleverCoinExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentNanosecondTimeIncrementalNonceFactory();
 
   @Override
   protected void initServices() {

@@ -1,7 +1,7 @@
 package org.knowm.xchange.bitbay.dto.account;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.xeiam.xchange.bitbay.dto.BitbayBaseResponse;
+import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 
 import java.util.Map;
 

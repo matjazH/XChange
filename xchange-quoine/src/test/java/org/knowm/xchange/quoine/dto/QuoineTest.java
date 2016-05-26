@@ -1,20 +1,20 @@
 package org.knowm.xchange.quoine.dto;
 
-import com.xeiam.xchange.Exchange;
-import com.xeiam.xchange.ExchangeFactory;
-import com.xeiam.xchange.ExchangeSpecification;
-import com.xeiam.xchange.currency.CurrencyPair;
-import com.xeiam.xchange.dto.account.AccountInfo;
-import com.xeiam.xchange.dto.marketdata.OrderBook;
-import com.xeiam.xchange.dto.marketdata.Ticker;
-import com.xeiam.xchange.dto.marketdata.Trades;
-import com.xeiam.xchange.dto.trade.OpenOrders;
-import com.xeiam.xchange.dto.trade.UserTrades;
-import com.xeiam.xchange.quoine.QuoineExchange;
-import com.xeiam.xchange.service.polling.account.PollingAccountService;
-import com.xeiam.xchange.service.polling.marketdata.PollingMarketDataService;
-import com.xeiam.xchange.service.polling.trade.PollingTradeService;
-import com.xeiam.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
+import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.dto.trade.OpenOrders;
+import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.quoine.QuoineExchange;
+import org.knowm.xchange.service.polling.account.PollingAccountService;
+import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.polling.trade.params.DefaultTradeHistoryParamCurrencyPair;
 import org.junit.Test;
 
 import java.io.IOException;

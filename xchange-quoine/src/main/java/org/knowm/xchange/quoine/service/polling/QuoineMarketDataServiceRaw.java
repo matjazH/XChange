@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
+import org.knowm.xchange.quoine.dto.marketdata.QuoineTradesList;
 
 public class QuoineMarketDataServiceRaw extends QuoineBasePollingService {
 
@@ -31,6 +32,11 @@ public class QuoineMarketDataServiceRaw extends QuoineBasePollingService {
   public QuoineOrderBook getOrderBook(int id) throws IOException {
 
     return quoine.getOrderBook(id);
+  }
+
+  public QuoineTradesList getExecutions(String symbol) throws IOException {
+
+    return quoine.getExecutions(symbol, 50, null);
   }
 
 }
