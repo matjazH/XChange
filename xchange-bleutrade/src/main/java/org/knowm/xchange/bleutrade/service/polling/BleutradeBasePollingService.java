@@ -31,7 +31,7 @@ public class BleutradeBasePollingService extends BaseExchangeService implements 
 
     super(exchange);
 
-    this.bleutrade = RestProxyFactory.createProxy(BleutradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.bleutrade = RestProxyFactory.createProxy(BleutradeAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BleutradeDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

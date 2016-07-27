@@ -66,6 +66,12 @@ public abstract class BaseExchange implements Exchange {
       if (exchangeSpecification.getPlainTextUriStreaming() == null) {
         exchangeSpecification.setPlainTextUriStreaming(defaultSpecification.getPlainTextUriStreaming());
       }
+      if (exchangeSpecification.getProxyHost() == null) {
+        exchangeSpecification.setProxyHost(defaultSpecification.getProxyHost());
+      }
+      if (exchangeSpecification.getProxyPort() == null) {
+        exchangeSpecification.setProxyPort(defaultSpecification.getProxyPort());
+      }
       if (exchangeSpecification.getExchangeSpecificParameters() == null) {
         exchangeSpecification.setExchangeSpecificParameters(defaultSpecification.getExchangeSpecificParameters());
       } else {

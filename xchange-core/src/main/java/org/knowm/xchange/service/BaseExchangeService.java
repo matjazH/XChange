@@ -6,12 +6,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.MarketMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import si.mazi.rescu.ClientConfig;
 
 /**
  * Top of the hierarchy abstract class for an "exchange service"
@@ -66,5 +68,12 @@ public abstract class BaseExchangeService {
 
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
     return new ArrayList<CurrencyPair>(exchange.getMetaData().getMarketMetaDataMap().keySet());
+  }
+
+  protected ClientConfig createClientConfig(ExchangeSpecification exchangeSpecification) {
+    ClientConfig config = new ClientConfig();
+    config.setProxyHost(exchangeSpecification.getProxyHost());
+    config.setProxyPort(exchangeSpecification.getProxyPort());
+    return config;
   }
 }

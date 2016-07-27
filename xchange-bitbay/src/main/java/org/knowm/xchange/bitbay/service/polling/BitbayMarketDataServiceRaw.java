@@ -26,7 +26,7 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
   protected BitbayMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitbay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitbay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {

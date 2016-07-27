@@ -29,12 +29,12 @@
 			<artifactId>xchange-core</artifactId>
 			<version>4.0.1-SNAPSHOT</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.knowm.xchange</groupId>
 			<artifactId>xchange-core</artifactId>
 			<version>4.0.1-SNAPSHOT</version>
 			<scope>test</scope>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>com.fasterxml.jackson.core</groupId>
 			<artifactId>jackson-annotations</artifactId>
@@ -50,6 +50,6 @@
 			<artifactId>rescu</artifactId>
 		</dependency>
 
-	</dependencies>
+    </dependencies>
 
 </project>

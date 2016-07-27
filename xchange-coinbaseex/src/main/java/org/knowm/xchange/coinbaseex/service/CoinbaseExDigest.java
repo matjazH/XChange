@@ -5,11 +5,11 @@ import java.io.IOException;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 
+import net.iharder.Base64;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 public class CoinbaseExDigest extends BaseParamsDigest {
 
