@@ -29,7 +29,7 @@ public class VaultoroBasePollingService extends BaseExchangeService implements B
 
     super(exchange);
 
-    this.vaultoro = RestProxyFactory.createProxy(VaultoroAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.vaultoro = RestProxyFactory.createProxy(VaultoroAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = VaultoroDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

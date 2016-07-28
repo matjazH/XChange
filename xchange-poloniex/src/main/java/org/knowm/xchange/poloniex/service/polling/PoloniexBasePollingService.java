@@ -44,7 +44,7 @@ public class PoloniexBasePollingService extends BaseExchangeService implements B
 
     super(exchange);
     // Fix for empty string array mapping exception
-    ClientConfig config = new ClientConfig();
+    ClientConfig config = createClientConfig(exchange.getExchangeSpecification());
     config.setJacksonConfigureListener(new JacksonConfigureListener() {
       @Override
       public void configureObjectMapper(ObjectMapper objectMapper) {

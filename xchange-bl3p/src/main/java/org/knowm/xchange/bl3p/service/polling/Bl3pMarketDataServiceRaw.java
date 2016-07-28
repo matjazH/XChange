@@ -34,7 +34,7 @@ public class Bl3pMarketDataServiceRaw extends Bl3pBasePollingService {
   public Bl3pMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.bl3p = RestProxyFactory.createProxy(Bl3p.class, exchange.getExchangeSpecification().getSslUri());
+    this.bl3p = RestProxyFactory.createProxy(Bl3p.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
 
     if (exchange.getExchangeSpecification().getApiKey() != null
         && exchange.getExchangeSpecification().getSecretKey() != null) {

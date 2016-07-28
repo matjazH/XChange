@@ -28,7 +28,7 @@ public class CexIOMarketDataServiceRaw extends CexIOBasePollingService {
 
     super(exchange);
 
-    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri());
+    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {

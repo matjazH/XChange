@@ -28,8 +28,8 @@ public class BitstampMarketDataServiceRaw extends BitstampBasePollingService {
   public BitstampMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchange.getExchangeSpecification().getSslUri());
-    this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri());
+    this.bitstamp = RestProxyFactory.createProxy(Bitstamp.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
+    this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   /** @deprecated Use {@link #getBitstampTicker(CurrencyPair)}. */

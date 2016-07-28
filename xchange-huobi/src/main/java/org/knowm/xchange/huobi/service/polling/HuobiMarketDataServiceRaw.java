@@ -25,7 +25,7 @@ public class HuobiMarketDataServiceRaw extends HuobiBasePollingService {
     super(exchange);
 
     final String baseUrl = (String) exchange.getExchangeSpecification().getExchangeSpecificParametersItem(HuobiExchange.HUOBI_MARKET_DATA);
-    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl);
+    bitvc = RestProxyFactory.createProxy(BitVc.class, baseUrl, createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public HuobiTicker getBitVcTicker(String symbol) throws IOException {
