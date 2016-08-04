@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
+import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -96,7 +97,7 @@ public final class ItBitAdapters {
     long lastTradeId = 0;
     for (int i = 0; i < trades.getCount(); i++) {
       ItBitTrade trade = trades.getTrades()[i];
-      long tradeId = trade.getTid();
+      long tradeId = trade.getMatchNumber();
       if (tradeId > lastTradeId)
         lastTradeId = tradeId;
       tradesList.add(adaptTrade(trade, currencyPair));
@@ -106,8 +107,13 @@ public final class ItBitAdapters {
 
   public static Trade adaptTrade(ItBitTrade trade, CurrencyPair currencyPair) {
 
-    Date date = DateUtils.fromMillisUtc(trade.getDate() * 1000L);
-    final String tradeId = String.valueOf(trade.getTid());
+    Date date = null;
+    try {
+      date = DateUtils.fromISODateString(trade.getTimestamp());
+    } catch (InvalidFormatException e) {
+      e.printStackTrace();
+    }
+    final String tradeId = String.valueOf(trade.getMatchNumber());
 
     return new Trade(null, trade.getAmount(), currencyPair, trade.getPrice(), date, tradeId);
   }

@@ -7,17 +7,20 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class ItBitTrade {
 
   private final BigDecimal amount;
-  private final long date;
+  private final String timestamp;
   private final BigDecimal price;
-  private final long tid;
+  private final Long matchNumber;
 
-  public ItBitTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") long date, @JsonProperty("price") BigDecimal price,
-      @JsonProperty("tid") long tid) {
+  /*
+  {"timestamp":"2016-06-03T08:57:57.5730000Z","matchNumber":682570,"price":"552.03000000","amount":"72.80640000"}
+   */
+  public ItBitTrade(@JsonProperty("amount") BigDecimal amount, @JsonProperty("date") String timestamp, @JsonProperty("price") BigDecimal price,
+      @JsonProperty("tid") Long matchNumber) {
 
     this.amount = amount;
-    this.date = date;
+    this.timestamp = timestamp;
     this.price = price;
-    this.tid = tid;
+    this.matchNumber = matchNumber;
   }
 
   public BigDecimal getAmount() {
@@ -25,9 +28,9 @@ public class ItBitTrade {
     return amount;
   }
 
-  public long getDate() {
+  public String getTimestamp() {
 
-    return date;
+    return timestamp;
   }
 
   public BigDecimal getPrice() {
@@ -35,9 +38,9 @@ public class ItBitTrade {
     return price;
   }
 
-  public long getTid() {
+  public long getMatchNumber() {
 
-    return tid;
+    return matchNumber;
   }
 
   @Override
@@ -46,12 +49,12 @@ public class ItBitTrade {
     StringBuilder builder = new StringBuilder();
     builder.append("ItBitTrade [amount=");
     builder.append(amount);
-    builder.append(", date=");
-    builder.append(date);
+    builder.append(", timestamp=");
+    builder.append(timestamp);
     builder.append(", price=");
     builder.append(price);
-    builder.append(", tid=");
-    builder.append(tid);
+    builder.append(", matchNumber=");
+    builder.append(matchNumber);
     builder.append("]");
     return builder.toString();
   }
