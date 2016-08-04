@@ -29,7 +29,7 @@ public class ExmoTrade {
   protected final Long date;
   protected final String tradeType;
   protected final String orderType;
-  protected final String pairId;
+  protected final Integer pairId;
   protected final BigDecimal quantity;
   protected final BigDecimal price;
 
@@ -38,7 +38,7 @@ public class ExmoTrade {
                    @JsonProperty("trade_dt") Long date,
                    @JsonProperty("trade_type") String tradeType,
                    @JsonProperty("order_type") String orderType,
-                   @JsonProperty("pair_id") String pairId,
+                   @JsonProperty("pair_id") Integer pairId,
                    @JsonProperty("quantity") BigDecimal quantity,
                    @JsonProperty("price") BigDecimal price) {
     this.tradeId = tradeId;
@@ -71,7 +71,7 @@ public class ExmoTrade {
     return orderType;
   }
 
-  public String getPairId() {
+  public Integer getPairId() {
     return pairId;
   }
 
@@ -85,13 +85,13 @@ public class ExmoTrade {
 
   @Override
   public String toString() {
-    return "ExmoTrade{" +
+    return "{" +
         "tradeId=" + tradeId +
         ", orderId=" + orderId +
         ", date=" + new Date(date * 1000) +
         ", tradeType='" + tradeType + '\'' +
         ", orderType='" + orderType + '\'' +
-        ", pairId='" + pairId + '\'' +
+        ", pairId=" + pairId +
         ", quantity=" + quantity +
         ", price=" + price +
         '}';

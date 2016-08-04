@@ -2,10 +2,7 @@ package org.knowm.xchange.exmo;
 
 import org.knowm.xchange.exmo.dto.ExmoResult;
 import org.knowm.xchange.exmo.dto.account.ExmoUserInfo;
-import org.knowm.xchange.exmo.dto.trade.ExmoOrder;
-import org.knowm.xchange.exmo.dto.trade.ExmoTradesResult;
-import org.knowm.xchange.exmo.dto.trade.ExmoUserTrade;
-import org.knowm.xchange.exmo.dto.trade.OrderResult;
+import org.knowm.xchange.exmo.dto.trade.*;
 import org.knowm.xchange.exmo.service.polling.ExmoBasePollingService;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -72,14 +69,11 @@ public interface ExmoAuthenticated {
                                 @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
                                 @FormParam("order_id") String order_id) throws IOException;
 
-
   @POST
-  @Path("get_trades_by_tag")
-  public ExmoTradesResult getTradesByTag(@HeaderParam("Key") String apiKey,
-                                         @HeaderParam("Sign") ParamsDigest signer,
-                                         @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
-                                         @FormParam("tag") String tag,
-                                         @FormParam("begin") Long begin,
-                                         @FormParam("end") Long end) throws IOException;
+  @Path("order_trades")
+  public ExmoOrderTrades getOrderTrades(@HeaderParam("Key") String apiKey,
+                                        @HeaderParam("Sign") ParamsDigest signer,
+                                        @FormParam("nonce") SynchronizedValueFactory<Long> nonce,
+                                        @FormParam("order_id") String order_id) throws IOException;
 
 }

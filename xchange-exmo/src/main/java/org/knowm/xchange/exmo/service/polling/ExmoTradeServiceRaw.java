@@ -55,13 +55,9 @@ public class ExmoTradeServiceRaw extends ExmoBasePollingService {
         pair, offset, limit);
   }
 
-  public List<ExmoTrade> getTradesByTag(String tag, Long begin, Long end)  throws IOException {
+  public ExmoOrderTrades getExmoOrderTrades(String orderId)  throws IOException {
 
-    ExmoTradesResult tradesResult = exmoAuthenticated.getTradesByTag(apiKey, signatureCreator, exchange.getNonceFactory(),
-        tag, begin, end);
-    if (tradesResult.isResult()) {
-      return tradesResult.getTrades();
-    }
-    throw new ExchangeException(tradesResult.getError());
+    return exmoAuthenticated.getOrderTrades(apiKey, signatureCreator,
+        exchange.getNonceFactory(), orderId);
   }
 }
