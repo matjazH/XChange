@@ -1,8 +1,8 @@
 package org.knowm.xchange.bl3p.service;
 
+import net.iharder.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 import javax.crypto.Mac;
 import java.io.IOException;
