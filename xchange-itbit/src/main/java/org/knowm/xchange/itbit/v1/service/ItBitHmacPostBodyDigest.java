@@ -7,10 +7,10 @@ import java.util.Map;
 
 import javax.crypto.Mac;
 
+import net.iharder.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 public class ItBitHmacPostBodyDigest extends BaseParamsDigest {
 
