@@ -29,7 +29,8 @@ public class GeminiBasePollingService extends BaseExchangeService implements Bas
     super(exchange);
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.gemini = RestProxyFactory.createProxy(GeminiAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.gemini = RestProxyFactory.createProxy(GeminiAuthenticated.class, exchange.getExchangeSpecification().getSslUri(),
+        createClientConfig(exchange.getExchangeSpecification()));
     this.signatureCreator = GeminiHmacDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 }
