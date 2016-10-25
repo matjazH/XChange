@@ -31,8 +31,7 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
   }
 
   @Override
-  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Ticker getTicker(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
 
     String symbol = GeminiAdapters.adaptPair(currencyPair);
     GeminiTicker geminiTicker = getGiminiTicker(symbol);
@@ -40,8 +39,7 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
   }
 
   @Override
-  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
 
     String symbol = GeminiAdapters.adaptPair(currencyPair);
     GeminiOrderBook geminiOrderBook = getGeminiOrderBook(symbol, null, null);
@@ -49,11 +47,35 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
   }
 
   @Override
-  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException,
-      NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
+  public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
+
+    Long since = null;
+    Integer limit = null;
+    Boolean includeBreakes = null;
+
+    switch (args.length) {
+      case 3:
+        if (args[2] instanceof Boolean) {
+          includeBreakes = (Boolean) args[2];
+        } else {
+          throw new ExchangeException("args[2] must be of type Long!");
+        }
+      case 2:
+        if (args[1] instanceof Integer) {
+          limit = (Integer) args[1];
+        } else {
+          throw new ExchangeException("args[1] must be of type Long!");
+        }
+      case 1:
+        if (args[0] instanceof Long) {
+          since = (Long) args[0];
+        } else {
+          throw new ExchangeException("args[0] must be of type Long!");
+        }
+    }
 
     String symbol = GeminiAdapters.adaptPair(currencyPair);
-    List<GeminiTrade> geminiTrades = getGeminiTrades(symbol, null, null);
+    List<GeminiTrade> geminiTrades = getGeminiTrades(symbol, since, limit, includeBreakes);
     return GeminiAdapters.adaptTrades(geminiTrades, currencyPair);
   }
 }

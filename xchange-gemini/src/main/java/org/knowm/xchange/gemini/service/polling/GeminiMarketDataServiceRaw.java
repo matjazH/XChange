@@ -35,7 +35,7 @@ public class GeminiMarketDataServiceRaw extends GeminiBasePollingService {
     return gemini.getOrderBook(symbol, limitBids, limitAsks);
   }
 
-  public List<GeminiTrade> getGeminiTrades(String symbol, Integer limitTrades, Boolean includeBreaks) throws IOException {
-    return gemini.getTrades(symbol, limitTrades, includeBreaks);
+  public List<GeminiTrade> getGeminiTrades(String symbol, Long since, Integer limitTrades, Boolean includeBreaks) throws IOException {
+    return gemini.getTrades(symbol, since, limitTrades, includeBreaks);
   }
 }

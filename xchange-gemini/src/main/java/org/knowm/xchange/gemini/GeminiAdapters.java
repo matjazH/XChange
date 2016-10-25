@@ -88,7 +88,7 @@ public class GeminiAdapters {
       }
       tradesList.add(0, adaptTrade(geminiTrade, currencyPair));
     }
-    return new Trades(tradesList, lastTradeId, Trades.TradeSortType.SortByID);
+    return new Trades(tradesList, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
 
   public static Trade adaptTrade(GeminiTrade geminiTrade, CurrencyPair currencyPair) {
