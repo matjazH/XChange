@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 import javax.crypto.Mac;
 
+import net.iharder.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
@@ -13,37 +14,26 @@ import si.mazi.rescu.RestInvocation;
  */
 public class MercadoBitcoinDigest extends BaseParamsDigest {
 
-  private final String method;
-  private final String pin;
-  private final long tonce;
+  private MercadoBitcoinDigest(String secret) {
 
-  /**
-   * Constructor
-   *
-   * @param signCode (called "Codigo")
-   * @param tonce See {@link org.knowm.xchange.mercadobitcoin.MercadoBitcoinUtils#getTonce()}
-   */
-  private MercadoBitcoinDigest(String method, String pin, String signCode, long tonce) {
-
-    super(signCode, HMAC_SHA_512);
-    this.method = method;
-    this.pin = pin;
-    this.tonce = tonce;
+    super(secret, HMAC_SHA_512);
   }
 
   public static MercadoBitcoinDigest createInstance(String method, String pin, String signCode, long tonce) {
 
-    return signCode == null ? null : new MercadoBitcoinDigest(method, pin, signCode, tonce);
+    return signCode == null ? null : new MercadoBitcoinDigest(signCode);
+  }
+
+  public static MercadoBitcoinDigest createInstance(String secret) {
+
+    return secret == null ? null : new MercadoBitcoinDigest(secret);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
 
+    String message = "/" + restInvocation.getPath() + "?" + restInvocation.getRequestBody();
     Mac hmac512 = getMac();
-
-    // <method>:<PIN>:<tonce>
-    String message = this.method + ":" + this.pin + ":" + this.tonce;
-
     hmac512.update(message.getBytes());
 
     return String.format("%0128x", new BigInteger(1, hmac512.doFinal())).toLowerCase();

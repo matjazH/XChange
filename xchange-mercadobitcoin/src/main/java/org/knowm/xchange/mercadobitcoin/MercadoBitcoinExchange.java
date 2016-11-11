@@ -6,8 +6,8 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinAccountService;
 import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinMarketDataService;
 import org.knowm.xchange.mercadobitcoin.service.polling.MercadoBitcoinTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTime1000NonceFactory;
 
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
@@ -15,7 +15,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
  */
 public class MercadoBitcoinExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTime1000NonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   public ExchangeSpecification getDefaultExchangeSpecification() {
