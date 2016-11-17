@@ -138,11 +138,12 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
   public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws IOException {
 
     // extract symbol and side from original order id: buy/sell
-    String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId)).toString();
-    String symbol = HitbtcAdapters.readSymbol(orderId);
+    String originalSide = null; // HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId)).toString();
+    String symbol = null; // HitbtcAdapters.readSymbol(orderId);
 
+    //FIXED: originalSide, symbol & cancelRequestClientOrderId NOT required anymore
     try {
-      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, orderId, symbol, originalSide);
+      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, null, symbol, originalSide);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
