@@ -44,7 +44,7 @@ public class MercadoBitcoinAccountDemo {
   private static void raw(MercadoBitcoinAccountServiceRaw accountService) throws IOException {
 
     // Get the account information
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo = accountService.getMercadoBitcoinAccountInfo();
-    System.out.println("MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> as String: " + mercadoBitcoinAccountInfo.toString());
+    //MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> mercadoBitcoinAccountInfo = accountService.getMercadoBitcoinAccountInfo();
+    //System.out.println("MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> as String: " + mercadoBitcoinAccountInfo.toString());
   }
 }
