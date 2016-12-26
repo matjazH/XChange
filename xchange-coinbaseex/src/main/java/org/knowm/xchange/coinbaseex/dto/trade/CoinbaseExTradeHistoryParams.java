@@ -4,7 +4,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 
 public class CoinbaseExTradeHistoryParams implements TradeHistoryParams {
 
-  String orderId;
+  String orderId = "";
 
   public String getOrderId() {
     return orderId;

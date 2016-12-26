@@ -35,6 +35,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 public class CoinbaseExAdapters {
 
   private static final SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+  private static final SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
   static {
     dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
@@ -45,10 +46,21 @@ public class CoinbaseExAdapters {
   }
 
   private static Date parseDate(String rawDate) {
+    String substring;
     try {
-      return dateFormat.parse(rawDate.substring(0, 23));
-    } catch (ParseException e) {
+      substring = rawDate.substring(0, rawDate.indexOf('Z'));
+    } catch (StringIndexOutOfBoundsException e) {
       return null;
+    }
+
+    try {
+      return dateFormat.parse(substring);
+    } catch (ParseException e) {
+      try {
+        return dateFormat2.parse(substring);
+      } catch (ParseException e2) {
+        return null;
+      }
     }
   }
 

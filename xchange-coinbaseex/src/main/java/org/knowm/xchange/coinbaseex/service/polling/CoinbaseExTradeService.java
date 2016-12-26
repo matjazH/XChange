@@ -67,7 +67,7 @@ public class CoinbaseExTradeService extends CoinbaseExTradeServiceRaw implements
 
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
-    return null;
+    return new CoinbaseExTradeHistoryParams();
   }
 
   @Override
