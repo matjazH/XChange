@@ -189,6 +189,13 @@ public class KrakenAdapters {
   public static LimitOrder adaptLimitOrder(KrakenOrder krakenOrder, String id) {
 
     KrakenOrderDescription orderDescription = krakenOrder.getOrderDescription();
+
+    BigDecimal price = BigDecimal.ZERO;
+    try {
+      price = new BigDecimal(orderDescription.getPrice());
+    } catch (NumberFormatException nfe) {
+    }
+
     OrderType type = adaptOrderType(orderDescription.getType());
     BigDecimal tradableAmount = krakenOrder.getVolume().subtract(krakenOrder.getVolumeExecuted());
     Currency tradableIdentifier = adaptCurrency(orderDescription.getAssetPair().substring(0, 3));
@@ -196,7 +203,7 @@ public class KrakenAdapters {
     Date timestamp = new Date((long) (krakenOrder.getOpenTimestamp() * 1000L));
 
     return new LimitOrder(type, tradableAmount, new CurrencyPair(tradableIdentifier, transactionCurrency), id, timestamp,
-        orderDescription.getPrice());
+        price);
   }
 
   public static UserTrades adaptTradesHistory(Map<String, KrakenTrade> krakenTrades) {

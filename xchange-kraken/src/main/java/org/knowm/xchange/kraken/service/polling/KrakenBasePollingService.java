@@ -108,8 +108,9 @@ public class KrakenBasePollingService extends BaseExchangeService implements Bas
     if (FIAT_CURRENCIES.contains(currency)) {
       return "Z" + currency;
     } else if (DIGITAL_CURRENCIES.contains(currency)) {
-      if (currency.getIso4217Currency() != null)
-        currency = currency.getIso4217Currency();
+//      getIso4217Currency for XBT return BTC
+//      if (currency.getIso4217Currency() != null)
+//        currency = currency.getIso4217Currency();
 
       return "X" + currency;
     }
