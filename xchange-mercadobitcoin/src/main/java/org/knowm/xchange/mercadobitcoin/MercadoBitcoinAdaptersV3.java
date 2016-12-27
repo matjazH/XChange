@@ -88,19 +88,45 @@ public final class MercadoBitcoinAdaptersV3 {
 
     List<UserTrade> result = new LinkedList<>();
 
+    final BigDecimal hundred = new BigDecimal("100");
+
     for (MercadoBitcoinOrder mercadoBitcoinOrder : orders.getOrders()) {
       Order.OrderType orderType = mercadoBitcoinOrder.getOrderType() == 1 ? Order.OrderType.BID : Order.OrderType.ASK;
+      CurrencyPair currencyPair = adaptPair(mercadoBitcoinOrder.getCoinPair());
+      String orderId = String.valueOf(mercadoBitcoinOrder.getOrderId());
 
       for (MercadoBitcoinOperation mercadoBitcoinOperation : mercadoBitcoinOrder.getOperations()) {
+        BigDecimal price = mercadoBitcoinOperation.getPrice();
+        BigDecimal quantity = mercadoBitcoinOperation.getQuantity();
+        BigDecimal feeRate = mercadoBitcoinOperation.getFeeRate();
+
+        BigDecimal feeOperation = null;
+        Currency feeCurrency = null;
+
+        try {
+          if (orderType == OrderType.BID) {
+            feeCurrency = currencyPair.base;
+            feeOperation = quantity.multiply(feeRate.divide(hundred));
+          } else {
+            feeCurrency = currencyPair.counter;
+            BigDecimal total = quantity.multiply(price);
+            feeOperation = total.multiply(feeRate.divide(hundred));
+          }
+          feeOperation = feeOperation.setScale(8, BigDecimal.ROUND_HALF_EVEN);
+        } catch (NullPointerException npe) {
+          npe.printStackTrace();
+        }
+
         UserTrade userTrade = new UserTrade.Builder()
-            .currencyPair(adaptPair(mercadoBitcoinOrder.getCoinPair()))
+            .currencyPair(currencyPair)
+            .orderId(orderId)
             .id(String.valueOf(mercadoBitcoinOperation.getOperationId()))
-            .orderId(String.valueOf(mercadoBitcoinOrder.getOrderId()))
             .price(mercadoBitcoinOperation.getPrice())
             .timestamp(fromUnixTime(mercadoBitcoinOperation.getExecutedTimestamp()))
-            .tradableAmount(mercadoBitcoinOperation.getQuantity())
+            .tradableAmount(quantity)
             .type(orderType)
-//            .feeAmount(orderType)
+            .feeAmount(feeOperation)
+            .feeCurrency(feeCurrency)
             .build();
 
         result.add(userTrade);
