@@ -1,14 +1,15 @@
 package org.knowm.xchange.vaultoro;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.utils.nonce.CurrentTime250NonceFactory;
-import org.knowm.xchange.vaultoro.service.polling.VaultoroAccountService;
-import org.knowm.xchange.vaultoro.service.polling.VaultoroMarketDataService;
-import org.knowm.xchange.vaultoro.service.polling.VaultoroTradeService;
+import org.knowm.xchange.vaultoro.service.VaultoroAccountService;
+import org.knowm.xchange.vaultoro.service.VaultoroMarketDataService;
+import org.knowm.xchange.vaultoro.service.VaultoroTradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -26,9 +27,9 @@ public class VaultoroExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new VaultoroMarketDataService(this);
-    this.pollingAccountService = new VaultoroAccountService(this);
-    this.pollingTradeService = new VaultoroTradeService(this);
+    this.marketDataService = new VaultoroMarketDataService(this);
+    this.accountService = new VaultoroAccountService(this);
+    this.tradeService = new VaultoroTradeService(this);
   }
 
   @Override
@@ -45,5 +46,18 @@ public class VaultoroExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+
+    // TODO Implement this.
+    // List<Blah>  currencies = ((VaultoroMarketDataServiceRaw) marketDataService).getBlah();
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
+    // TODO take all the info gathered above and create a `ExchangeMetaData` object via a new method in `*Adapters` class
+    // exchangeMetaData = *Adapters.adaptToExchangeMetaData(blah, blah);
+
+    super.remoteInit();
   }
 }

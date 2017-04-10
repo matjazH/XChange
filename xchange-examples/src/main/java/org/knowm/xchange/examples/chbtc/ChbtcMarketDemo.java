@@ -10,7 +10,7 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 
 public class ChbtcMarketDemo {
 
@@ -18,10 +18,10 @@ public class ChbtcMarketDemo {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(ChbtcExchange.class.getName());
 
-    PollingMarketDataService marketDataService = exchange.getPollingMarketDataService();
+    MarketDataService marketDataService = exchange.getMarketDataService();
 
     // BTC/CNY and ETH/CNY
-    Set<CurrencyPair> currencyPairs = exchange.getMetaData().getMarketMetaDataMap().keySet();
+    Set<CurrencyPair> currencyPairs = exchange.getExchangeMetaData().getCurrencyPairs().keySet();
 
     for (CurrencyPair currencyPair : currencyPairs) {
       System.out.println("#### Currency pair " + currencyPair);

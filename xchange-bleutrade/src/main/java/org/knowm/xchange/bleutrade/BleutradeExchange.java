@@ -8,10 +8,10 @@ import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarket;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeAccountService;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeMarketDataService;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeMarketDataServiceRaw;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeTradeService;
+import org.knowm.xchange.bleutrade.service.BleutradeAccountService;
+import org.knowm.xchange.bleutrade.service.BleutradeMarketDataService;
+import org.knowm.xchange.bleutrade.service.BleutradeMarketDataServiceRaw;
+import org.knowm.xchange.bleutrade.service.BleutradeTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -22,16 +22,9 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BleutradeMarketDataService(this);
-    this.pollingAccountService = new BleutradeAccountService(this);
-    this.pollingTradeService = new BleutradeTradeService(this);
-  }
-
-  @Override
-  public void remoteInit() throws IOException {
-    List<BleutradeCurrency> currencies = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeCurrencies();
-    List<BleutradeMarket> markets = ((BleutradeMarketDataServiceRaw) pollingMarketDataService).getBleutradeMarkets();
-    metaData = BleutradeAdapters.adaptToExchangeMetaData(currencies, markets);
+    this.marketDataService = new BleutradeMarketDataService(this);
+    this.accountService = new BleutradeAccountService(this);
+    this.tradeService = new BleutradeTradeService(this);
   }
 
   @Override
@@ -51,5 +44,12 @@ public class BleutradeExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+    List<BleutradeCurrency> currencies = ((BleutradeMarketDataServiceRaw) marketDataService).getBleutradeCurrencies();
+    List<BleutradeMarket> markets = ((BleutradeMarketDataServiceRaw) marketDataService).getBleutradeMarkets();
+    exchangeMetaData = BleutradeAdapters.adaptToExchangeMetaData(currencies, markets);
   }
 }

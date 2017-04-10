@@ -14,9 +14,9 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.itbit.v1.ItBitExchange;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.TradeService;
 
 /**
  * Tests all calls to itBit
@@ -26,22 +26,19 @@ public class ItBitTradesDemo {
   public static void main(String[] args) throws Exception {
 
     // Use the factory to get BTC-E exchange API using default settings
-    Exchange bitfinex = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
-    ExchangeSpecification defaultExchangeSpecification = bitfinex.getDefaultExchangeSpecification();
+    Exchange itbit = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
+    ExchangeSpecification defaultExchangeSpecification = itbit.getDefaultExchangeSpecification();
 
-    defaultExchangeSpecification.setUserName("xxx");
+    defaultExchangeSpecification.setUserName("userId/walletId");
     defaultExchangeSpecification.setApiKey("xxx");
     defaultExchangeSpecification.setSecretKey("xxx");
 
-    defaultExchangeSpecification.setExchangeSpecificParametersItem("walletId", "xx");
-    defaultExchangeSpecification.setExchangeSpecificParametersItem("userId", "xxx");
-
-    bitfinex.applySpecification(defaultExchangeSpecification);
+    itbit.applySpecification(defaultExchangeSpecification);
 
     // get all services
-    PollingMarketDataService marketDataService = bitfinex.getPollingMarketDataService();
-    PollingAccountService accout = bitfinex.getPollingAccountService();
-    PollingTradeService trades = bitfinex.getPollingTradeService();
+    MarketDataService marketDataService = itbit.getMarketDataService();
+    AccountService accout = itbit.getAccountService();
+    TradeService trades = itbit.getTradeService();
 
     OrderBook orderBook = marketDataService.getOrderBook(new CurrencyPair("XBT", "USD"));
     System.out.println("BIDS: " + orderBook.getBids());

@@ -1,31 +1,33 @@
 package org.knowm.xchange.bitbay.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * @author kpysniak
+ * @author Z. Dolezal
  */
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class BitbayBaseResponse {
 
-  private final String code;
+  private final boolean success;
+  private final int code;
   private final String message;
-  private final String success;
 
-    public BitbayBaseResponse(@JsonProperty("code") String code, @JsonProperty("message")  String message, @JsonProperty("success") String success) {
-        this.code = code;
-        this.message = message;
-        this.success = success;
-    }
+  public BitbayBaseResponse(@JsonProperty("success") boolean success, @JsonProperty("code") int code, @JsonProperty("message") String errorMsg) {
+    this.success = success;
+    this.code = code;
+    this.message = errorMsg;
+  }
 
-    public String getCode() {
-        return code;
-    }
+  public boolean isSuccess() {
+    return success;
+  }
 
-    public String getMessage() {
-        return message;
-    }
+  public int getCode() {
+    return code;
+  }
 
-    public String getSuccess() {
-        return success;
-    }
+  public String getMessage() {
+    return message;
+  }
 }

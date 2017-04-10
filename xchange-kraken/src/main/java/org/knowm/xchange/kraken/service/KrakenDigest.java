@@ -9,8 +9,8 @@ import javax.ws.rs.FormParam;
 
 import org.knowm.xchange.service.BaseParamsDigest;
 
+import net.iharder.Base64;
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 /**
  * @author Benedikt Bünz

@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -49,17 +49,17 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamsSorted;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamsSorted;
 
 /**
  * @author Martin Stachon
  */
 public class CoinmateAdapters {
 
-  public static final CurrencyPair COINMATE_DEFAULT_PAIR = CurrencyPair.BTC_EUR;
+  // the currency pairs supported by the exchange
+  public static final CurrencyPair[] COINMATE_CURRENCY_PAIRS = { CurrencyPair.BTC_EUR, CurrencyPair.BTC_CZK, };
 
   /**
    * Adapts a CoinmateTicker to a Ticker Object
@@ -101,13 +101,17 @@ public class CoinmateAdapters {
     List<Trade> trades = new ArrayList<Trade>(coinmateTransactions.getData().size());
 
     for (CoinmateTransactionsEntry coinmateEntry : coinmateTransactions.getData()) {
-      Trade trade = new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(),
-          new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
+      Trade trade = adaptTrade(coinmateEntry);
       trades.add(trade);
     }
 
     //TODO correct sort order?
     return new Trades(trades, Trades.TradeSortType.SortByID);
+  }
+
+  public static Trade adaptTrade(CoinmateTransactionsEntry coinmateEntry) {
+    return new Trade(null, coinmateEntry.getAmount(), CoinmateUtils.getPair(coinmateEntry.getCurrencyPair()), coinmateEntry.getPrice(),
+        new Date(coinmateEntry.getTimestamp()), coinmateEntry.getTransactionId());
   }
 
   public static Wallet adaptWallet(CoinmateBalance coinmateBalance) {
@@ -150,9 +154,9 @@ public class CoinmateAdapters {
     return new UserTrades(trades, Trades.TradeSortType.SortByTimestamp);
   }
 
-  public static OpenOrders adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders) throws CoinmateException {
+  public static List<LimitOrder> adaptOpenOrders(CoinmateOpenOrders coinmateOpenOrders, CurrencyPair currencyPair) throws CoinmateException {
 
-    List<LimitOrder> ordersList = new ArrayList<LimitOrder>(coinmateOpenOrders.getData().size());
+    List<LimitOrder> ordersList = new ArrayList<>(coinmateOpenOrders.getData().size());
 
     for (CoinmateOpenOrdersEntry entry : coinmateOpenOrders.getData()) {
 
@@ -166,16 +170,13 @@ public class CoinmateAdapters {
         throw new CoinmateException("Unknown order type");
       }
 
-      // the api does not provide currency for open orders, so just assume the default pair
-      CurrencyPair currencyPair = COINMATE_DEFAULT_PAIR;
-
       LimitOrder limitOrder = new LimitOrder(orderType, entry.getAmount(), currencyPair, Long.toString(entry.getId()), new Date(entry.getTimestamp()),
           entry.getPrice());
 
       ordersList.add(limitOrder);
     }
 
-    return new OpenOrders(ordersList);
+    return ordersList;
   }
 
   public static String adaptOrder(TradeHistoryParamsSorted.Order order) {

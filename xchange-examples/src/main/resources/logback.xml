@@ -28,7 +28,8 @@
 		</rollingPolicy>
 
 		<encoder>
-			<pattern>%d{HH:mm:ss.SSS} ${HOSTNAME} [%thread] %-5level %logger{36} - %msg %xEx%n</pattern>
+			<pattern>%d{HH:mm:ss.SSS} ${HOSTNAME} [%thread] %-5level %logger{36}
+				- %msg %xEx%n</pattern>
 		</encoder>
 
 	</appender>

@@ -5,9 +5,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import java.util.Map;
 
 import org.knowm.xchange.bittrex.v1.dto.account.BittrexBalance;
 import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexLevel;
@@ -26,13 +24,18 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public final class BittrexAdapters {
 
   public static final Logger log = LoggerFactory.getLogger(BittrexAdapters.class);
-
+  
   private BittrexAdapters() {
 
   }
@@ -69,11 +72,11 @@ public final class BittrexAdapters {
     OrderType type = bittrexOpenOrder.getOrderType().equalsIgnoreCase("LIMIT_SELL") ? OrderType.ASK : OrderType.BID;
     String[] currencies = bittrexOpenOrder.getExchange().split("-");
     CurrencyPair pair = new CurrencyPair(currencies[1], currencies[0]);
-
-    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), null,
+    
+    return new BittrexLimitOrder(type, bittrexOpenOrder.getQuantityRemaining(), pair, bittrexOpenOrder.getOrderUuid(), BittrexUtils.toDate(bittrexOpenOrder.getOpened()),
         bittrexOpenOrder.getLimit(), bittrexOpenOrder.getQuantityRemaining(), bittrexOpenOrder.getPricePerUnit());
   }
-
+  
   public static List<LimitOrder> adaptOrders(BittrexLevel[] orders, CurrencyPair currencyPair, String orderType, String id) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>(orders.length);
@@ -171,6 +174,27 @@ public final class BittrexAdapters {
     }
 
     return new UserTrade(orderType, amount, currencyPair, price, date, orderId, orderId, trade.getCommission(), currencyPair.counter);
+  }
+
+  public static ExchangeMetaData adaptMetaData(List<BittrexSymbol> rawSymbols, ExchangeMetaData metaData) {
+
+    List<CurrencyPair> currencyPairs = BittrexAdapters.adaptCurrencyPairs(rawSymbols);
+
+    Map<CurrencyPair, CurrencyPairMetaData> pairsMap = metaData.getCurrencyPairs();
+    Map<Currency, CurrencyMetaData> currenciesMap = metaData.getCurrencies();
+    for (CurrencyPair c : currencyPairs) {
+      if (!pairsMap.keySet().contains(c)) {
+        pairsMap.put(c, null);
+      }
+      if (!currenciesMap.keySet().contains(c.base)) {
+        currenciesMap.put(c.base, null);
+      }
+      if (!currenciesMap.keySet().contains(c.base)) {
+        currenciesMap.put(c.counter, null);
+      }
+    }
+
+    return metaData;
   }
 
 }

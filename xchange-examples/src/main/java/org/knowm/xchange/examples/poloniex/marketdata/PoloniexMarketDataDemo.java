@@ -9,8 +9,8 @@ import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.poloniex.PoloniexExchange;
-import org.knowm.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
+import org.knowm.xchange.poloniex.service.PoloniexMarketDataServiceRaw;
+import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.utils.CertHelper;
 
 /**
@@ -19,21 +19,22 @@ import org.knowm.xchange.utils.CertHelper;
 
 public class PoloniexMarketDataDemo {
 
+  private static Exchange poloniex;
   private static CurrencyPair currencyPair;
 
   public static void main(String[] args) throws Exception {
 
     CertHelper.trustAllCerts();
 
-    Exchange poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
-    PollingMarketDataService dataService = poloniex.getPollingMarketDataService();
+    poloniex = ExchangeFactory.INSTANCE.createExchange(PoloniexExchange.class.getName());
+    MarketDataService dataService = poloniex.getMarketDataService();
     currencyPair = new CurrencyPair(Currency.XMR, Currency.BTC);
 
     generic(dataService);
     raw((PoloniexMarketDataServiceRaw) dataService);
   }
 
-  private static void generic(PollingMarketDataService dataService) throws IOException {
+  private static void generic(MarketDataService dataService) throws IOException {
 
     System.out.println("----------GENERIC----------");
     System.out.println(dataService.getTicker(currencyPair));
@@ -48,7 +49,7 @@ public class PoloniexMarketDataDemo {
 
     System.out.println("------------RAW------------");
     System.out.println(dataService.getPoloniexCurrencyInfo());
-    System.out.println(dataService.getExchangeSymbols());
+    System.out.println(poloniex.getExchangeSymbols());
     System.out.println(dataService.getAllPoloniexTickers());
     System.out.println(dataService.getPoloniexTicker(currencyPair));
     System.out.println(dataService.getAllPoloniexDepths());

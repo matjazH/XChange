@@ -1,11 +1,17 @@
 package org.knowm.xchange.bter;
 
+import java.io.IOException;
+import java.util.Map;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bter.service.polling.BTERPollingAccountService;
-import org.knowm.xchange.bter.service.polling.BTERPollingMarketDataService;
-import org.knowm.xchange.bter.service.polling.BTERPollingTradeService;
+import org.knowm.xchange.bter.dto.marketdata.BTERMarketInfoWrapper.BTERMarketInfo;
+import org.knowm.xchange.bter.service.BTERAccountService;
+import org.knowm.xchange.bter.service.BTERMarketDataService;
+import org.knowm.xchange.bter.service.BTERMarketDataServiceRaw;
+import org.knowm.xchange.bter.service.BTERTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,9 +22,9 @@ public class BTERExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BTERPollingMarketDataService(this);
-    this.pollingAccountService = new BTERPollingAccountService(this);
-    this.pollingTradeService = new BTERPollingTradeService(this);
+    this.marketDataService = new BTERMarketDataService(this);
+    this.accountService = new BTERAccountService(this);
+    this.tradeService = new BTERTradeService(this);
   }
 
   @Override
@@ -36,5 +42,13 @@ public class BTERExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+
+    Map<CurrencyPair, BTERMarketInfo> currencyPair2BTERMarketInfoMap = ((BTERMarketDataServiceRaw) marketDataService)
+        .getBTERMarketInfo();
+    exchangeMetaData = BTERAdapters.adaptToExchangeMetaData(currencyPair2BTERMarketInfoMap);
   }
 }

@@ -5,8 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.cryptofacilities.dto.CryptoFacilitiesResult;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author Panchen
@@ -26,7 +27,7 @@ public class CryptoFacilitiesFill extends CryptoFacilitiesResult {
 
   public CryptoFacilitiesFill(@JsonProperty("result") String result, @JsonProperty("error") String error,
       @JsonProperty("fillTime") String strfillTime, @JsonProperty("order_id") String order_id, @JsonProperty("fill_id") String fill_id,
-      @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("qty") BigDecimal size,
+      @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("size") BigDecimal size,
       @JsonProperty("price") BigDecimal price) throws ParseException {
 
     super(result, error);

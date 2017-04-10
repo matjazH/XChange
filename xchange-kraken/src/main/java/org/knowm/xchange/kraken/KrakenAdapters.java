@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -14,17 +15,24 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.kraken.dto.account.KrakenDepositAddress;
+import org.knowm.xchange.kraken.dto.account.KrakenLedger;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAsset;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPair;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenDepth;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicOrder;
 import org.knowm.xchange.kraken.dto.marketdata.KrakenPublicTrade;
@@ -152,8 +160,7 @@ public class KrakenAdapters {
   }
 
   public static Currency adaptCurrency(String krakenCurrencyCode) {
-
-    String currencyCode = (krakenCurrencyCode.length() == 4) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
+    String currencyCode = (krakenCurrencyCode.length() == 4 && !"USDT".equals(krakenCurrencyCode) && !"KFEE".equals(krakenCurrencyCode)) ? krakenCurrencyCode.substring(1) : krakenCurrencyCode;
 
     return Currency.getInstance(currencyCode).getCommonlyUsedCurrency();
   }
@@ -236,5 +243,58 @@ public class KrakenAdapters {
 
     List<String> orderIds = orderResponse.getTransactionIds();
     return (orderIds == null || orderIds.isEmpty()) ? "" : orderIds.get(0);
+  }
+
+  public static ExchangeMetaData adaptToExchangeMetaData(ExchangeMetaData originalMetaData, Map<String, KrakenAssetPair> krakenPairs,
+      Map<String, KrakenAsset> krakenAssets) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> pairs = new HashMap<>();
+    pairs.putAll(originalMetaData.getCurrencyPairs());
+    for (String krakenPairCode : krakenPairs.keySet()) {
+      KrakenAssetPair krakenPair = krakenPairs.get(krakenPairCode);
+      pairs.put(adaptCurrencyPair(krakenPairCode), adaptPair(krakenPair, pairs.get(adaptCurrencyPair(krakenPairCode))));
+    }
+
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+    currencies.putAll(originalMetaData.getCurrencies());
+    for (String krakenAssetCode : krakenAssets.keySet()) {
+      KrakenAsset krakenAsset = krakenAssets.get(krakenAssetCode);
+      currencies.put(KrakenUtils.addCurrencyAndGetCode(krakenAssetCode), new CurrencyMetaData(krakenAsset.getScale()));
+    }
+    return new ExchangeMetaData(pairs, currencies, originalMetaData == null ? null : originalMetaData.getPublicRateLimits(),
+        originalMetaData == null ? null : originalMetaData.getPrivateRateLimits(),
+        originalMetaData == null ? null : originalMetaData.isShareRateLimits());
+
+  }
+
+  private static CurrencyPairMetaData adaptPair(KrakenAssetPair krakenPair, CurrencyPairMetaData OriginalMeta) {
+    if (OriginalMeta != null) {
+        return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), OriginalMeta.getMinimumAmount(), OriginalMeta.getMaximumAmount(), krakenPair.getPairScale());
+    } else {
+        return new CurrencyPairMetaData(krakenPair.getFees().get(0).getPercentFee().divide(new BigDecimal(100)), null, null, krakenPair.getPairScale());        
+    }
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(Map<String, KrakenLedger> krakenLedgerInfo) {
+
+    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
+    for (Entry<String, KrakenLedger> ledgerEntry : krakenLedgerInfo.entrySet()) {
+      final KrakenLedger krakenLedger = ledgerEntry.getValue();
+      if (krakenLedger.getLedgerType() != null){
+        final Currency currency = adaptCurrency(krakenLedger.getAsset());
+        if (currency != null){
+          final Date timestamp = new Date((long) (krakenLedger.getUnixTime() * 1000L));
+          final FundingRecord.Type type = FundingRecord.Type.fromString(krakenLedger.getLedgerType().name());
+          if (type != null){
+            FundingRecord fundingRecordEntry = new FundingRecord(null, timestamp,
+                    currency, krakenLedger.getTransactionAmount(), krakenLedger.getRefId(),
+                    FundingRecord.Type.fromString(krakenLedger.getLedgerType().name()),
+                    null, krakenLedger.getBalance(), krakenLedger.getFee(), null);
+            fundingRecords.add(fundingRecordEntry);
+          }
+        }
+      }
+    }
+    return fundingRecords;
   }
 }

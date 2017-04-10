@@ -3,29 +3,29 @@ package org.knowm.xchange.quoine.dto.account;
 import java.util.Arrays;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import org.knowm.xchange.quoine.dto.account.CryptoAccount;
 
 /**
  * @author timmolter
  */
 public final class QuoineAccountInfo {
 
-  private final CryptoAccount[] cryptoAccounts;
+  private final BitcoinAccount bitcoinAccount;
   private final FiatAccount[] fiatAccounts;
 
   /**
    * Constructor
    *
-   * @param cryptoAccounts
+   * @param bitcoinAccount
    * @param fiatAccounts
    */
-  public QuoineAccountInfo(@JsonProperty("crypto_accounts") CryptoAccount[] cryptoAccounts, @JsonProperty("fiat_accounts") FiatAccount[] fiatAccounts) {
-    this.cryptoAccounts = cryptoAccounts;
+  public QuoineAccountInfo(@JsonProperty("bitcoin_account") BitcoinAccount bitcoinAccount,
+      @JsonProperty("fiat_accounts") FiatAccount[] fiatAccounts) {
+    this.bitcoinAccount = bitcoinAccount;
     this.fiatAccounts = fiatAccounts;
   }
 
-  public CryptoAccount[] getCryptoAccounts() {
-    return cryptoAccounts;
+  public BitcoinAccount getBitcoinAccount() {
+    return bitcoinAccount;
   }
 
   public FiatAccount[] getFiatAccounts() {
@@ -34,7 +34,7 @@ public final class QuoineAccountInfo {
 
   @Override
   public String toString() {
-    return "QuoineAccountInfo [bitcoinAccount=" + Arrays.toString(cryptoAccounts) + ", fiatAccounts=" + Arrays.toString(fiatAccounts) + "]";
+    return "QuoineAccountInfo [bitcoinAccount=" + bitcoinAccount + ", fiatAccounts=" + Arrays.toString(fiatAccounts) + "]";
   }
 
 }

@@ -13,23 +13,22 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.btcchina.BTCChinaExchange;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeService.BTCChinaTradeHistoryParams;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeService.BTCChinaTradeHistoryParams;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
+import org.knowm.xchange.service.trade.TradeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class BTCChinaTradeStat {
 
   private static final Logger log = LoggerFactory.getLogger(BTCChinaTradeStat.class);
 
-  private final PollingTradeService tradeService;
+  private final TradeService tradeService;
 
   public BTCChinaTradeStat(String accessKey, String secretKey) {
     final ExchangeSpecification spec = new ExchangeSpecification(BTCChinaExchange.class);
@@ -38,7 +37,7 @@ public class BTCChinaTradeStat {
 
     Exchange exchange = ExchangeFactory.INSTANCE.createExchange(spec);
 
-    tradeService = exchange.getPollingTradeService();
+    tradeService = exchange.getTradeService();
   }
 
   /**

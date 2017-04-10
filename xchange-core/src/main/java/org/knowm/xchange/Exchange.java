@@ -1,14 +1,14 @@
 package org.knowm.xchange;
 
 import java.io.IOException;
+import java.util.List;
 
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.exceptions.ExchangeException;
-import org.knowm.xchange.service.polling.account.PollingAccountService;
-import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
-import org.knowm.xchange.service.polling.trade.PollingTradeService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.service.marketdata.MarketDataService;
+import org.knowm.xchange.service.trade.TradeService;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -31,11 +31,19 @@ public interface Exchange {
   ExchangeSpecification getExchangeSpecification();
 
   /**
-   * The MetaData defining some semi-static properties of an exchange such as currency pairs, trading fees, etc.
+   * The Meta Data defining some semi-static properties of an exchange such as currency pairs, trading fees, etc.
    *
    * @return
    */
-  ExchangeMetaData getMetaData();
+  ExchangeMetaData getExchangeMetaData();
+
+  /**
+   * Returns a list of CurrencyPair objects. This list can either come originally from a loaded json file or from a remote call if the implementation
+   * override's the `remoteInit` method.
+   *
+   * @return
+   */
+  public List<CurrencyPair> getExchangeSymbols();
 
   /**
    * The nonce factory used to create a nonce value. Allows services to accept a placeholder that is replaced with generated value just before message
@@ -68,21 +76,7 @@ public interface Exchange {
    *
    * @return The exchange's market data service
    */
-  PollingMarketDataService getPollingMarketDataService();
-
-  /**
-   * <p>
-   * A market data service typically consists of a regularly updated list of the available prices for the various symbols
-   * </p>
-   * <p>
-   * This is the streaming (non-blocking and event driven) version of the service, and requires an application to provide a suitable implementation of
-   * the listener to allow event callbacks to take place.
-   * </p>
-   *
-   * @param configuration The exchange-specific configuration to be applied after creation
-   * @return The exchange's "push" market data service
-   */
-  StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration);
+  MarketDataService getMarketDataService();
 
   /**
    * <p>
@@ -93,9 +87,9 @@ public interface Exchange {
    * {@link ExchangeSpecification}
    * </p>
    *
-   * @return The exchange's polling trade service
+   * @return The exchange's trade service
    */
-  PollingTradeService getPollingTradeService();
+  TradeService getTradeService();
 
   /**
    * <p>
@@ -106,13 +100,13 @@ public interface Exchange {
    * {@link ExchangeSpecification}
    * </p>
    *
-   * @return The exchange's polling account service
+   * @return The exchange's account service
    */
-  PollingAccountService getPollingAccountService();
+  AccountService getAccountService();
 
   /**
-   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getMetaData()}. Some exchanges
-   * require it before using some of their services.
+   * Initialize this instance with the remote meta data. Most exchanges require this method to be called before {@link #getExchangeMetaData()}. Some
+   * exchanges require it before using some of their services.
    */
   void remoteInit() throws IOException, ExchangeException;
 }

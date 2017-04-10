@@ -3,13 +3,9 @@ package org.knowm.xchange.btcchina;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaAccountService;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaMarketDataService;
-import org.knowm.xchange.btcchina.service.polling.BTCChinaTradeService;
-import org.knowm.xchange.btcchina.service.streaming.BTCChinaSocketIOService;
-import org.knowm.xchange.btcchina.service.streaming.BTCChinaStreamingConfiguration;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaAccountService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaMarketDataService;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaTradeService;
 import org.knowm.xchange.utils.nonce.CurrentNanosecondTimeIncrementalNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -37,12 +33,13 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingTradeService = new BTCChinaTradeService(this);
-    this.pollingAccountService = new BTCChinaAccountService(this);
+
+    this.tradeService = new BTCChinaTradeService(this);
+    this.accountService = new BTCChinaAccountService(this);
 
     // TODO use exchangeSpecificParameters
     exchangeSpecification.setSslUri("https://data.btcchina.com");
-    this.pollingMarketDataService = new BTCChinaMarketDataService(this);
+    this.marketDataService = new BTCChinaMarketDataService(this);
   }
 
   @Override
@@ -59,24 +56,19 @@ public class BTCChinaExchange extends BaseExchange implements Exchange {
   }
 
   @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    final BTCChinaStreamingConfiguration btcchinaStreamingConfiguration;
-
-    if (configuration == null) {
-      btcchinaStreamingConfiguration = new BTCChinaStreamingConfiguration();
-    } else if (configuration instanceof BTCChinaStreamingConfiguration) {
-      btcchinaStreamingConfiguration = (BTCChinaStreamingConfiguration) configuration;
-    } else {
-      throw new IllegalArgumentException("BTCChina only supports BTCChinaStreamingConfiguration");
-    }
-
-    return new BTCChinaSocketIOService(this, btcchinaStreamingConfiguration);
-  }
-
-  @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
   }
+
+  //  @Override
+  //  public void remoteInit() throws IOException {
+  //
+  //    // TODO Implement this.
+  //
+  //    Map<String, BTCChinaTickerObject> products = ((BTCChinaMarketDataServiceRaw) marketDataService).getBTCChinaTickers();
+  //    exchangeMetaData = BTCChinaAdapters.adaptToExchangeMetaData(products);
+  //    //    System.out.println("JSON: " + ObjectMapperHelper.toJSON(exchangeMetaData));
+  //
+  //  }
 }

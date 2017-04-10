@@ -2,12 +2,12 @@ package org.knowm.xchange.btcchina.service;
 
 import javax.crypto.Mac;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
+import org.apache.commons.lang3.StringUtils;
 import org.knowm.xchange.btcchina.BTCChinaUtils;
 import org.knowm.xchange.btcchina.dto.BTCChinaRequest;
 import org.knowm.xchange.service.BaseParamsDigest;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import si.mazi.rescu.BasicAuthCredentials;
 import si.mazi.rescu.RestInvocation;
@@ -93,24 +93,16 @@ public class BTCChinaDigest extends BaseParamsDigest {
         stripped[i] = "1";
       } else if (param.equals("false")) {
         // boolean: false
-        stripped[i] = "";
+        stripped[i] = StringUtils.EMPTY;
       } else if (param.equals("null")) {
-        stripped[i] = "";
+        stripped[i] = StringUtils.EMPTY;
       } else {
         // number, etc.
         stripped[i] = param;
       }
 
     }
-
-    StringBuilder builder = new StringBuilder();
-    String prefix = "";
-    for (int i = 0; i < stripped.length; i++) {
-      builder.append(prefix).append(stripped[i]);
-      prefix = ",";
-    }
-
-    return builder.toString();
+    return StringUtils.join(stripped, ",");
   }
 
 }

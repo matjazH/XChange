@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -30,10 +30,11 @@ import java.io.InputStream;
 import java.math.BigDecimal;
 
 import org.junit.Test;
+import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.coinmate.dto.marketdata.CoinmateTicker;
-import org.knowm.xchange.dto.marketdata.Ticker;
 
 /**
  * @author Martin Stachon
@@ -50,7 +51,7 @@ public class CoinmateAdapterTest {
     ObjectMapper mapper = new ObjectMapper();
     CoinmateTicker bitstampTicker = mapper.readValue(is, CoinmateTicker.class);
 
-    Ticker ticker = CoinmateAdapters.adaptTicker(bitstampTicker, CoinmateAdapters.COINMATE_DEFAULT_PAIR);
+    Ticker ticker = CoinmateAdapters.adaptTicker(bitstampTicker, CurrencyPair.BTC_EUR);
 
     assertThat(ticker.getLast().toString()).isEqualTo("254.08");
     assertThat(ticker.getBid().toString()).isEqualTo("252.93");

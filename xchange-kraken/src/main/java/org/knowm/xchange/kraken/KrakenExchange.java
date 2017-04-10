@@ -1,11 +1,16 @@
 package org.knowm.xchange.kraken;
 
+import java.io.IOException;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.kraken.service.polling.KrakenAccountService;
-import org.knowm.xchange.kraken.service.polling.KrakenMarketDataService;
-import org.knowm.xchange.kraken.service.polling.KrakenTradeService;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssetPairs;
+import org.knowm.xchange.kraken.dto.marketdata.KrakenAssets;
+import org.knowm.xchange.kraken.service.KrakenAccountService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataService;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
+import org.knowm.xchange.kraken.service.KrakenTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -19,9 +24,9 @@ public class KrakenExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new KrakenMarketDataService(this);
-    this.pollingTradeService = new KrakenTradeService(this);
-    this.pollingAccountService = new KrakenAccountService(this);
+    this.marketDataService = new KrakenMarketDataService(this);
+    this.tradeService = new KrakenTradeService(this);
+    this.accountService = new KrakenAccountService(this);
   }
 
   @Override
@@ -40,5 +45,15 @@ public class KrakenExchange extends BaseExchange implements Exchange {
   public SynchronizedValueFactory<Long> getNonceFactory() {
 
     return nonceFactory;
+  }
+
+  @Override
+  public void remoteInit() throws IOException {
+
+    KrakenAssetPairs assetPairs = ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssetPairs();
+    KrakenAssets assets = ((KrakenMarketDataServiceRaw) marketDataService).getKrakenAssets();
+    // other endpoints?
+    // hard-coded meta data from json file not available at an endpoint?
+    exchangeMetaData = KrakenAdapters.adaptToExchangeMetaData(exchangeMetaData, assetPairs.getAssetPairMap(), assets.getAssetPairMap());
   }
 }

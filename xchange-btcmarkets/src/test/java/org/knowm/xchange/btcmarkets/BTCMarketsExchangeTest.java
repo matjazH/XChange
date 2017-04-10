@@ -5,13 +5,12 @@ import static org.junit.Assert.fail;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.powermock.reflect.Whitebox;
-
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.btcmarkets.service.polling.BTCMarketsTestSupport;
+import org.knowm.xchange.btcmarkets.service.BTCMarketsTestSupport;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
+import org.powermock.reflect.Whitebox;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -32,9 +31,9 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(exchange.getPollingTradeService()).isNull();
-    assertThat(exchange.getPollingAccountService()).isNull();
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(exchange.getTradeService()).isNull();
+    assertThat(exchange.getAccountService()).isNull();
   }
 
   @Test
@@ -49,9 +48,9 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -65,9 +64,9 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -79,9 +78,9 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(exchange.getPollingTradeService()).isNull();
-    assertThat(exchange.getPollingAccountService()).isNull();
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(exchange.getTradeService()).isNull();
+    assertThat(exchange.getAccountService()).isNull();
   }
 
   @Test
@@ -93,9 +92,9 @@ public class BTCMarketsExchangeTest extends BTCMarketsTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(exchange.getPollingTradeService()).isNull();
-    assertThat(exchange.getPollingAccountService()).isNull();
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(exchange.getTradeService()).isNull();
+    assertThat(exchange.getAccountService()).isNull();
   }
 
   @Test(expected = NullPointerException.class)

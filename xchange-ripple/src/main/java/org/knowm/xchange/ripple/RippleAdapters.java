@@ -13,9 +13,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -39,13 +36,15 @@ import org.knowm.xchange.ripple.dto.trade.RippleAccountOrders;
 import org.knowm.xchange.ripple.dto.trade.RippleAccountOrdersBody;
 import org.knowm.xchange.ripple.dto.trade.RippleLimitOrder;
 import org.knowm.xchange.ripple.dto.trade.RippleUserTrade;
-import org.knowm.xchange.ripple.service.polling.RippleAccountService;
-import org.knowm.xchange.ripple.service.polling.RippleTradeServiceRaw;
-import org.knowm.xchange.ripple.service.polling.params.RippleMarketDataParams;
-import org.knowm.xchange.ripple.service.polling.params.RippleTradeHistoryPreferredCurrencies;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyPair;
-import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
+import org.knowm.xchange.ripple.service.RippleAccountService;
+import org.knowm.xchange.ripple.service.RippleTradeServiceRaw;
+import org.knowm.xchange.ripple.service.params.RippleMarketDataParams;
+import org.knowm.xchange.ripple.service.params.RippleTradeHistoryPreferredCurrencies;
+import org.knowm.xchange.service.trade.params.TradeHistoryParamCurrencyPair;
+import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 import org.knowm.xchange.utils.jackson.CurrencyPairDeserializer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Various adapters for converting from Ripple DTOs to XChange DTOs

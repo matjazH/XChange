@@ -8,7 +8,6 @@ import java.io.InputStream;
 import org.junit.Test;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXBitcoinDepositAddress;
 
 /**
  * Test ANXDepositResponse JSON parsing

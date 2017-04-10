@@ -12,10 +12,15 @@ import javax.ws.rs.core.MediaType;
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexBalancesResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositAddressResponse;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryRequest;
+import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexDepositWithdrawalHistoryResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexMarginInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalRequest;
 import org.knowm.xchange.bitfinex.v1.dto.account.BitfinexWithdrawalResponse;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexAccountInfosResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActiveCreditsRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexActivePositionsResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexCancelOfferRequest;
@@ -33,6 +38,7 @@ import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOfferStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexPastTradesRequest;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexReplaceOrderRequest;
 import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexTradeResponse;
 
 import si.mazi.rescu.ParamsDigest;
@@ -41,6 +47,11 @@ import si.mazi.rescu.ParamsDigest;
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
 public interface BitfinexAuthenticated extends Bitfinex {
+
+  @POST
+  @Path("account_infos")
+  BitfinexAccountInfosResponse[] accountInfos(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexNonceOnlyRequest accountInfosRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("order/new")
@@ -73,6 +84,11 @@ public interface BitfinexAuthenticated extends Bitfinex {
   BitfinexCancelOrderMultiResponse cancelOrderMulti(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexCancelOrderMultiRequest cancelOrderRequest)
       throws IOException, BitfinexException;
+
+  @POST
+  @Path("order/cancel/replace")
+  BitfinexOrderStatusResponse replaceOrder(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexReplaceOrderRequest newOrderRequest) throws IOException, BitfinexException;
 
   @POST
   @Path("offer/cancel")
@@ -128,5 +144,15 @@ public interface BitfinexAuthenticated extends Bitfinex {
   @Path("withdraw")
   BitfinexWithdrawalResponse[] withdraw(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
       @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexWithdrawalRequest withdrawalRequest) throws IOException, BitfinexException;
+
+  @POST
+  @Path("deposit/new")
+  BitfinexDepositAddressResponse requestDeposit(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexDepositAddressRequest depositRequest) throws IOException, BitfinexException;
+  
+  @POST
+  @Path("history/movements")
+  BitfinexDepositWithdrawalHistoryResponse[] depositWithdrawalHistory(@HeaderParam("X-BFX-APIKEY") String apiKey, @HeaderParam("X-BFX-PAYLOAD") ParamsDigest payload,
+      @HeaderParam("X-BFX-SIGNATURE") ParamsDigest signature, BitfinexDepositWithdrawalHistoryRequest request) throws IOException, BitfinexException;
 
 }

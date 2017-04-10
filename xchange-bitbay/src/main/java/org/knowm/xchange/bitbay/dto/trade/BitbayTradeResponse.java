@@ -1,60 +1,24 @@
 package org.knowm.xchange.bitbay.dto.trade;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import org.knowm.xchange.bitbay.dto.BitbayBaseResponse;
 
-import java.math.BigDecimal;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
- * Created by Yar.kh on 17/10/14.
+ * @author Z. Dolezal
  */
 public class BitbayTradeResponse extends BitbayBaseResponse {
+  private final long orderId;
 
-    private String orderId;
-//    private String fee_currency;
-//    private BigDecimal amount;
-//    private BigDecimal rate;
-//    private BigDecimal price;
-//    private BigDecimal fee;
+  public BitbayTradeResponse(@JsonProperty("order_id") long orderId,
+                             @JsonProperty("success") boolean success, @JsonProperty("code") int code, @JsonProperty("message") String errorMsg) {
 
-    public BitbayTradeResponse(@JsonProperty("code") String code, @JsonProperty("message") String message, @JsonProperty("success") String success,
-                               @JsonProperty("order_id") String orderId
-//                               @JsonProperty("fee_currency") String fee_currency,
-//                               @JsonProperty("amount") BigDecimal amount,
-//                               @JsonProperty("rate") BigDecimal rate,
-//                               @JsonProperty("price") BigDecimal price,
-//                               @JsonProperty("fee") BigDecimal fee
-                                ) {
-        super(code, message, success);
-        this.orderId = orderId;
-//        this.fee_currency = fee_currency;
-//        this.amount = amount;
-//        this.rate = rate;
-//        this.price = price;
-//        this.fee = fee;
-    }
+    super(success, code, errorMsg);
 
-    public String getOrderId() {
-        return orderId;
-    }
+    this.orderId = orderId;
+  }
 
-//    public String getFee_currency() {
-//        return fee_currency;
-//    }
-//
-//    public BigDecimal getAmount() {
-//        return amount;
-//    }
-//
-//    public BigDecimal getRate() {
-//        return rate;
-//    }
-//
-//    public BigDecimal getPrice() {
-//        return price;
-//    }
-//
-//    public BigDecimal getFee() {
-//        return fee;
-//    }
+  public long getOrderId() {
+    return orderId;
+  }
 }

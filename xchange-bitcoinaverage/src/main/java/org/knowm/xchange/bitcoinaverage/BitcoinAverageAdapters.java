@@ -10,13 +10,12 @@ import java.util.Map;
 
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTicker;
 import org.knowm.xchange.bitcoinaverage.dto.marketdata.BitcoinAverageTickers;
-import org.knowm.xchange.bitcoinaverage.dto.meta.BitcoinAverageMetaData;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
 
 /**
  * Various adapters for converting from BitcoinAverage DTOs to XChange DTOs
@@ -47,10 +46,12 @@ public final class BitcoinAverageAdapters {
     return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume).timestamp(timestamp).build();
   }
 
-  public static ExchangeMetaData adaptMetaData(BitcoinAverageTickers tickers, BitcoinAverageMetaData bAMetaData) {
-    Map<CurrencyPair, MarketMetaData> currencyPairs = new HashMap<CurrencyPair, MarketMetaData>();
-    for (String currency : tickers.getTickers().keySet())
-      currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency)), new MarketMetaData(null, null, bAMetaData.priceScale));
+  public static ExchangeMetaData adaptMetaData(BitcoinAverageTickers tickers, ExchangeMetaData bAMetaData) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<CurrencyPair, CurrencyPairMetaData>();
+    for (String currency : tickers.getTickers().keySet()) {
+      currencyPairs.put(new CurrencyPair(BTC, Currency.getInstance(currency)), null);
+    }
     return new ExchangeMetaData(currencyPairs, Collections.<Currency, CurrencyMetaData> emptyMap(), null, null, null);
   }
 }

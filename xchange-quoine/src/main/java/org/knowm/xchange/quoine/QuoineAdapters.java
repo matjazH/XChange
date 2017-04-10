@@ -14,23 +14,15 @@ import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
-import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.quoine.dto.account.CryptoAccount;
 import org.knowm.xchange.quoine.dto.account.FiatAccount;
 import org.knowm.xchange.quoine.dto.account.QuoineAccountInfo;
 import org.knowm.xchange.quoine.dto.account.QuoineTradingAccountInfo;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineOrderBook;
 import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
-import org.knowm.xchange.quoine.dto.marketdata.QuoineTrade;
-import org.knowm.xchange.quoine.dto.marketdata.QuoineTradesList;
 import org.knowm.xchange.quoine.dto.trade.Model;
 import org.knowm.xchange.quoine.dto.trade.QuoineOrdersList;
-import org.knowm.xchange.utils.DateUtils;
 
 public class QuoineAdapters {
 
@@ -39,7 +31,7 @@ public class QuoineAdapters {
     Ticker.Builder builder = new Ticker.Builder();
     builder.ask(quoineTicker.getMarketAsk());
     builder.bid(quoineTicker.getMarketBid());
-    builder.last(quoineTicker.getLastTradedPrice());
+    builder.last(quoineTicker.getLastPrice24h());
     builder.volume(quoineTicker.getVolume24h());
     builder.currencyPair(currencyPair);
     return builder.build();
@@ -52,19 +44,19 @@ public class QuoineAdapters {
     return new OrderBook(null, asks, bids);
   }
 
-  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<List<BigDecimal>> orders) {
+  public static List<LimitOrder> createOrders(CurrencyPair currencyPair, Order.OrderType orderType, List<BigDecimal[]> orders) {
 
     List<LimitOrder> limitOrders = new ArrayList<LimitOrder>();
-    for (List<BigDecimal> ask : orders) {
-      checkArgument(ask.size() == 2, "Expected a pair (price, amount) but got {0} elements.", ask.size());
+    for (BigDecimal[] ask : orders) {
+      checkArgument(ask.length == 2, "Expected a pair (price, amount) but got {0} elements.", ask.length);
       limitOrders.add(createOrder(currencyPair, ask, orderType));
     }
     return limitOrders;
   }
 
-  public static LimitOrder createOrder(CurrencyPair currencyPair, List<BigDecimal> priceAndAmount, Order.OrderType orderType) {
+  public static LimitOrder createOrder(CurrencyPair currencyPair, BigDecimal[] priceAndAmount, Order.OrderType orderType) {
 
-    return new LimitOrder(orderType, priceAndAmount.get(1), currencyPair, "", null, priceAndAmount.get(0));
+    return new LimitOrder(orderType, priceAndAmount[1], currencyPair, "", null, priceAndAmount[0]);
   }
 
   public static void checkArgument(boolean argument, String msgPattern, Object... msgArgs) {
@@ -77,20 +69,27 @@ public class QuoineAdapters {
   public static Wallet adaptTradingWallet(QuoineTradingAccountInfo[] quoineWallet) {
     List<Balance> balances = new ArrayList<Balance>(quoineWallet.length);
 
-    // btc position is sum of all positions in margin. Asuming all currencies are using the same margin level.
-    BigDecimal btcPosition = BigDecimal.ZERO;
-
     for (int i = 0; i < quoineWallet.length; i++) {
       QuoineTradingAccountInfo info = quoineWallet[i];
 
-      balances.add(new Balance(Currency.getInstance(info.getCollateralCurrency()), info.getFreeMargin()));
+      balances.add(new Balance(Currency.getInstance(info.getFundingCurrency()), info.getFreeMargin()));
 
-      btcPosition = btcPosition.add(info.getPosition());
     }
 
-    balances.add(new Balance(Currency.BTC, btcPosition));
+    return new Wallet(balances);
+  }
+
+  public static Wallet adaptFiatAccountWallet(FiatAccount[] fiatAccounts) {
+
+    List<Balance> balances = new ArrayList<Balance>();
+
+    for (FiatAccount fiatAccount : fiatAccounts) {
+      Balance fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance(), fiatAccount.getBalance());
+      balances.add(fiatBalance);
+    }
 
     return new Wallet(balances);
+
   }
 
   public static Wallet adaptWallet(QuoineAccountInfo quoineWallet) {
@@ -98,28 +97,13 @@ public class QuoineAdapters {
     List<Balance> balances = new ArrayList<Balance>();
 
     // Adapt to XChange DTOs
-    CryptoAccount[] cryptoAccounts = quoineWallet.getCryptoAccounts();
-    if (cryptoAccounts != null) {
-      for (CryptoAccount cryptoAccount : cryptoAccounts) {
-        if (cryptoAccount != null) {
-          Balance fiatBalance = new Balance(Currency.getInstance(cryptoAccount.getCurrency()), cryptoAccount.getBalance());
-          balances.add(fiatBalance);
-        }
-      }
-    }
-    FiatAccount[] fiatAccounts = quoineWallet.getFiatAccounts();
-    if (fiatAccounts != null) {
-      for (FiatAccount fiatAccount : fiatAccounts) {
-        if (fiatAccount != null) {
-          Balance fiatBalance;
-          if (fiatAccount.getFreeBalance() != null) {
-            fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance(), fiatAccount.getFreeBalance());
-          } else {
-            fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance());
-          }
-          balances.add(fiatBalance);
-        }
-      }
+    Balance btcBalance = new Balance(Currency.getInstance(quoineWallet.getBitcoinAccount().getCurrency()),
+        quoineWallet.getBitcoinAccount().getBalance(), quoineWallet.getBitcoinAccount().getFreeBalance());
+    balances.add(btcBalance);
+
+    for (FiatAccount fiatAccount : quoineWallet.getFiatAccounts()) {
+      Balance fiatBalance = new Balance(Currency.getInstance(fiatAccount.getCurrency()), fiatAccount.getBalance(), fiatAccount.getBalance());
+      balances.add(fiatBalance);
     }
 
     return new Wallet(balances);
@@ -150,47 +134,5 @@ public class QuoineAdapters {
     }
 
     return new OpenOrders(openOrders);
-  }
-
-
-  public static Trades adaptTrades(QuoineTradesList tradesList, CurrencyPair currencyPair) {
-
-    List<Trade> trades = new ArrayList<Trade>();
-    long lastTradeId = 0;
-
-    if (tradesList != null && tradesList.getTrades() != null) {
-      for (QuoineTrade quoineTrade : tradesList.getTrades()) {
-        final long tradeId = quoineTrade.getId();
-        if (tradeId > lastTradeId) {
-          lastTradeId = tradeId;
-        }
-        OrderType type = quoineTrade.getTakerSide() == "ask" ? OrderType.ASK : OrderType.BID;
-        trades.add(new Trade(type, quoineTrade.getQuantity(), currencyPair, quoineTrade.getPrice(),
-            DateUtils.fromMillisUtc(Long.valueOf(quoineTrade.getCreatedAt()) * 1000L), String.valueOf(tradeId)));
-      }
-    }
-
-    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
-  }
-
-  public static UserTrades adaptUserTrades(QuoineTradesList tradesList, CurrencyPair currencyPair) {
-
-    List<UserTrade> trades = new ArrayList<UserTrade>();
-    long lastTradeId = 0;
-
-    if (tradesList != null && tradesList.getTrades() != null) {
-      for (QuoineTrade quoineTrade : tradesList.getTrades()) {
-        final long tradeId = quoineTrade.getId();
-        if (tradeId > lastTradeId) {
-          lastTradeId = tradeId;
-        }
-        OrderType type = "sell".equals(quoineTrade.getTakerSide()) ? OrderType.ASK : OrderType.BID;
-
-        trades.add(new UserTrade(type, quoineTrade.getQuantity(), currencyPair, quoineTrade.getPrice(),
-            DateUtils.fromMillisUtc(Long.valueOf(quoineTrade.getCreatedAt()) * 1000L), String.valueOf(tradeId), null, null, null));
-      }
-    }
-
-    return new UserTrades(trades, lastTradeId, Trades.TradeSortType.SortByID);
   }
 }

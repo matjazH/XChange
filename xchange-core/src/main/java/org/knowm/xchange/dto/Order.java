@@ -154,7 +154,7 @@ public abstract class Order {
    * @param id An id (usually provided by the exchange)
    * @param timestamp the absolute time for this order according to the exchange's server, null if not provided
    * @param averagePrice the averagePrice of fill belonging to the order
-   * @param orderStatus the status of the order at the exchange
+   * @param status the status of the order at the exchange
    */
   public Order(OrderType type, BigDecimal tradableAmount, CurrencyPair currencyPair, String id, Date timestamp, BigDecimal averagePrice,
       BigDecimal cumulativeAmount, OrderStatus status) {
@@ -230,6 +230,11 @@ public abstract class Order {
   public Set<IOrderFlags> getOrderFlags() {
 
     return flags;
+  }
+
+  public boolean hasFlag(IOrderFlags flag) {
+
+    return flags.contains(flag);
   }
 
   public void addOrderFlag(IOrderFlags flag) {

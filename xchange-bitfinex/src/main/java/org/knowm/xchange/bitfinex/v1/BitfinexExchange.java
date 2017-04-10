@@ -1,11 +1,17 @@
 package org.knowm.xchange.bitfinex.v1;
 
+import java.io.IOException;
+import java.util.List;
+
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexAccountService;
-import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexMarketDataService;
-import org.knowm.xchange.bitfinex.v1.service.polling.BitfinexTradeService;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexAccountService;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataService;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeService;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -16,9 +22,9 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
   @Override
   protected void initServices() {
-    this.pollingMarketDataService = new BitfinexMarketDataService(this);
-    this.pollingAccountService = new BitfinexAccountService(this);
-    this.pollingTradeService = new BitfinexTradeService(this);
+    this.marketDataService = new BitfinexMarketDataService(this);
+    this.accountService = new BitfinexAccountService(this);
+    this.tradeService = new BitfinexTradeService(this);
   }
 
   @Override
@@ -39,4 +45,14 @@ public class BitfinexExchange extends BaseExchange implements Exchange {
 
     return nonceFactory;
   }
+
+  @Override
+  public void remoteInit() throws IOException, ExchangeException {
+
+    BitfinexMarketDataServiceRaw dataService = (BitfinexMarketDataServiceRaw) this.marketDataService;
+    List<CurrencyPair> currencyPairs = dataService.getExchangeSymbols();
+    exchangeMetaData = BitfinexAdapters.adaptMetaData(currencyPairs, exchangeMetaData);
+
+  }
+
 }

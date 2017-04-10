@@ -1,7 +1,7 @@
 /*
  * The MIT License
  *
- * Copyright 2015 Coinmate.
+ * Copyright 2015-2016 Coinmate.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -26,6 +26,8 @@ package org.knowm.xchange.coinmate;
 import org.knowm.xchange.currency.CurrencyPair;
 
 /**
+ * Conversion between XChange CurrencyPair and Coinmate API
+ * 
  * @author Martin Stachon
  */
 public class CoinmateUtils {
@@ -38,6 +40,8 @@ public class CoinmateUtils {
   public static CurrencyPair getPair(String currencyPair) {
     if ("BTC_EUR".equals(currencyPair)) {
       return CurrencyPair.BTC_EUR;
+    } else if ("BTC_CZK".equals(currencyPair)) {
+      return CurrencyPair.BTC_CZK;
     } else {
       return null;
     }

@@ -12,19 +12,16 @@ import java.util.List;
 import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.Test;
-
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.anx.v2.dto.account.polling.ANXAccountInfo;
+import org.knowm.xchange.anx.v2.dto.account.ANXAccountInfo;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXDepth;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTicker;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTrade;
 import org.knowm.xchange.anx.v2.dto.marketdata.ANXTradesWrapper;
 import org.knowm.xchange.anx.v2.dto.marketdata.TickerJSONTest;
 import org.knowm.xchange.anx.v2.dto.meta.ANXMetaData;
-import org.knowm.xchange.anx.v2.dto.trade.polling.ANXOpenOrder;
+import org.knowm.xchange.anx.v2.dto.trade.ANXOpenOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order.OrderType;
@@ -34,6 +31,9 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
+
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
  * Tests the ANXAdapter class

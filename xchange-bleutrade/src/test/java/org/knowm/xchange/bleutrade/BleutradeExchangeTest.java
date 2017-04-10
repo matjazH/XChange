@@ -13,21 +13,20 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.powermock.api.mockito.PowerMockito;
-import org.powermock.modules.junit4.PowerMockRunner;
-import org.powermock.reflect.Whitebox;
-
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeMarket;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeMarketDataService;
-import org.knowm.xchange.bleutrade.service.polling.BleutradeServiceTestSupport;
+import org.knowm.xchange.bleutrade.service.BleutradeMarketDataService;
+import org.knowm.xchange.bleutrade.service.BleutradeServiceTestSupport;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.meta.CurrencyMetaData;
-import org.knowm.xchange.dto.meta.MarketMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
+import org.powermock.api.mockito.PowerMockito;
+import org.powermock.modules.junit4.PowerMockRunner;
+import org.powermock.reflect.Whitebox;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -48,9 +47,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchange.getDefaultExchangeSpecification());
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -61,9 +60,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchangeSpecification.setSecretKey(SPECIFICATION_SECRET_KEY);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -76,9 +75,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -90,9 +89,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test
@@ -104,9 +103,9 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
     exchange.applySpecification(exchangeSpecification);
 
     // then
-    assertThat(Whitebox.getInternalState(exchange.getPollingMarketDataService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingTradeService(), "exchange")).isEqualTo(exchange);
-    assertThat(Whitebox.getInternalState(exchange.getPollingAccountService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getMarketDataService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getTradeService(), "exchange")).isEqualTo(exchange);
+    assertThat(Whitebox.getInternalState(exchange.getAccountService(), "exchange")).isEqualTo(exchange);
   }
 
   @Test(expected = NullPointerException.class)
@@ -154,25 +153,27 @@ public class BleutradeExchangeTest extends BleutradeServiceTestSupport {
         createBleutradeMarket("DOGE", "BTC", "Dogecoin", "Bitcoin", new BigDecimal("0.10000000"), "DOGE_BTC", true),
         createBleutradeMarket("BLEU", "BTC", "Bleutrade Share", "Bitcoin", new BigDecimal("0.00000001"), "BLEU_BTC", true));
 
-    BleutradeMarketDataService pollingMarketDataServiceMock = mock(BleutradeMarketDataService.class);
-    PowerMockito.when(pollingMarketDataServiceMock.getBleutradeCurrencies()).thenReturn(currenciesStub);
-    PowerMockito.when(pollingMarketDataServiceMock.getBleutradeMarkets()).thenReturn(marketsStub);
+    BleutradeMarketDataService marketDataServiceMock = mock(BleutradeMarketDataService.class);
+    PowerMockito.when(marketDataServiceMock.getBleutradeCurrencies()).thenReturn(currenciesStub);
+    PowerMockito.when(marketDataServiceMock.getBleutradeMarkets()).thenReturn(marketsStub);
 
-    Whitebox.setInternalState(exchange, "pollingMarketDataService", pollingMarketDataServiceMock);
+    Whitebox.setInternalState(exchange, "marketDataService", marketDataServiceMock);
 
     // when
     exchange.remoteInit();
 
     // then
-    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getMetaData().getCurrencyMetaDataMap();
+    Map<Currency, CurrencyMetaData> currencyMetaDataMap = exchange.getExchangeMetaData().getCurrencies();
     assertThat(currencyMetaDataMap).hasSize(2);
-    assertThat(currencyMetaDataMap.get(Currency.BTC).scale).isEqualTo(8);
-    assertThat(currencyMetaDataMap.get(Currency.LTC).scale).isEqualTo(8);
+    assertThat(currencyMetaDataMap.get(Currency.BTC).getScale()).isEqualTo(8);
+    assertThat(currencyMetaDataMap.get(Currency.LTC).getScale()).isEqualTo(8);
 
-    Map<CurrencyPair, MarketMetaData> marketMetaDataMap = exchange.getMetaData().getMarketMetaDataMap();
+    Map<CurrencyPair, CurrencyPairMetaData> marketMetaDataMap = exchange.getExchangeMetaData().getCurrencyPairs();
     assertThat(marketMetaDataMap).hasSize(2);
+    //    System.out.println(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString());
     assertThat(marketMetaDataMap.get(CurrencyPair.DOGE_BTC).toString())
-        .isEqualTo("MarketMetaData{tradingFee=0.0025, minimumAmount=0.10000000, priceScale=8}");
-    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString()).isEqualTo("MarketMetaData{tradingFee=0.0025, minimumAmount=1E-8, priceScale=8}");
+        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=0.10000000, maximumAmount=null, priceScale=8]");
+    assertThat(marketMetaDataMap.get(BLEU_BTC_CP).toString())
+        .isEqualTo("CurrencyPairMetaData [tradingFee=0.0025, minimumAmount=1E-8, maximumAmount=null, priceScale=8]");
   }
 }

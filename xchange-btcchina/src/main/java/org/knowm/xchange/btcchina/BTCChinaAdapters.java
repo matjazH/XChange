@@ -5,6 +5,7 @@ import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,10 @@ import java.util.Map;
 import org.knowm.xchange.btcchina.dto.BTCChinaResponse;
 import org.knowm.xchange.btcchina.dto.BTCChinaValue;
 import org.knowm.xchange.btcchina.dto.account.BTCChinaAccountInfo;
+import org.knowm.xchange.btcchina.dto.account.BTCChinaDeposit;
+import org.knowm.xchange.btcchina.dto.account.BTCChinaWithdrawal;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetDepositsResponse;
+import org.knowm.xchange.btcchina.dto.account.response.BTCChinaGetWithdrawalsResponse;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaDepth;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTicker;
 import org.knowm.xchange.btcchina.dto.marketdata.BTCChinaTickerObject;
@@ -27,12 +32,16 @@ import org.knowm.xchange.dto.Order.OrderStatus;
 import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
+import org.knowm.xchange.dto.account.FundingRecord;
 import org.knowm.xchange.dto.account.Wallet;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.marketdata.Trades.TradeSortType;
+import org.knowm.xchange.dto.meta.CurrencyMetaData;
+import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
+import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
@@ -368,4 +377,42 @@ public final class BTCChinaAdapters {
 
   }
 
+  public static ExchangeMetaData adaptToExchangeMetaData(Map<String, BTCChinaTickerObject> products) {
+
+    Map<CurrencyPair, CurrencyPairMetaData> currencyPairs = new HashMap<>();
+    Map<Currency, CurrencyMetaData> currencies = new HashMap<>();
+
+    for (String product : products.keySet()) {
+      CurrencyPair pair = adaptCurrencyPair(product);
+      currencies.put(pair.base, null);
+      currencies.put(pair.counter, null);
+    }
+    return new ExchangeMetaData(currencyPairs, currencies, null, null, false);
+
+  }
+
+  public static List<FundingRecord> adaptFundingHistory(final BTCChinaGetDepositsResponse depositsResponse, final BTCChinaGetWithdrawalsResponse withdrawalsResponse){
+
+    final List<FundingRecord> fundingRecords = new ArrayList<FundingRecord>();
+
+    if (depositsResponse != null && depositsResponse.getResult() != null) {
+      final BTCChinaDeposit[] deposits = depositsResponse.getResult().getDeposits();
+      for (final BTCChinaDeposit deposit : deposits) {
+        FundingRecord fundingRecordEntry = new FundingRecord(deposit.getAddress(), adaptDate(deposit.getDate()), Currency.getInstance(deposit.getCurrency()),
+                deposit.getAmount(), String.valueOf(deposit.getId()), FundingRecord.Type.DEPOSIT, deposit.getStatus(), null, null, null);
+        fundingRecords.add(fundingRecordEntry);
+      }
+    }
+
+    if (withdrawalsResponse != null && withdrawalsResponse.getResult() != null) {
+      final BTCChinaWithdrawal[] withdrawals = withdrawalsResponse.getResult().getWithdrawals();
+      for (final BTCChinaWithdrawal withdrawal : withdrawals) {
+        FundingRecord fundingRecordEntry = new FundingRecord(withdrawal.getAddress(), adaptDate(withdrawal.getDate()), Currency.getInstance(withdrawal.getCurrency()),
+                withdrawal.getAmount(), String.valueOf(withdrawal.getId()), FundingRecord.Type.WITHDRAWAL, withdrawal.getStatus(), null, null, null);
+        fundingRecords.add(fundingRecordEntry);
+      }
+    }
+
+    return fundingRecords;
+  }
 }

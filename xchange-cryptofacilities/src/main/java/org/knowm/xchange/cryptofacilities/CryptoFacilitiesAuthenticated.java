@@ -15,6 +15,7 @@ import org.knowm.xchange.cryptofacilities.dto.account.CryptoFacilitiesAccount;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesCancel;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesFills;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenOrders;
+import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOpenPositions;
 import org.knowm.xchange.cryptofacilities.dto.marketdata.CryptoFacilitiesOrder;
 
 import si.mazi.rescu.ParamsDigest;
@@ -24,41 +25,45 @@ import si.mazi.rescu.SynchronizedValueFactory;
  * @author Jean-Christophe Laruelle
  */
 
-@Path("/api")
+@Path("/api/v2")
 @Produces(MediaType.APPLICATION_JSON)
 public interface CryptoFacilitiesAuthenticated extends CryptoFacilities {
 
   @POST
-  @Path("/v2/account")
+  @Path("/account")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public CryptoFacilitiesAccount account(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
-  @Path("/placeOrder")
+  @Path("/sendorder")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
-  public CryptoFacilitiesOrder placeOrder(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("type") String type, @QueryParam("tradeable") String tradeable,
-      @QueryParam("unit") String unit, @QueryParam("dir") String dir, @QueryParam("qty") BigDecimal qty, @QueryParam("price") BigDecimal price)
-      throws IOException;
+  public CryptoFacilitiesOrder sendOrder(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderType") String orderType, @QueryParam("symbol") String symbol,
+      @QueryParam("side") String side, @QueryParam("size") BigDecimal size, @QueryParam("limitPrice") BigDecimal limitPrice) throws IOException;
 
   @POST
-  @Path("/cancelOrder")
+  @Path("/cancelorder")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public CryptoFacilitiesCancel cancelOrder(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
-      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("uid") String uid, @QueryParam("tradeable") String tradeable,
-      @QueryParam("unit") String unit) throws IOException;
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("order_id") String order_id) throws IOException;
 
   @POST
-  @Path("/openOrders")
+  @Path("/openorders")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public CryptoFacilitiesOpenOrders openOrders(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
-  @Path("/v2/fills")
+  @Path("/fills")
   @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
   public CryptoFacilitiesFills fills(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
+      @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @POST
+  @Path("/openpositions")
+  @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
+  public CryptoFacilitiesOpenPositions openPositions(@HeaderParam("APIKey") String apiKey, @HeaderParam("Authent") ParamsDigest signer,
       @HeaderParam("Nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
 }

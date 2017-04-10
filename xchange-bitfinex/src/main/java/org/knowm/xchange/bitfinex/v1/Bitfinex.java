@@ -11,7 +11,11 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitfinex.v1.dto.BitfinexException;
-import org.knowm.xchange.bitfinex.v1.dto.marketdata.*;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexDepth;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLend;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexLendDepth;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTicker;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexTrade;
 
 @Path("v1")
 @Produces(MediaType.APPLICATION_JSON)
@@ -48,7 +52,4 @@ public interface Bitfinex {
   @Path("symbols")
   Set<String> getSymbols() throws IOException, BitfinexException;
 
-  @GET
-  @Path("symbols_details")
-  Set<BitfinexSymbolDetails> getSymbolsDetails() throws IOException, BitfinexException;
 }
