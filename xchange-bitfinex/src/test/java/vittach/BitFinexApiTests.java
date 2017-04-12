@@ -5,36 +5,39 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import java.util.Date;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.math.BigDecimal;
-
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeServiceRaw;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.service.trade.TradeService;
+import org.knowm.xchange.bitfinex.v1.BitfinexExchange;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.bitbay.BitbayExchange;
-import org.knowm.xchange.bitbay.dto.marketdata.MarketData;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.bitbay.service.BitbayMarketDataService;
+import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetails;
+import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
+
+import java.util.Collection;
+import java.util.Date;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.math.BigDecimal;
 
 /**
  * Created by developer on 27/03/17.
  */
-public class BitBayApiTests {
+public class BitFinexApiTests {
   private String result = "\n";
-  private String orderId = "68523801";
+  private String orderId = "2299766397";
 
   private Exchange anyExchangeInstance;
   private MarketDataService marketDataService;
@@ -44,18 +47,17 @@ public class BitBayApiTests {
   public void initializing() {
     currencyPairs = new ArrayList<>();
 
-    currencyPairs.add(CurrencyPair.BTC_USD);
-    currencyPairs.add(CurrencyPair.LTC_USD);
+    currencyPairs.add(CurrencyPair.LTC_BTC);
 
-    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(BitbayExchange.class);
+    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(BitfinexExchange.class);
 
-    exchangesSpecifics.setSslUri("https://bitbay.net/API");
+    exchangesSpecifics.setSslUri("https://api.bitfinex.com/");
     exchangesSpecifics.setUserName("tabtrader");
-    exchangesSpecifics.setApiKey("0a899d483147e466a6b61e0ff01ddc74");
-    exchangesSpecifics.setSecretKey("42439169f5179ba20ebeda928f4a7c65");
+    exchangesSpecifics.setApiKey("knnUKoO46Di3e9EQGx1rL9RM8w5r8sh1Z8839U4dmxB");
+    exchangesSpecifics.setSecretKey("zOwW0HbJBH7kze6J19Y9NQG0qJEiPqYsUONsYPXnBoB");
 
     anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
-    //anyExchangeInstance= ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
+    //anyExchangeInstance=ExchangeFactory.INSTANCE.createExchange(BitfinexExchange.class.getName());
     marketDataService = anyExchangeInstance.getMarketDataService();
   }
 
@@ -93,17 +95,17 @@ public class BitBayApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    /*
     CurrencyPair currencyPair = new CurrencyPair("LTC", "BTC");
     Order.OrderType orderType = Order.OrderType.BID;
     BigDecimal tradableAmount = new BigDecimal(0.1);
     BigDecimal limitPrice = new BigDecimal(0.001);
-    */
 
-    CurrencyPair currencyPair = new CurrencyPair("BTC", "LTC");
+    /*
+    CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
     Order.OrderType orderType = Order.OrderType.ASK;
-    BigDecimal tradableAmount = new BigDecimal(0.001);
-    BigDecimal limitPrice = new BigDecimal(10000);
+    BigDecimal tradableAmount = new BigDecimal(0.98);
+    BigDecimal limitPrice = new BigDecimal(0.0097);
+    */
 
     Date date = new Date();
     LimitOrder limitOrder;
@@ -179,18 +181,31 @@ public class BitBayApiTests {
   }
 
   @Test
-  public void getAllMarketData() throws IOException {
+  public void getOrderInfo() throws IOException {
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    result += " - AllMarketData \n";
-    for (CurrencyPair currencyPair : currencyPairs) {
-      MarketData allMarketData;
-      allMarketData=((BitbayMarketDataService)marketDataService).getAllMarketData(currencyPair);
-      result += allMarketData.toString() + "\n";
+    BitfinexOrderStatusResponse orderStatus;
+    TradeService marketDataService = anyExchangeInstance.getTradeService();
+    orderStatus = ((BitfinexTradeServiceRaw)marketDataService).getBitfinexOrderStatus(orderId);
+    result += " - getOrderInfo \n" + orderStatus + "\n";
+  }
+
+  @Test
+  public void getSymbolDetails() throws IOException {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
     }
+    Collection<BitfinexSymbolDetails> symbolsDetails;
+    symbolsDetails = ((BitfinexMarketDataServiceRaw) marketDataService).getSymbolsDetails();
+    ArrayList<BitfinexSymbolDetails> bitfinexSymbolDetails= new ArrayList<>(symbolsDetails);
+    result += " - getSymbolDetails \n";
+    for(BitfinexSymbolDetails obj: bitfinexSymbolDetails)
+      result += symbolsDetails.toString() + "\n";
     result += "\n";
   }
 
