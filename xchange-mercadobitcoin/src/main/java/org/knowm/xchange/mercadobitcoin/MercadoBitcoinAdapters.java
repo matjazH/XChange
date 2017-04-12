@@ -124,7 +124,7 @@ public final class MercadoBitcoinAdapters {
           String.valueOf(tradeId)));
     }
 
-    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByID);
+    return new Trades(trades, lastTradeId, Trades.TradeSortType.SortByTimestamp);
   }
 
   /**

@@ -1,0 +1,6 @@
+UnoCoin Exchange API specification
+==================================
+
+API Documentation
+----------------------------------
+https://www.unocoin.com/apidoc

@@ -34,7 +34,7 @@ public class CoinbaseBasePollingService extends BaseExchangeService implements B
 
     super(exchange);
 
-    coinbase = RestProxyFactory.createProxy(CoinbaseAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    coinbase = RestProxyFactory.createProxy(CoinbaseAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     signatureCreator = CoinbaseDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 

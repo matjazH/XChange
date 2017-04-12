@@ -26,7 +26,7 @@ public class CleverCoinMarketDataServiceRaw extends CleverCoinBasePollingService
   public CleverCoinMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.cleverCoin = RestProxyFactory.createProxy(CleverCoin.class, exchange.getExchangeSpecification().getSslUri());
+    this.cleverCoin = RestProxyFactory.createProxy(CleverCoin.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public CleverCoinTicker getCleverCoinTicker() throws IOException {

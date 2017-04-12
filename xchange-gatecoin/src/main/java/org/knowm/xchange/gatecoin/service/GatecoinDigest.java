@@ -3,10 +3,10 @@ package org.knowm.xchange.gatecoin.service;
 import javax.crypto.Mac;
 import javax.ws.rs.HeaderParam;
 
+import net.iharder.Base64;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
 
 public class GatecoinDigest extends BaseParamsDigest {
 

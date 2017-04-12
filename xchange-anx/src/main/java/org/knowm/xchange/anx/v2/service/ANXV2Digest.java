@@ -7,7 +7,7 @@ import javax.crypto.Mac;
 import org.knowm.xchange.service.BaseParamsDigest;
 
 import si.mazi.rescu.RestInvocation;
-import si.mazi.rescu.utils.Base64;
+import net.iharder.Base64;
 
 /**
  * @author Matija Mazi

@@ -8,6 +8,7 @@ import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
+import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdaptersV3;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
 
 /**
@@ -28,7 +29,7 @@ public class MercadoBitcoinAccountService extends MercadoBitcoinAccountServiceRa
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return MercadoBitcoinAdapters.adaptAccountInfo(getMercadoBitcoinAccountInfo(), exchange.getExchangeSpecification().getUserName());
+    return MercadoBitcoinAdaptersV3.adaptAccountInfo(getMercadoBitcoinAccountInfo());
   }
 
   @Override

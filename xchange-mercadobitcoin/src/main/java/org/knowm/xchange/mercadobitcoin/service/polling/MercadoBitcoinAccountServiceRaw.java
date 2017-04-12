@@ -7,6 +7,8 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAuthenticated;
 import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
 import org.knowm.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
+import org.knowm.xchange.mercadobitcoin.dto.v3.MercadoBitcoinBaseResponse;
+import org.knowm.xchange.mercadobitcoin.dto.v3.account.MercadoBitcoinAccount;
 import org.knowm.xchange.mercadobitcoin.service.MercadoBitcoinDigest;
 
 import si.mazi.rescu.RestProxyFactory;
@@ -16,7 +18,7 @@ import si.mazi.rescu.RestProxyFactory;
  */
 public class MercadoBitcoinAccountServiceRaw extends MercadoBitcoinBasePollingService {
 
-  private static final String GET_ACCOUNT_INFO = "getInfo";
+  private static final String GET_ACCOUNT_INFO = "get_account_info";
 
   private final MercadoBitcoinAuthenticated mercadoBitcoinAuthenticated;
 
@@ -30,24 +32,16 @@ public class MercadoBitcoinAccountServiceRaw extends MercadoBitcoinBasePollingSe
     super(exchange);
 
     this.mercadoBitcoinAuthenticated = RestProxyFactory.createProxy(MercadoBitcoinAuthenticated.class,
-        exchange.getExchangeSpecification().getSslUri());
+        exchange.getExchangeSpecification().getSslUri(),
+        createClientConfig(exchange.getExchangeSpecification()));
   }
 
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> getMercadoBitcoinAccountInfo() throws IOException {
+  public MercadoBitcoinAccount getMercadoBitcoinAccountInfo() throws IOException {
 
-    String method = GET_ACCOUNT_INFO;
-    long tonce = exchange.getNonceFactory().createValue();
+    MercadoBitcoinBaseResponse<MercadoBitcoinAccount> response = mercadoBitcoinAuthenticated.getInfo(
+        exchange.getExchangeSpecification().getApiKey(), signatureCreator, GET_ACCOUNT_INFO, exchange.getNonceFactory());
 
-    MercadoBitcoinDigest signatureCreator = MercadoBitcoinDigest.createInstance(method, exchange.getExchangeSpecification().getPassword(),
-        exchange.getExchangeSpecification().getSecretKey(), tonce);
-
-    MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> accountInfo = mercadoBitcoinAuthenticated
-        .getInfo(exchange.getExchangeSpecification().getApiKey(), signatureCreator, method, tonce);
-
-    if (accountInfo.getSuccess() == 0) {
-      throw new ExchangeException("Error getting account info: " + accountInfo.getError());
-    }
-
-    return accountInfo;
+    checkResponse(response);
+    return response.getResponseData();
   }
 }

@@ -28,7 +28,7 @@ public class CoinbaseExBasePollingService<T extends CoinbaseEx> extends BaseExch
   protected CoinbaseExBasePollingService(Class<T> type, Exchange exchange) {
 
     super(exchange);
-    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.digest = CoinbaseExDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();

@@ -78,6 +78,7 @@
 		<module>xchange-bitstamp</module>
 		<module>xchange-bittrex</module>
 		<module>xchange-huobi</module>
+		<module>xchange-bl3p</module>
 		<module>xchange-bleutrade</module>
 		<module>xchange-blockchain</module>
 		<module>xchange-btc38</module>
@@ -94,6 +95,7 @@
 		<module>xchange-clevercoin</module>
 		<module>xchange-coinbase</module>
 		<module>xchange-coinbaseex</module>
+		<module>xchange-coincheck</module>
 		<module>xchange-coinfloor</module>
 		<module>xchange-coinmate</module>
 		<module>xchange-coinsetter</module>
@@ -104,6 +106,7 @@
 		<module>xchange-cryptsy</module>
 		<module>xchange-empoex</module>
 		<module>xchange-examples</module>
+		<module>xchange-exmo</module>
 		<module>xchange-gatecoin</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-itbit</module>

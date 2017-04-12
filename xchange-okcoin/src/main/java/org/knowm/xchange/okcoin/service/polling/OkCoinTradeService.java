@@ -186,7 +186,12 @@ public class OkCoinTradeService extends OkCoinTradeServiceRaw implements Polling
   @Override
   public Collection<Order> getOrder(String... orderIds)
       throws ExchangeException, NotAvailableFromExchangeException, NotYetImplementedForExchangeException, IOException {
-    throw new NotYetImplementedForExchangeException();
+    List<CurrencyPair> exchangeSymbols = getExchangeSymbols();
+    CurrencyPair symbol = exchangeSymbols.get(0);
+    OkCoinOrderResult order = getOrder(Long.valueOf(orderIds[0]), OkCoinAdapters.adaptSymbol(symbol));
+    ArrayList<Order> orders = new ArrayList<>();
+    orders.add(order.getOrders()[0]);
+    return orders;
   }
 
 }

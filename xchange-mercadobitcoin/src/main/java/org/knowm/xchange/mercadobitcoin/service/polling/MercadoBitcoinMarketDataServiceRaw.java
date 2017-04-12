@@ -2,6 +2,8 @@ package org.knowm.xchange.mercadobitcoin.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.Currency;
@@ -30,7 +32,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBasePollin
   public MercadoBitcoinMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.mercadoBitcoin = RestProxyFactory.createProxy(MercadoBitcoin.class, exchange.getExchangeSpecification().getSslUri());
+    this.mercadoBitcoin = RestProxyFactory.createProxy(MercadoBitcoin.class, exchange.getExchangeSpecification().getSslUri(),
+        createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public MercadoBitcoinOrderBook getMercadoBitcoinOrderBook(CurrencyPair currencyPair) throws IOException {

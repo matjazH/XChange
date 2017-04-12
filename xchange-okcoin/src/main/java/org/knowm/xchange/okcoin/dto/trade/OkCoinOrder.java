@@ -1,11 +1,14 @@
 package org.knowm.xchange.okcoin.dto.trade;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.Order;
 
-public class OkCoinOrder {
+public class OkCoinOrder extends Order {
 
   private final long orderId;
 
@@ -28,6 +31,8 @@ public class OkCoinOrder {
       @JsonProperty("amount") final BigDecimal amount, @JsonProperty("deal_amount") final BigDecimal dealAmount,
       @JsonProperty("create_date") final Date createDate) {
 
+    super(type.equals("sell")? Order.OrderType.ASK: Order.OrderType.BID, amount,
+        new CurrencyPair(symbol.replace("_", "/")), String.valueOf(orderId), createDate);
     this.orderId = orderId;
     this.status = status;
     this.symbol = symbol;
@@ -43,7 +48,7 @@ public class OkCoinOrder {
     return orderId;
   }
 
-  public int getStatus() {
+  public int getMyStatus() {
 
     return status;
   }
@@ -53,7 +58,7 @@ public class OkCoinOrder {
     return symbol;
   }
 
-  public String getType() {
+  public String getMyType() {
 
     return type;
   }

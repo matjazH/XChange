@@ -3,8 +3,11 @@ package org.knowm.xchange.quoine;
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.quoine.dto.marketdata.QuoineProduct;
 import org.knowm.xchange.quoine.service.polling.QuoineAccountService;
 import org.knowm.xchange.quoine.service.polling.QuoineMarketDataService;
+import org.knowm.xchange.quoine.service.polling.QuoineMarketDataServiceRaw;
 import org.knowm.xchange.quoine.service.polling.QuoineTradeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
@@ -35,6 +38,21 @@ public class QuoineExchange extends BaseExchange implements Exchange {
     exchangeSpecification.setExchangeName("Quoine");
     exchangeSpecification.setExchangeSpecificParametersItem("Use_Margin", false);
     return exchangeSpecification;
+  }
+
+
+  @Override
+  public void remoteInit() {
+    try {
+      QuoineMarketDataServiceRaw marketDataServiceRaw = (QuoineMarketDataServiceRaw) pollingMarketDataService;
+      QuoineProduct[] quoineProducts = marketDataServiceRaw.getQuoineProducts();
+      for (QuoineProduct product : quoineProducts) {
+        CurrencyPair pair = new CurrencyPair(product.getBaseCurrency(), product.getQuotedCurrency());
+        QuoineUtils.CURRENCY_PAIR_2_ID_MAP.put(pair, product.getId());
+      }
+    } catch (Exception e) {
+      logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);
+    }
   }
 
   @Override

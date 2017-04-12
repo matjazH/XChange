@@ -44,7 +44,7 @@ public class QuoineBasePollingService extends BaseExchangeService implements Bas
 
     super(exchange);
 
-    quoine = RestProxyFactory.createProxy(QuoineAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    quoine = RestProxyFactory.createProxy(QuoineAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     userID = (String) exchange.getExchangeSpecification().getExchangeSpecificParameters().get(QuoineExchange.KEY_USER_ID);
     secret = exchange.getExchangeSpecification().getSecretKey();
     signatureCreator = QuoineHmacPostBodyDigest.createInstance(userID, secret);

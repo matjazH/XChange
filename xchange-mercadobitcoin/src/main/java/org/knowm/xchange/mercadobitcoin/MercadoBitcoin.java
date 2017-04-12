@@ -44,28 +44,28 @@ public interface MercadoBitcoin {
   public MercadoBitcoinTicker getTickerLTC() throws IOException;
 
   @GET
-  @Path("/v1/trades/")
+  @Path("/trades/")
   public MercadoBitcoinTransaction[] getTransactionsBTC() throws IOException;
 
   @GET
-  @Path("/v1/trades_litecoin/")
+  @Path("/trades_litecoin/")
   public MercadoBitcoinTransaction[] getTransactionsLTC() throws IOException;
 
   @GET
-  @Path("/v1/trades/{start_timestamp: [0-9]}/")
+  @Path("/trades/{start_timestamp: [0-9]}/")
   public MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp) throws IOException;
 
   @GET
-  @Path("/v1/trades_litecoin/{start_timestamp: [0-9]}/")
+  @Path("/trades_litecoin/{start_timestamp: [0-9]}/")
   public MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp) throws IOException;
 
   @GET
-  @Path("/v1/trades/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
+  @Path("/trades/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
   public MercadoBitcoinTransaction[] getTransactionsBTC(@PathParam("start_timestamp") Long startTimestamp,
       @PathParam("end_timestamp") Long endTimestamp) throws IOException;
 
   @GET
-  @Path("/v1/trades_litecoin/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
+  @Path("/trades_litecoin/{start_timestamp: [0-9]}/{end_timestamp: [0-9]}/")
   public MercadoBitcoinTransaction[] getTransactionsLTC(@PathParam("start_timestamp") Long startTimestamp,
       @PathParam("end_timestamp") Long endTimestamp) throws IOException;
 }

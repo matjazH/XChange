@@ -225,7 +225,7 @@ public final class OkCoinAdapters {
 
   private static LimitOrder adaptOpenOrder(OkCoinOrder order) {
 
-    return new LimitOrder(adaptOrderType(order.getType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
+    return new LimitOrder(adaptOrderType(order.getMyType()), order.getAmount(), adaptSymbol(order.getSymbol()), String.valueOf(order.getOrderId()),
         order.getCreateDate(), order.getPrice());
   }
 
@@ -281,7 +281,7 @@ public final class OkCoinAdapters {
 
   private static UserTrade adaptTrade(OkCoinOrder order) {
 
-    return new UserTrade(adaptOrderType(order.getType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
+    return new UserTrade(adaptOrderType(order.getMyType()), order.getDealAmount(), adaptSymbol(order.getSymbol()), order.getPrice(),
         order.getCreateDate(), null, String.valueOf(order.getOrderId()), null, (Currency) null);
   }
 
@@ -296,7 +296,7 @@ public final class OkCoinAdapters {
     List<UserTrade> trades = new ArrayList<UserTrade>();
     long lastTradeId = 0;
     for (OkCoinFuturesTradeHistoryResult okCoinFuturesTrade : okCoinFuturesTradeHistoryResult) {
-      //  if (okCoinFuturesTrade.getType().equals(OkCoinFuturesTradeHistoryResult.TransactionType.)) { // skip account deposits and withdrawals.
+      //  if (okCoinFuturesTrade.getMyType().equals(OkCoinFuturesTradeHistoryResult.TransactionType.)) { // skip account deposits and withdrawals.
       OrderType orderType = okCoinFuturesTrade.getType().equals(TransactionType.sell) ? OrderType.ASK : OrderType.BID;
       BigDecimal tradableAmount = BigDecimal.valueOf(okCoinFuturesTrade.getAmount());
       BigDecimal price = okCoinFuturesTrade.getPrice();

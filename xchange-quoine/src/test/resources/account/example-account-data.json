@@ -9,8 +9,7 @@
          "pusher_channel":"user_59_account_btc",
          "btc_minimum_withdraw":0.02,
          "lowest_offer_interest_rate":"0.00029",
-         "highest_offer_interest_rate":"0.05000",
-         "free_balance":2.63499784
+         "highest_offer_interest_rate":"0.05000"
       }
    ],
    "fiat_accounts":[
@@ -23,7 +22,6 @@
          "pusher_channel":"user_59_account_sgd",
          "lowest_offer_interest_rate":"0.00045",
          "highest_offer_interest_rate":"0.00050",
-         "free_balance":242.33394,
          "bank":{
             "name":"Standard Chartered Bank",
             "branch":"001",
@@ -50,7 +48,6 @@
          "pusher_channel":"user_59_account_jpy",
          "lowest_offer_interest_rate":"0.00005",
          "highest_offer_interest_rate":"0.00020",
-         "free_balance":12546.36144,
          "bank":{
             "name":"\u30b8\u30e3\u30d1\u30f3\u30cd\u30c3\u30c8\u30d0\u30f3\u30af",
             "branch":"\u3059\u305a\u3081\u652f\u5e97 002",
@@ -77,7 +74,6 @@
          "pusher_channel":"user_59_account_idr",
          "lowest_offer_interest_rate":"0.00033",
          "highest_offer_interest_rate":"0.00050",
-         "free_balance":2679672.96057,
          "bank":{
             "name":"BCA",
             "branch":"Menara Mulia",
@@ -104,7 +100,6 @@
          "pusher_channel":"user_59_account_eur",
          "lowest_offer_interest_rate":"0.00050",
          "highest_offer_interest_rate":"0.20000",
-         "free_balance":0.0,
          "bank":{
             "name":"Standard Chartered Bank",
             "branch":"001",
@@ -131,7 +126,6 @@
          "pusher_channel":"user_59_account_usd",
          "lowest_offer_interest_rate":"0.00005",
          "highest_offer_interest_rate":"0.00020",
-         "free_balance":440.84955,
          "bank":{
             "name":"Standard Chartered Bank",
             "branch":"001",

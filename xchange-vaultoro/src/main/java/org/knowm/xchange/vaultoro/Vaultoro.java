@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 
@@ -27,8 +28,8 @@ public interface Vaultoro {
   VaultoroOrderBookResponse getVaultoroOrderBook() throws IOException, VaultoroException;
 
   @GET
-  @Path("transactions/month")
-  List<VaultoroTrade> getVaultoroTrades(String time) throws IOException, VaultoroException;
+  @Path("transactions/{time}")
+  List<VaultoroTrade> getVaultoroTrades(@PathParam("time") String time) throws IOException, VaultoroException;
 
   @GET
   @Path("markets")
