@@ -4,6 +4,9 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.bitbay.BitbayAdapters;
+import org.knowm.xchange.bitbay.dto.marketdata.BitbayMarketAll;
+import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
+import org.knowm.xchange.bitbay.dto.marketdata.MarketData;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.marketdata.Ticker;
@@ -41,5 +44,19 @@ public class BitbayMarketDataService extends BitbayMarketDataServiceRaw implemen
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
     return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair, args), currencyPair);
+  }
+
+  public MarketData getAllMarketData(CurrencyPair currencyPair) throws IOException {
+
+    BitbayMarketAll marketData = getBitbatAllMarketData(currencyPair);
+
+    Ticker ticker = BitbayAdapters.adaptTicker(marketData, currencyPair);
+
+    BitbayOrderBook bitbayOrderBook = new BitbayOrderBook(marketData.getAsks(), marketData.getBids());
+    OrderBook orderBook = BitbayAdapters.adaptOrderBook(bitbayOrderBook, currencyPair);
+
+    Trades trades = BitbayAdapters.adaptTrades(marketData.getTrades(), currencyPair);
+
+    return new MarketData(ticker, orderBook, trades);
   }
 }

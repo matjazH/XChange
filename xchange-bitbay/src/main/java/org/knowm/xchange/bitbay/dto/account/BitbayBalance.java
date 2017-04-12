@@ -1,4 +1,4 @@
-package org.knowm.xchange.bitbay.dto.acount;
+package org.knowm.xchange.bitbay.dto.account;
 
 import java.math.BigDecimal;
 
@@ -24,7 +24,15 @@ public class BitbayBalance {
     return available;
   }
 
-  public BigDecimal getLocked() {
-    return locked;
-  }
+    public BigDecimal getLocked() {
+        return locked;
+    }
+
+    @Override
+    public String toString() {
+        return "BitbayBalance{" +
+                "available=" + available +
+                ", locked=" + locked +
+                '}';
+    }
 }

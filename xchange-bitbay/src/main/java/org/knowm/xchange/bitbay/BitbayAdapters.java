@@ -9,8 +9,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
-import org.knowm.xchange.bitbay.dto.acount.BitbayBalance;
+import org.knowm.xchange.bitbay.dto.account.BitbayAccountInfoResponse;
+import org.knowm.xchange.bitbay.dto.account.BitbayBalance;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;

@@ -5,6 +5,7 @@ import java.io.IOException;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
+import org.knowm.xchange.bitbay.dto.marketdata.BitbayMarketAll;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
@@ -31,4 +32,8 @@ public interface Bitbay {
   @GET
   @Path("{currencyPair}/trades.json")
   public BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("since") long sinceId) throws IOException;
+
+  @GET
+  @Path("{currencyPair}/all.json")
+  public BitbayMarketAll getAll(@PathParam("currencyPair") String currencyPair) throws IOException;
 }

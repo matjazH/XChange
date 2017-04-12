@@ -21,7 +21,7 @@ public class BitbayExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://bitbay.net/API/");
+    exchangeSpecification.setSslUri("https://bitbay.net/API");
     exchangeSpecification.setHost("bitbay.net");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Bitbay");

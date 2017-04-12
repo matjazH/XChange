@@ -26,8 +26,8 @@ public class BitbayBaseService extends BaseExchangeService implements BaseServic
   BitbayBaseService(Exchange exchange) {
     super(exchange);
 
-    bitbay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri());
-    bitbayAuthenticated = RestProxyFactory.createProxy(BitbayAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    bitbay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
+    bitbayAuthenticated = RestProxyFactory.createProxy(BitbayAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     sign = BitbayDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     apiKey = exchange.getExchangeSpecification().getApiKey();
   }

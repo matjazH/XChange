@@ -52,7 +52,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Produces(MediaType.APPLICATION_JSON)
 public interface CoinmateAuthenticated extends Coinmate {
 
-  // acount info
+  // account info
   @POST
   @Path("balances")
   public CoinmateBalance getBalances(@FormParam("publicKey") String publicKey, @FormParam("clientId") String clientId,

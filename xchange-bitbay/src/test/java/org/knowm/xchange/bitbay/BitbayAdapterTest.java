@@ -7,7 +7,7 @@ import java.io.InputStream;
 import java.util.List;
 
 import org.junit.Test;
-import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
+import org.knowm.xchange.bitbay.dto.account.BitbayAccountInfoResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;

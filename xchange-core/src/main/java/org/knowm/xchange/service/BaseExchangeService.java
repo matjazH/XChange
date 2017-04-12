@@ -1,13 +1,19 @@
 package org.knowm.xchange.service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.CurrencyPairMetaData;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
+import si.mazi.rescu.ClientConfig;
 
 /**
  * Top of the hierarchy abstract class for an "exchange service"
@@ -64,4 +70,10 @@ public abstract class BaseExchangeService {
     }
   }
 
+  protected ClientConfig createClientConfig(ExchangeSpecification exchangeSpecification) {
+    ClientConfig config = new ClientConfig();
+    config.setProxyHost(exchangeSpecification.getProxyHost());
+    config.setProxyPort(exchangeSpecification.getProxyPort());
+    return config;
+  }
 }

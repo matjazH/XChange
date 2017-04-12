@@ -3,6 +3,7 @@ package org.knowm.xchange.bitbay.service;
 import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bitbay.dto.marketdata.BitbayMarketAll;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayOrderBook;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTicker;
 import org.knowm.xchange.bitbay.dto.marketdata.BitbayTrade;
@@ -41,4 +42,8 @@ public class BitbayMarketDataServiceRaw extends BitbayBaseService {
     return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString(), since);
   }
 
+  public BitbayMarketAll getBitbatAllMarketData(CurrencyPair currencyPair) throws IOException {
+
+    return bitbay.getAll(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
+  }
 }

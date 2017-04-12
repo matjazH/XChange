@@ -7,7 +7,7 @@ import java.util.List;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 
-import org.knowm.xchange.bitbay.dto.acount.BitbayAccountInfoResponse;
+import org.knowm.xchange.bitbay.dto.account.BitbayAccountInfoResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayCancelResponse;
 import org.knowm.xchange.bitbay.dto.trade.BitbayOrder;
 import org.knowm.xchange.bitbay.dto.trade.BitbayTradeResponse;
@@ -29,7 +29,8 @@ public interface BitbayAuthenticated {
   @POST
   @FormParam("method")
   BitbayAccountInfoResponse info(@HeaderParam("API-Key") String apiKey, @HeaderParam("API-Hash") ParamsDigest sign,
-                                 @FormParam("moment") SynchronizedValueFactory<Long> timestamp) throws IOException;
+                                 @FormParam("moment") SynchronizedValueFactory<Long> timestamp, @FormParam("currency") String currency)
+      throws IOException;
 
   /**
    * trade - places offer at the stock market
