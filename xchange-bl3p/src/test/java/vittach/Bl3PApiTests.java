@@ -5,36 +5,36 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import java.util.Date;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.math.BigDecimal;
-
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.ExchangeFactory;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.bl3p.Bl3p;
+import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.bl3p.Bl3pExchange;
 import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.ExchangeSpecification;
-import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.account.AccountInfo;
+import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.bitbay.BitbayExchange;
-import org.knowm.xchange.dto.account.AccountInfo;
-import org.knowm.xchange.bitbay.dto.marketdata.MarketData;
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.bitbay.service.BitbayMarketDataService;
+
+import java.math.BigDecimal;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
 
 /**
  * Created by developer on 27/03/17.
  */
-public class BitBayApiTests {
+public class Bl3PApiTests {
   private String result = "\n";
-  private String orderId = "68523801";
+  private String orderId = "10346570";
 
   private Exchange anyExchangeInstance;
   private MarketDataService marketDataService;
@@ -44,18 +44,17 @@ public class BitBayApiTests {
   public void initializing() {
     currencyPairs = new ArrayList<>();
 
-    currencyPairs.add(CurrencyPair.BTC_USD);
-    currencyPairs.add(CurrencyPair.LTC_USD);
+    currencyPairs.add(CurrencyPair.BTC_EUR);
 
-    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(BitbayExchange.class);
+    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(Bl3pExchange.class);
 
-    exchangesSpecifics.setSslUri("https://bitbay.net/API");
+    exchangesSpecifics.setSslUri("https://api.bl3p.eu");
     exchangesSpecifics.setUserName("tabtrader");
-    exchangesSpecifics.setApiKey("0a899d483147e466a6b61e0ff01ddc74");
-    exchangesSpecifics.setSecretKey("42439169f5179ba20ebeda928f4a7c65");
+    exchangesSpecifics.setApiKey("1ff4b751-7f40-4874-b792-82b18d01d774");
+    exchangesSpecifics.setSecretKey("0oVIrDbrPOCrZn7Xv9Yw9eX3aOskAZw7EsLyNW+3Ghipr31VEHFDFZvpo5FXJAKAmOuNeF5JT5OSttU+aGc9eg==");
 
     anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
-    //anyExchangeInstance= ExchangeFactory.INSTANCE.createExchange(BitbayExchange.class.getName());
+    //anyExchangeInstance=ExchangeFactory.INSTANCE.createExchange(Bl3pExchange.class.getName());
     marketDataService = anyExchangeInstance.getMarketDataService();
   }
 
@@ -94,13 +93,13 @@ public class BitBayApiTests {
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
     /*
-    CurrencyPair currencyPair = new CurrencyPair("LTC", "BTC");
+    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
     Order.OrderType orderType = Order.OrderType.BID;
-    BigDecimal tradableAmount = new BigDecimal(0.1);
-    BigDecimal limitPrice = new BigDecimal(0.001);
+    BigDecimal tradableAmount = new BigDecimal(0.0005);
+    BigDecimal limitPrice = new BigDecimal(0.01);
     */
 
-    CurrencyPair currencyPair = new CurrencyPair("BTC", "LTC");
+    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
     Order.OrderType orderType = Order.OrderType.ASK;
     BigDecimal tradableAmount = new BigDecimal(0.001);
     BigDecimal limitPrice = new BigDecimal(10000);
@@ -176,22 +175,6 @@ public class BitBayApiTests {
       OrderBook orderBook = marketDataService.getOrderBook(currencyPair);
       result += currencyPair.toString() + " - getPublicOrders \n" + orderBook.toString() + "\n";
     }
-  }
-
-  @Test
-  public void getAllMarketData() throws IOException {
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    result += " - AllMarketData \n";
-    for (CurrencyPair currencyPair : currencyPairs) {
-      MarketData allMarketData;
-      allMarketData=((BitbayMarketDataService)marketDataService).getAllMarketData(currencyPair);
-      result += allMarketData.toString() + "\n";
-    }
-    result += "\n";
   }
 
   @After

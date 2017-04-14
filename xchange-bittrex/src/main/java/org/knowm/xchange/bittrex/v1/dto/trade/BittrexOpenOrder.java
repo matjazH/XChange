@@ -272,4 +272,27 @@ public class BittrexOpenOrder {
     this.additionalProperties.put(name, value);
   }
 
+  @Override
+  public String toString() {
+    return "BittrexOrder{" +
+        "uuid=" + uuid +
+        ", orderUuid='" + orderUuid + '\'' +
+        ", exchange='" + exchange + '\'' +
+        ", orderType='" + orderType + '\'' +
+        ", quantity=" + quantity +
+        ", quantityRemaining=" + quantityRemaining +
+        ", limit=" + limit +
+        ", commissionPaid=" + commissionPaid +
+        ", price=" + price +
+        ", pricePerUnit=" + pricePerUnit +
+        ", opened='" + opened + '\'' +
+        ", closed=" + closed +
+        ", cancelInitiated=" + cancelInitiated +
+        ", immediateOrCancel=" + immediateOrCancel +
+        ", isConditional=" + isConditional +
+        ", condition=" + condition +
+        ", conditionTarget=" + conditionTarget +
+        ", additionalProperties=" + additionalProperties +
+        '}';
+  }
 }

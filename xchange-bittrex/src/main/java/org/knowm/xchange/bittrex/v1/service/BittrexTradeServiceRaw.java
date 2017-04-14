@@ -95,6 +95,10 @@ public class BittrexTradeServiceRaw extends BittrexBaseService {
 
   }
 
+  public BittrexOpenOrder getBittrexOrder(String uuid) throws IOException {
+    return bittrexAuthenticated.getorder(apiKey, signatureCreator, exchange.getNonceFactory(), uuid);
+  }
+
   public List<BittrexOpenOrder> getBittrexOpenOrders() throws IOException {
 
     BittrexOpenOrdersResponse response = bittrexAuthenticated.openorders(apiKey, signatureCreator, exchange.getNonceFactory());

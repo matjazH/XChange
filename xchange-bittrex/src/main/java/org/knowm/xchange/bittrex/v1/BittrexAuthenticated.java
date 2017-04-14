@@ -15,10 +15,7 @@ import org.knowm.xchange.bittrex.v1.dto.account.BittrexDepositAddressResponse;
 import org.knowm.xchange.bittrex.v1.dto.account.BittrexDepositsHistoryResponse;
 import org.knowm.xchange.bittrex.v1.dto.account.BittrexWithdrawResponse;
 import org.knowm.xchange.bittrex.v1.dto.account.BittrexWithdrawalsHistoryResponse;
-import org.knowm.xchange.bittrex.v1.dto.trade.BittrexCancelOrderResponse;
-import org.knowm.xchange.bittrex.v1.dto.trade.BittrexOpenOrdersResponse;
-import org.knowm.xchange.bittrex.v1.dto.trade.BittrexTradeHistoryResponse;
-import org.knowm.xchange.bittrex.v1.dto.trade.BittrexTradeResponse;
+import org.knowm.xchange.bittrex.v1.dto.trade.*;
 
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -71,6 +68,11 @@ public interface BittrexAuthenticated extends Bittrex {
   @Path("market/getopenorders")
   BittrexOpenOrdersResponse openorders(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
+
+  @GET
+  @Path("account/getorder")
+  BittrexOpenOrder getorder(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+                              @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("uuid") String uuid) throws IOException;
 
   @GET
   @Path("account/getorderhistory")

@@ -5,9 +5,15 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
 
-import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import java.util.Date;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.util.Collection;
+
 import org.knowm.xchange.bitfinex.v1.service.BitfinexTradeServiceRaw;
+import org.knowm.xchange.bitfinex.v1.dto.trade.BitfinexOrderStatusResponse;
+import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -25,12 +31,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.service.marketdata.MarketDataService;
 import org.knowm.xchange.bitfinex.v1.dto.marketdata.BitfinexSymbolDetails;
 import org.knowm.xchange.bitfinex.v1.service.BitfinexMarketDataServiceRaw;
-
-import java.util.Collection;
-import java.util.Date;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.math.BigDecimal;
 
 /**
  * Created by developer on 27/03/17.
@@ -101,7 +101,7 @@ public class BitFinexApiTests {
     BigDecimal limitPrice = new BigDecimal(0.001);
 
     /*
-    CurrencyPair currencyPair = CurrencyPair.LTC_BTC;
+    CurrencyPair currencyPair = CurrencyPair.BTC_LTC;
     Order.OrderType orderType = Order.OrderType.ASK;
     BigDecimal tradableAmount = new BigDecimal(0.98);
     BigDecimal limitPrice = new BigDecimal(0.0097);
