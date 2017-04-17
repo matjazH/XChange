@@ -1,14 +1,16 @@
 package org.knowm.xchange.cexio.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.cexio.CexIO;
-import org.knowm.xchange.cexio.dto.marketdata.CexIODepth;
-import org.knowm.xchange.cexio.dto.marketdata.CexIOTicker;
-import org.knowm.xchange.cexio.dto.marketdata.CexIOTrade;
+import org.knowm.xchange.cexio.dto.CexIOResponse;
+import org.knowm.xchange.cexio.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 
+import org.knowm.xchange.exceptions.ExchangeException;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -27,7 +29,7 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
 
     super(exchange);
 
-    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri());
+    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {
@@ -56,5 +58,14 @@ public class CexIOMarketDataServiceRaw extends CexIOBaseService {
 
     return trades;
   }
+
+  public ArrayList<CexIOCurrency> getCexIOCurrencies() throws IOException {
+    CexIOResponse<CexIOPairs> response = cexio.getCurrencyBoundaries();
+    if ("ok".equals(response.getOk())) {
+      return new ArrayList<CexIOCurrency>(response.getData().getPairs());
+    }
+    throw new ExchangeException("CexIO response error");
+  }
+
 
 }

@@ -32,7 +32,7 @@ public class Bl3pTradeServiceRaw extends Bl3pBasePollingService {
   protected Bl3pTradeServiceRaw(Exchange exchange) {
     super(exchange);
 
-    this.bl3pAuthenticated = RestProxyFactory.createProxy(Bl3pAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.bl3pAuthenticated = RestProxyFactory.createProxy(Bl3pAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.signatureCreator = Bl3pDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
   }

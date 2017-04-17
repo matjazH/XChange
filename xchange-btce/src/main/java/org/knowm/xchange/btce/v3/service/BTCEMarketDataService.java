@@ -89,7 +89,7 @@ public class BTCEMarketDataService extends BTCEMarketDataServiceRaw implements M
     String pairs = BTCEAdapters.getPair(currencyPair);
     int numberOfItems = -1;
     try {
-      numberOfItems = (Integer) args[0];
+      numberOfItems = ((Long) args[0]).intValue();
     } catch (ArrayIndexOutOfBoundsException e) {
       // ignore, can happen if no arg given.
     }

@@ -60,8 +60,7 @@ public class BTCETradeServiceRaw extends BTCEBaseService {
   public BTCEPlaceOrderResult placeBTCEOrder(BTCEOrder order) throws IOException {
 
     String pair = order.getPair().toLowerCase();
-    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), pair, order.getType(), order.getRate(),
-        order.getAmount());
+    BTCEPlaceOrderReturn ret = btce.Trade(apiKey, signatureCreator, exchange.getNonceFactory(), pair, order.getType(), order.getRate(), order.getAmount());
     checkResult(ret);
     return ret.getReturnValue();
   }
@@ -130,6 +129,12 @@ public class BTCETradeServiceRaw extends BTCEBaseService {
 
     checkResult(btceTransHistory);
     return btceTransHistory.getReturnValue();
+  }
+
+  public BTCEOrder getOrder(String orderId) {
+    BTCEOpenOrdersReturn btceOpenOrdersReturn = btce.OrderInfo(apiKey, signatureCreator, exchange.getNonceFactory(), Long.valueOf(orderId));
+    Map<Long, BTCEOrder> returnValue = btceOpenOrdersReturn.getReturnValue();
+    return returnValue.get(Long.valueOf(orderId));
   }
 
 }

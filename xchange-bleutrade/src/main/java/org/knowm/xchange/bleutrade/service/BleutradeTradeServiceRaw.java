@@ -87,4 +87,8 @@ public class BleutradeTradeServiceRaw extends BleutradeBaseService {
     }
   }
 
+  public BleutradeOpenOrder getOrder(String orderId) throws IOException {
+    return bleutrade.getOrder(apiKey, signatureCreator, exchange.getNonceFactory(), orderId);
+  }
+
 }

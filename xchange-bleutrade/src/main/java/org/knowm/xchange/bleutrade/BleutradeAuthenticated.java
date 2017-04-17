@@ -13,6 +13,7 @@ import org.knowm.xchange.bleutrade.dto.account.BleutradeBalanceReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeBalancesReturn;
 import org.knowm.xchange.bleutrade.dto.account.BleutradeDepositAddressReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeCancelOrderReturn;
+import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrder;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradeOpenOrdersReturn;
 import org.knowm.xchange.bleutrade.dto.trade.BleutradePlaceOrderReturn;
 
@@ -59,5 +60,10 @@ public interface BleutradeAuthenticated extends Bleutrade {
   @Path("market/getopenorders")
   BleutradeOpenOrdersReturn getOrders(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException, BleutradeException;
+
+  @GET
+  @Path("account/getorder")
+  BleutradeOpenOrder getOrder(@QueryParam("apikey") String apiKey, @HeaderParam("apisign") ParamsDigest signature,
+      @QueryParam("nonce") SynchronizedValueFactory<Long> nonce, @QueryParam("orderid") String orderid) throws IOException, BleutradeException;
 
 }

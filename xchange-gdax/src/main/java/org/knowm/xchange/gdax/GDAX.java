@@ -38,7 +38,7 @@ public interface GDAX {
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/ticker")
-  GDAXProductTicker getProductTicker(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency)
+  GDAXProductTicker getProductTicker(@PathParam("baseCurrency") String baseCurrency,@PathParam("targetCurrency")String targetCurrency)
       throws IOException;
 
   @GET
@@ -48,7 +48,7 @@ public interface GDAX {
 
   @GET
   @Path("products/{baseCurrency}-{targetCurrency}/book?level={level}")
-  GDAXProductBook getProductOrderBook(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String targetCurrency,
+  GDAXProductBook getProductOrderBook(@PathParam("baseCurrency")String baseCurrency,@PathParam("targetCurrency")String targetCurrency,
       @PathParam("level") String level) throws IOException;
 
   @GET
@@ -87,6 +87,11 @@ public interface GDAX {
   @Produces(MediaType.TEXT_PLAIN)
   @Consumes(MediaType.TEXT_PLAIN)
   void cancelOrder(@PathParam("id") String id, @HeaderParam("CB-ACCESS-KEY") String apiKey, @HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
+      @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
+
+  @GET
+  @Path("orders/{id}")
+  GDAXOrder getOrder(@PathParam("id") String id,@HeaderParam("CB-ACCESS-KEY") String apiKey,@HeaderParam("CB-ACCESS-SIGN") ParamsDigest signer,
       @HeaderParam("CB-ACCESS-TIMESTAMP") String timestamp, @HeaderParam("CB-ACCESS-PASSPHRASE") String passphrase);
 
   @GET

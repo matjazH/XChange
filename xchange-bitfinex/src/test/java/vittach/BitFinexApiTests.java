@@ -203,9 +203,9 @@ public class BitFinexApiTests {
     Collection<BitfinexSymbolDetails> symbolsDetails;
     symbolsDetails = ((BitfinexMarketDataServiceRaw) marketDataService).getSymbolsDetails();
     ArrayList<BitfinexSymbolDetails> bitfinexSymbolDetails= new ArrayList<>(symbolsDetails);
-    result += " - getSymbolDetails \n";
+    result += " - getSymbolDetail \n";
     for(BitfinexSymbolDetails obj: bitfinexSymbolDetails)
-      result += symbolsDetails.toString() + "\n";
+      result += obj.toString() + "\n";
     result += "\n";
   }
 

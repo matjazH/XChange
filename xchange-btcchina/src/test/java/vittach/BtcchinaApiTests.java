@@ -1,23 +1,11 @@
 package vittach;
 
-import org.junit.Test;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Ignore;
-
-import java.util.Arrays;
-import java.util.Date;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.math.BigDecimal;
-import java.util.Collection;
-
+import org.junit.Test;
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bittrex.v1.BittrexExchange;
-import org.knowm.xchange.bittrex.v1.dto.marketdata.BittrexCurrency;
-import org.knowm.xchange.bittrex.v1.dto.trade.BittrexOpenOrder;
-import org.knowm.xchange.bittrex.v1.service.BittrexMarketDataServiceRaw;
-import org.knowm.xchange.bittrex.v1.service.BittrexTradeServiceRaw;
+import org.knowm.xchange.btcchina.service.rest.BTCChinaMarketDataServiceRaw;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.ExchangeFactory;
 import org.knowm.xchange.currency.Currency;
@@ -25,20 +13,26 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.btcchina.BTCChinaExchange;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.account.AccountService;
+import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.currency.CurrencyPair;
-import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.service.marketdata.MarketDataService;
+
+import java.math.BigDecimal;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by developer on 27/03/17.
  */
-public class BitTrexApiTests {
+public class BtcchinaApiTests {
   private String result = "\n";
-  private String orderId = "9c4fc44d-aa0e-4a20-a828-81f49bd228cd";
+  private String orderId = "10346570";
 
   private Exchange anyExchangeInstance;
   private MarketDataService marketDataService;
@@ -48,23 +42,24 @@ public class BitTrexApiTests {
   public void initializing() {
     currencyPairs = new ArrayList<>();
 
-    currencyPairs.add(CurrencyPair.LTC_BTC);
-    currencyPairs.add(new CurrencyPair("BTC", "USDT"));
-    currencyPairs.add(new CurrencyPair("DASH", "BTC"));
+    currencyPairs.add(new CurrencyPair("LTC", "BTC"));
+    currencyPairs.add(new CurrencyPair("LTC", "CNY"));
+    currencyPairs.add(new CurrencyPair("BTC", "CNY"));
 
-    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(BittrexExchange.class);
+    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(BTCChinaExchange.class);
 
-    exchangesSpecifics.setSslUri("https://bittrex.com/api/");
+    exchangesSpecifics.setSslUri("https://api.btcchina.com");
     exchangesSpecifics.setUserName("tabtrader");
-    exchangesSpecifics.setApiKey("64d3acf0afa74eff8bbcadbc4fbb28f2");
-    exchangesSpecifics.setSecretKey("614859b0e6324b0999233a1c00e70efe");
+    exchangesSpecifics.setApiKey("b84c44ef61635b29b7f4a6b69062152a");
+    exchangesSpecifics.setSecretKey("0f8af1f5dbf9ecd9dbb84f476eeba463e8462f9a");
 
-    anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
-    //anyExchangeInstance=ExchangeFactory.INSTANCE.createExchange(BittrexExchange.class.getName());
+    //anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
+    anyExchangeInstance=ExchangeFactory.INSTANCE.createExchange(BTCChinaExchange.class.getName());
     marketDataService = anyExchangeInstance.getMarketDataService();
   }
 
   @Test
+  @Ignore
   public void getActiveOrders() throws IOException {
     try {
       Thread.sleep(1000);
@@ -91,7 +86,7 @@ public class BitTrexApiTests {
 
   @Test
   @Ignore
-  public void placeLimitOrder() throws IOException {
+  public void placeSelLimitOrder() throws IOException {
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
@@ -99,16 +94,16 @@ public class BitTrexApiTests {
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
     /*
-    CurrencyPair currencyPair = new CurrencyPair("LTC", "BTC");
+    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
     Order.OrderType orderType = Order.OrderType.BID;
-    BigDecimal tradableAmount = new BigDecimal(1);
-    BigDecimal limitPrice = new BigDecimal(0.001);
+    BigDecimal tradableAmount = new BigDecimal(0.0005);
+    BigDecimal limitPrice = new BigDecimal(0.01);
     */
 
-    CurrencyPair currencyPair = new CurrencyPair("BTC", "USDT");
+    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
     Order.OrderType orderType = Order.OrderType.ASK;
     BigDecimal tradableAmount = new BigDecimal(0.001);
-    BigDecimal limitPrice = new BigDecimal(2000);
+    BigDecimal limitPrice = new BigDecimal(10000);
 
     Date date = new Date();
     LimitOrder limitOrder;
@@ -119,6 +114,29 @@ public class BitTrexApiTests {
   }
 
   @Test
+  @Ignore
+  public void placeBuyLimitOrder() throws IOException {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    TradeService marketDataService = anyExchangeInstance.getTradeService();
+    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
+    Order.OrderType orderType = Order.OrderType.BID;
+    BigDecimal tradableAmount = new BigDecimal(0.0005);
+    BigDecimal limitPrice = new BigDecimal(0.01);
+
+    Date date = new Date();
+    LimitOrder limitOrder;
+    limitOrder = new LimitOrder(orderType, tradableAmount, currencyPair, "", date, limitPrice);
+
+    orderId = marketDataService.placeLimitOrder(limitOrder);
+    result += " - placeLimitOrder \n" + orderId + "\n";
+  }
+
+  @Test
+  @Ignore
   public void getDepositAddress() throws IOException {
     try {
       Thread.sleep(1000);
@@ -131,6 +149,7 @@ public class BitTrexApiTests {
   }
 
   @Test
+  @Ignore
   public void getBalanceInfo() throws IOException {
     try {
       Thread.sleep(1000);
@@ -184,21 +203,18 @@ public class BitTrexApiTests {
   }
 
   @Test
-  public void getPublicCurrencies() throws IOException {
-    BittrexCurrency[] currencies = ((BittrexMarketDataServiceRaw) marketDataService).getBittrexCurrencies();
-    result += " - getPublicCurrencies \n" + Arrays.toString(currencies) + "\n";
-  }
-
-  @Test
-  public void getOrderInfo() throws IOException {
+  public void getSymbolDetails() throws IOException {
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    TradeService marketDataService = anyExchangeInstance.getTradeService();
-    BittrexOpenOrder bittrexOrder = ((BittrexTradeServiceRaw) marketDataService).getBittrexOrder(orderId);
-    result += " - getOrderInfo \n" + bittrexOrder + "\n";
+    ArrayList<CurrencyPair> symbolsDetails;
+    symbolsDetails = ((BTCChinaMarketDataServiceRaw) marketDataService).getExchangeSymbols();
+    result += " - getSymbolDetail \n";
+    for(CurrencyPair obj: symbolsDetails)
+      result += obj.toString() + "\n";
+    result += "\n";
   }
 
   @After

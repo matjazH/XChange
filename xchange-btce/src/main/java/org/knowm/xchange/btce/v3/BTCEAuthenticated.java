@@ -143,4 +143,10 @@ public interface BTCEAuthenticated extends BTCE {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("coinName") String coinName, @FormParam("amount") BigDecimal amount,
       @FormParam("address") String address);
 
+  @POST
+  @Path("tapi")
+  @FormParam("method")
+  BTCEOpenOrdersReturn OrderInfo(@HeaderParam("Key") String apiKey, @HeaderParam("Sign") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("order_id") Long orderId);
+
 }

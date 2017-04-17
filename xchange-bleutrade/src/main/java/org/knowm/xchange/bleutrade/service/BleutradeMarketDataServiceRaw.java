@@ -1,9 +1,11 @@
 package org.knowm.xchange.bleutrade.service;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.bleutrade.BleutradeAdapters;
 import org.knowm.xchange.bleutrade.BleutradeUtils;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrenciesReturn;
 import org.knowm.xchange.bleutrade.dto.marketdata.BleutradeCurrency;
@@ -59,6 +61,11 @@ public class BleutradeMarketDataServiceRaw extends BleutradeBaseService {
     }
 
     return response.getResult().get(0);
+  }
+
+  public ArrayList<CurrencyPair> getExchangeSymbols() throws IOException {
+
+    return new ArrayList<>(BleutradeAdapters.adaptBleutradeCurrencyPairs(bleutrade.getBleutradeMarkets()));
   }
 
   public BleutradeOrderBook getBleutradeOrderBook(CurrencyPair currencyPair, int depth) throws IOException {

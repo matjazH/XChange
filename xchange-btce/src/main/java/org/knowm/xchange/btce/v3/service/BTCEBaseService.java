@@ -30,7 +30,7 @@ public class BTCEBaseService extends BaseExchangeService implements BaseService 
 
     super(exchange);
 
-    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.btce = RestProxyFactory.createProxy(BTCEAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BTCEHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

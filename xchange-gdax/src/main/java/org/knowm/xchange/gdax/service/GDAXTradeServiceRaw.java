@@ -52,4 +52,8 @@ public class GDAXTradeServiceRaw extends GDAXBaseService<GDAX> {
       return false;
     }
   }
+
+  public GDAXOrder getOrder(String orderId) {
+     return coinbaseEx.getOrder(orderId, apiKey, digest, getTimestamp(), passphrase);
+  }
 }

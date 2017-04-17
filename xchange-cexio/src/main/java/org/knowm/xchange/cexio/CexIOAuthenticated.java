@@ -34,6 +34,12 @@ public interface CexIOAuthenticated extends CexIO {
       @FormParam("nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
+  @Path("get_order/")
+  CexIOOrder getOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") long orderId)
+      throws IOException;
+
+  @POST
   @Path("open_orders/{ident}/{currency}/")
   CexIOOpenOrders getOpenOrders(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency,
       @FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce)
@@ -42,13 +48,15 @@ public interface CexIOAuthenticated extends CexIO {
   @POST
   @Path("cancel_order/")
   Object cancelOrder(@FormParam("key") String apiKey, @FormParam("signature") ParamsDigest signer,
-      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") long orderId) throws IOException;
+      @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("id") long orderId)
+      throws IOException;
 
   @POST
   @Path("place_order/{ident}/{currency}/")
   CexIOOrder placeOrder(@PathParam("ident") String tradeableIdentifier, @PathParam("currency") String currency, @FormParam("key") String apiKey,
       @FormParam("signature") ParamsDigest signer, @FormParam("nonce") SynchronizedValueFactory<Long> nonce, @FormParam("type") CexIOOrder.Type type,
-      @FormParam("price") BigDecimal price, @FormParam("amount") BigDecimal amount) throws IOException;
+      @FormParam("price") BigDecimal price, @FormParam("amount") BigDecimal amount)
+      throws IOException;
 
   // GHash.IO calls
   @POST

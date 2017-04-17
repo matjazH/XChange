@@ -97,9 +97,9 @@ public class BTCChinaMarketDataServiceRaw extends BTCChinaBaseService {
     return btcChina.getHistoryData(market, since, limit, sinceType);
   }
 
-  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+  public ArrayList<CurrencyPair> getExchangeSymbols() throws IOException {
 
-    List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
+    ArrayList<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
     BTCChinaTicker btcChinaTicker = btcChina.getTicker(BTCChinaExchange.ALL_MARKET);
     Map<CurrencyPair, Ticker> tickers = BTCChinaAdapters.adaptTickers(btcChinaTicker);
     currencyPairs.addAll(tickers.keySet());
