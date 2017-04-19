@@ -211,16 +211,14 @@ public final class GeminiAdapters {
 
   public static Ticker adaptTicker(GeminiTicker GeminiTicker, CurrencyPair currencyPair) {
 
-    BigDecimal last = GeminiTicker.getLast_price();
+    BigDecimal last = GeminiTicker.getLast();
     BigDecimal bid = GeminiTicker.getBid();
     BigDecimal ask = GeminiTicker.getAsk();
-    BigDecimal high = GeminiTicker.getHigh();
-    BigDecimal low = GeminiTicker.getLow();
-    BigDecimal volume = GeminiTicker.getVolume();
+    Map<String, BigDecimal> volume = GeminiTicker.getVolume();
 
-    Date timestamp = DateUtils.fromMillisUtc((long) (GeminiTicker.getTimestamp() * 1000L));
+    Date timestamp = DateUtils.fromMillisUtc((long) (volume.get("timestamp").floatValue() * 1000L));
 
-    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).high(high).low(low).volume(volume).timestamp(timestamp)
+    return new Ticker.Builder().currencyPair(currencyPair).last(last).bid(bid).ask(ask).volume(volume.get(currencyPair.base)).timestamp(timestamp)
         .build();
   }
 

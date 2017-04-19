@@ -95,13 +95,6 @@ public class BtceApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    /*
-    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
-    Order.OrderType orderType = Order.OrderType.BID;
-    BigDecimal tradableAmount = new BigDecimal(0.0005);
-    BigDecimal limitPrice = new BigDecimal(0.01);
-    */
-
     CurrencyPair currencyPair = new CurrencyPair("BTC","USD");
     Order.OrderType orderType = Order.OrderType.ASK;
     BigDecimal tradableAmount = new BigDecimal("0.0015");

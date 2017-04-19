@@ -1,89 +1,43 @@
 package org.knowm.xchange.gemini.v1.dto.marketdata;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.math.BigDecimal;
+import java.util.Map;
+
+/**
+ * Created by tabtrader on 03/10/2016.
+ */
 public class GeminiTicker {
 
-  private final BigDecimal mid;
-  private final BigDecimal bid;
-  private final BigDecimal ask;
-  private final BigDecimal high;
-  private final BigDecimal low;
-  private final BigDecimal last;
-  private final BigDecimal volume;
-  private final float timestamp;
+  private BigDecimal bid;
+  private BigDecimal ask;
+  private BigDecimal last;
+  private Map<String, BigDecimal> volume;
 
-  /**
-   * @param mid
-   * @param bid
-   * @param ask
-   * @param low
-   * @param high
-   * @param last
-   * @param timestamp
-   * @param volume
-   */
-  public GeminiTicker(@JsonProperty("mid") BigDecimal mid, @JsonProperty("bid") BigDecimal bid, @JsonProperty("ask") BigDecimal ask,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("last_price") BigDecimal last,
-      @JsonProperty("timestamp") float timestamp, @JsonProperty("volume") BigDecimal volume) {
-
-    this.mid = mid;
+  public GeminiTicker(@JsonProperty("bid") BigDecimal bid,
+                      @JsonProperty("ask") BigDecimal ask,
+                      @JsonProperty("last") BigDecimal last,
+                      @JsonProperty("volume") Map<String, BigDecimal> volume) {
     this.bid = bid;
     this.ask = ask;
     this.last = last;
     this.volume = volume;
-    this.high = high;
-    this.low = low;
-    this.timestamp = timestamp;
-  }
-
-  public BigDecimal getMid() {
-
-    return mid;
   }
 
   public BigDecimal getBid() {
-
     return bid;
   }
 
   public BigDecimal getAsk() {
-
     return ask;
   }
 
-  public BigDecimal getLow() {
-
-    return low;
-  }
-
-  public BigDecimal getHigh() {
-
-    return high;
-  }
-
-  public BigDecimal getLast_price() {
-
+  public BigDecimal getLast() {
     return last;
   }
 
-  public BigDecimal getVolume() {
-
+  public Map<String, BigDecimal> getVolume() {
     return volume;
   }
-
-  public float getTimestamp() {
-
-    return timestamp;
-  }
-
-  @Override
-  public String toString() {
-
-    return "BitfinexTicker [mid=" + mid + ", bid=" + bid + ", ask=" + ask + ", low=" + low + ", high=" + high + ", last=" + last + ", timestamp="
-        + timestamp + "]";
-  }
-
 }

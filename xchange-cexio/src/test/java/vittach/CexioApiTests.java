@@ -35,7 +35,7 @@ import java.util.Date;
  */
 public class CexioApiTests {
   private String result = "\n";
-  private String orderId = "10346570";
+  private String orderId = "3802493437";
 
   private Exchange anyExchangeInstance;
   private MarketDataService marketDataService;
@@ -94,17 +94,11 @@ public class CexioApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    /*
-    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
-    Order.OrderType orderType = Order.OrderType.BID;
-    BigDecimal tradableAmount = new BigDecimal(0.0005);
-    BigDecimal limitPrice = new BigDecimal(0.01);
-    */
 
-    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
+    CurrencyPair currencyPair = new CurrencyPair("BTC","USD");
     Order.OrderType orderType = Order.OrderType.ASK;
-    BigDecimal tradableAmount = new BigDecimal("0.001");
-    BigDecimal limitPrice = new BigDecimal("10000");
+    BigDecimal tradableAmount = new BigDecimal("0.01");
+    BigDecimal limitPrice = new BigDecimal("4095");
 
     Date date = new Date();
     LimitOrder limitOrder;
@@ -190,7 +184,6 @@ public class CexioApiTests {
   }
 
   @Test
-  @Ignore
   public void getOrderInfo() throws IOException {
     try {
       Thread.sleep(1000);

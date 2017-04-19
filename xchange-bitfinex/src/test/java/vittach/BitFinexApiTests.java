@@ -88,7 +88,7 @@ public class BitFinexApiTests {
 
   @Test
   @Ignore
-  public void placeLimitOrder() throws IOException {
+  public void placeBuyLimitOrder() throws IOException {
     try {
       Thread.sleep(1000);
     } catch (InterruptedException e) {
@@ -99,13 +99,27 @@ public class BitFinexApiTests {
     Order.OrderType orderType = Order.OrderType.BID;
     BigDecimal tradableAmount = new BigDecimal(0.1);
     BigDecimal limitPrice = new BigDecimal(0.001);
+    Date date = new Date();
+    LimitOrder limitOrder;
+    limitOrder = new LimitOrder(orderType, tradableAmount, currencyPair, "", date, limitPrice);
 
-    /*
+    orderId = marketDataService.placeLimitOrder(limitOrder);
+    result += " - placeLimitOrder \n" + orderId + "\n";
+  }
+
+  @Test
+  @Ignore
+  public void placeSellLimitOrder() throws IOException {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    TradeService marketDataService = anyExchangeInstance.getTradeService();
     CurrencyPair currencyPair = CurrencyPair.BTC_LTC;
     Order.OrderType orderType = Order.OrderType.ASK;
     BigDecimal tradableAmount = new BigDecimal(0.98);
     BigDecimal limitPrice = new BigDecimal(0.0097);
-    */
 
     Date date = new Date();
     LimitOrder limitOrder;

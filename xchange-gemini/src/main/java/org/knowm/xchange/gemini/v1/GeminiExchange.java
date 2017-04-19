@@ -14,11 +14,12 @@ import org.knowm.xchange.gemini.v1.service.GeminiMarketDataServiceRaw;
 import org.knowm.xchange.gemini.v1.service.GeminiTradeService;
 import org.knowm.xchange.utils.nonce.AtomicLongIncrementalTime2013NonceFactory;
 
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
 public class GeminiExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new AtomicLongIncrementalTime2013NonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {
@@ -31,8 +32,8 @@ public class GeminiExchange extends BaseExchange implements Exchange {
   public ExchangeSpecification getDefaultExchangeSpecification() {
 
     ExchangeSpecification exchangeSpecification = new ExchangeSpecification(this.getClass().getCanonicalName());
-    exchangeSpecification.setSslUri("https://api.Gemini.com/");
-    exchangeSpecification.setHost("api.Gemini.com");
+    exchangeSpecification.setSslUri("https://api.gemini.com/");
+    exchangeSpecification.setHost("api.gemini.com");
     exchangeSpecification.setPort(80);
     exchangeSpecification.setExchangeName("Gemini");
     exchangeSpecification.setExchangeDescription("Gemini is a bitcoin exchange.");

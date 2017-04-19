@@ -13,7 +13,9 @@ import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.gdax.dto.marketdata.GDAXProduct;
 import org.knowm.xchange.gdax.dto.trade.GDAXOrder;
+import org.knowm.xchange.gdax.service.GDAXMarketDataServiceRaw;
 import org.knowm.xchange.gdax.service.GDAXTradeServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.account.AccountService;
@@ -27,6 +29,7 @@ import java.math.BigDecimal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by developer on 27/03/17.
@@ -93,13 +96,6 @@ public class GDaxApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    /*
-    CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
-    Order.OrderType orderType = Order.OrderType.BID;
-    BigDecimal tradableAmount = new BigDecimal(0.0005);
-    BigDecimal limitPrice = new BigDecimal(0.01);
-    */
-
     CurrencyPair currencyPair = new CurrencyPair("BTC","EUR");
     Order.OrderType orderType = Order.OrderType.ASK;
     BigDecimal tradableAmount = new BigDecimal("0.001");
@@ -202,7 +198,6 @@ public class GDaxApiTests {
     result += " - getOrderInfo \n" + order + "\n";
   }
 
-  /*
   @Test
   public void getSymbolDetails() throws IOException {
     try {
@@ -210,13 +205,11 @@ public class GDaxApiTests {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    ArrayList<CexIOCurrency> symbolsDetails;
-    symbolsDetails = ((CexIOMarketDataServiceRaw) marketDataService).getCexIOCurrencies();
+    List<GDAXProduct> conbaseExProducts = ((GDAXMarketDataServiceRaw) marketDataService).getConbaseExProducts();
     result += " - getSymbolDetail \n";
-    for(CexIOCurrency obj: symbolsDetails)
+    for(GDAXProduct obj: conbaseExProducts)
       result += obj.toString() + "\n";
   }
-  */
 
   @After
   public void printResults() {

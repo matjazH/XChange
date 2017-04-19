@@ -57,4 +57,9 @@ public class GDAXProduct {
 
     return quoteIncrement;
   }
+
+  @Override
+  public String toString() {
+    return baseCurrency + '/' + targetCurrency;
+  }
 }
