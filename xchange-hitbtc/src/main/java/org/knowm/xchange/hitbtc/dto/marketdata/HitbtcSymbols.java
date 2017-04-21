@@ -29,6 +29,6 @@ public class HitbtcSymbols {
   @Override
   public String toString() {
 
-    return "HitbtcSymbols{" + "hitbtcSymbols=" + hitbtcSymbols + '}';
+    return "HitbtcSymbols{" + hitbtcSymbols + '}';
   }
 }

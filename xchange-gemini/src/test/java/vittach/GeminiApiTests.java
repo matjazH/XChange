@@ -15,6 +15,7 @@ import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.gemini.v1.GeminiExchange;
+import org.knowm.xchange.gemini.v1.service.GeminiTradeService;
 import org.knowm.xchange.service.trade.TradeService;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.marketdata.MarketDataService;
@@ -222,19 +223,10 @@ public class GeminiApiTests {
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
     result += " - getTradeHistory \n";
+    GeminiTradeService.GeminiTradeHistoryParams thp;
     for (final CurrencyPair currencyPair : currencyPairs) {
-      TradeHistoryParamCurrencyPair tradeHistoryParamCurrencyPair = new TradeHistoryParamCurrencyPair() {
-        @Override
-        public void setCurrencyPair(CurrencyPair pair) {
-
-        }
-
-        @Override
-        public CurrencyPair getCurrencyPair() {
-          return currencyPair;
-        }
-      };
-      List<UserTrade> userTrades = marketDataService.getTradeHistory(tradeHistoryParamCurrencyPair).getUserTrades();
+      thp = new GeminiTradeService.GeminiTradeHistoryParams(new Date(),50, currencyPair);
+      List<UserTrade> userTrades = marketDataService.getTradeHistory(thp).getUserTrades();
       for(UserTrade ut : userTrades)
         result += ut;
     }

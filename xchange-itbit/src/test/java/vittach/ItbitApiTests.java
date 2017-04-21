@@ -8,25 +8,22 @@ import org.junit.Ignore;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.itbit.v1.ItBitExchange;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
+import org.knowm.xchange.itbit.v1.dto.marketdata.ItBitTrades;
+import org.knowm.xchange.itbit.v1.service.ItBitMarketDataServiceRaw;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
+import org.knowm.xchange.itbit.v1.dto.trade.ItBitOrder;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.hitbtc.service.HitbtcTradeService;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import org.knowm.xchange.hitbtc.service.HitbtcTradeServiceRaw;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.hitbtc.HitbtcExchange;
+import org.knowm.xchange.dto.trade.LimitOrder;
+import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.itbit.v1.service.ItBitTradeServiceRaw;
 
 import java.math.BigDecimal;
 import java.io.IOException;
@@ -36,7 +33,7 @@ import java.util.Date;
 /**
  * Created by developer on 27/03/17.
  */
-public class HitbtcApiTests {
+public class ItbitApiTests {
   private String result = "\n";
   private String orderId = "B_BTCUSD_1492770798797";
 
@@ -48,23 +45,23 @@ public class HitbtcApiTests {
   public void initializing() {
     currencyPairs = new ArrayList<>();
 
-    currencyPairs.add(new CurrencyPair("LTC", "BTC"));
-    currencyPairs.add(new CurrencyPair("ZEC", "BTC"));
-    currencyPairs.add(new CurrencyPair("BTC", "USD"));
+    currencyPairs.add(new CurrencyPair("XBT", "USD"));
+    currencyPairs.add(new CurrencyPair("XBT", "SGD"));
 
-    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(HitbtcExchange.class);
+    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(ItBitExchange.class);
 
-    exchangesSpecifics.setSslUri("https://api.hitbtc.com");
+    exchangesSpecifics.setSslUri("https://api.itbit.com");
     exchangesSpecifics.setUserName("tabtrader");
     exchangesSpecifics.setApiKey("2499c7c41da0496f96bfb4413d28ffc5");
     exchangesSpecifics.setSecretKey("f1cad3d255944eb55c280e6e95daa652");
 
-    anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
-    //anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class.getName());
+    //anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
+    anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(ItBitExchange.class.getName());
     marketDataService = anyExchangeInstance.getMarketDataService();
   }
 
   @Test
+  @Ignore
   public void getActiveOrders() throws IOException {
     try {
       Thread.sleep(1000);
@@ -134,6 +131,7 @@ public class HitbtcApiTests {
   }
 
   @Test
+  @Ignore
   public void getBalanceInfo() throws IOException {
     try {
       Thread.sleep(1000);
@@ -195,21 +193,8 @@ public class HitbtcApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    HitbtcOrder hitbtcOrder = ((HitbtcTradeServiceRaw) marketDataService).getHitbtcOrder(orderId);
-    result += " - getOrderInfo \n" + hitbtcOrder + "\n";
-  }
-
-  @Test
-  public void getSymbolDetails() throws IOException {
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) marketDataService).getHitbtcSymbols();
-    result += " - getSymbolDetail \n";
-    for (HitbtcSymbol obj : hitbtcSymbols.getHitbtcSymbols())
-      result += obj.getCommodity() + "/" + obj.getCurrency() + "\n";
+    ItBitOrder itBitOrder = ((ItBitTradeServiceRaw) marketDataService).getItBitOrder(orderId);
+    result += " - getOrderInfo \n" + itBitOrder + "\n";
   }
 
   @Test
@@ -219,13 +204,10 @@ public class HitbtcApiTests {
     } catch (InterruptedException e) {
       e.printStackTrace();
     }
-    TradeService marketDataService = anyExchangeInstance.getTradeService();
     result += " - getTradeHistory \n";
-    HitbtcTradeService.HitbtcTradeHistoryParams thp=new HitbtcTradeService.HitbtcTradeHistoryParams();
     for (final CurrencyPair currencyPair : currencyPairs) {
-      thp.setCurrencyPair(currencyPair);
-      UserTrades tradeHistory = marketDataService.getTradeHistory(thp);
-      result += tradeHistory;
+      ItBitTrades itBitTrades = ((ItBitMarketDataServiceRaw) marketDataService).getItBitTrades(currencyPair);
+      result += itBitTrades;
     }
     result += "\n";
   }

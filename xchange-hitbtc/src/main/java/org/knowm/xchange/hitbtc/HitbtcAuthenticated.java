@@ -18,6 +18,7 @@ import org.knowm.xchange.hitbtc.dto.HitbtcException;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalanceResponse;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcDepositAddressResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrdersResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
@@ -32,6 +33,13 @@ public interface HitbtcAuthenticated extends Hitbtc {
   public HitbtcOrdersResponse getHitbtcActiveOrders(@HeaderParam("X-Signature") ParamsDigest signature,
       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey
   /* @QueryParam("symbols") String symbols */) throws IOException, HitbtcException;
+
+  @GET
+  @Path("trading/order")
+  HitbtcOrdersResponse getHitbtcOrder(@HeaderParam("X-Signature")ParamsDigest signature,
+                       @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory,
+                       @QueryParam("apikey")String apiKey,@QueryParam("client_order_id")String clientOrderId)
+      throws IOException, HitbtcException;
 
   @GET
   @Path("trading/orders/recent")
@@ -59,14 +67,16 @@ public interface HitbtcAuthenticated extends Hitbtc {
   @GET
   @Path("trading/trades")
   public HitbtcTradeResponse getHitbtcTrades(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey, @QueryParam("by") String by,
-      @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results, @QueryParam("symbols") String symbols,
-      @QueryParam("sort") String sort, @QueryParam("from") String from, @QueryParam("till") String till) throws IOException, HitbtcException;
+      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey,
+      @QueryParam("by") String by, @QueryParam("start_index") int start_index, @QueryParam("max_results") int max_results,
+      @QueryParam("symbols") String symbols, @QueryParam("sort") String sort,@QueryParam("from")String from,
+      @QueryParam("till") String till) throws IOException, HitbtcException;
 
   @GET
   @Path("trading/balance")
   public HitbtcBalanceResponse getHitbtcBalance(@HeaderParam("X-Signature") ParamsDigest signature,
-      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey) throws IOException, HitbtcException;
+      @QueryParam("nonce") SynchronizedValueFactory<Long> valueFactory, @QueryParam("apikey") String apiKey)
+      throws IOException, HitbtcException;
 
   @GET
   @Path("payment/address/{currency}")

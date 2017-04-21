@@ -12,6 +12,7 @@ import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdapters;
+import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdaptersV3;
 import org.knowm.xchange.service.account.AccountService;
 import org.knowm.xchange.service.trade.params.TradeHistoryParams;
 
@@ -33,7 +34,7 @@ public class MercadoBitcoinAccountService extends MercadoBitcoinAccountServiceRa
   @Override
   public AccountInfo getAccountInfo() throws IOException {
 
-    return MercadoBitcoinAdapters.adaptAccountInfo(getMercadoBitcoinAccountInfo(), exchange.getExchangeSpecification().getUserName());
+    return MercadoBitcoinAdaptersV3.adaptAccountInfo(getMercadoBitcoinAccountInfo());
   }
 
   @Override

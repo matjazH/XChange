@@ -14,31 +14,30 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
+import org.knowm.xchange.kraken.dto.trade.KrakenOrder;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.hitbtc.service.HitbtcTradeService;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import org.knowm.xchange.hitbtc.service.HitbtcTradeServiceRaw;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.hitbtc.HitbtcExchange;
+import org.knowm.xchange.kraken.service.KrakenTradeServiceRaw;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
+import org.knowm.xchange.kraken.KrakenExchange;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.kraken.service.KrakenMarketDataServiceRaw;
 
 import java.math.BigDecimal;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by developer on 27/03/17.
  */
-public class HitbtcApiTests {
+public class KrakenApiTests {
   private String result = "\n";
-  private String orderId = "B_BTCUSD_1492770798797";
+  private String orderId = "OAWKPF-ZZSSW-LRUI6S";
 
   private Exchange anyExchangeInstance;
   private MarketDataService marketDataService;
@@ -48,19 +47,19 @@ public class HitbtcApiTests {
   public void initializing() {
     currencyPairs = new ArrayList<>();
 
-    currencyPairs.add(new CurrencyPair("LTC", "BTC"));
-    currencyPairs.add(new CurrencyPair("ZEC", "BTC"));
     currencyPairs.add(new CurrencyPair("BTC", "USD"));
+    currencyPairs.add(new CurrencyPair("LTC", "BTC"));
+    currencyPairs.add(new CurrencyPair("ETH", "GBP"));
 
-    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(HitbtcExchange.class);
+    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(KrakenExchange.class);
 
-    exchangesSpecifics.setSslUri("https://api.hitbtc.com");
+    exchangesSpecifics.setSslUri("https://api.kraken.com");
     exchangesSpecifics.setUserName("tabtrader");
-    exchangesSpecifics.setApiKey("2499c7c41da0496f96bfb4413d28ffc5");
-    exchangesSpecifics.setSecretKey("f1cad3d255944eb55c280e6e95daa652");
+    exchangesSpecifics.setApiKey("nUrBiqq3bDwAUa+cwRKBlf8Kx1u2r34/KOrJV3WL1PseiNnMKEgA2BDp");
+    exchangesSpecifics.setSecretKey("pYyoBTevBtuu6tvzGX+d/5F7dF69M+h7qT6qFNTVuX4daDtsVwoBzOQq3BqIIusSNum94fGam1IrltnCGhFZlQ==");
 
     anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
-    //anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class.getName());
+    //anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(KrakenExchange.class.getName());
     marketDataService = anyExchangeInstance.getMarketDataService();
   }
 
@@ -100,7 +99,7 @@ public class HitbtcApiTests {
     TradeService marketDataService = anyExchangeInstance.getTradeService();
     CurrencyPair currencyPair = CurrencyPair.BTC_USD;
     Order.OrderType orderType = Order.OrderType.ASK;
-    BigDecimal tradableAmount = new BigDecimal("0.01");
+    BigDecimal tradableAmount = new BigDecimal("0.001");
     BigDecimal limitPrice = new BigDecimal("10000");
 
     Date date = new Date();
@@ -120,10 +119,10 @@ public class HitbtcApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    CurrencyPair currencyPair = new CurrencyPair("BTC", "USD");
+    CurrencyPair currencyPair = new CurrencyPair("LTC", "BTC");
     Order.OrderType orderType = Order.OrderType.BID;
-    BigDecimal tradableAmount = new BigDecimal("0.01");
-    BigDecimal limitPrice = new BigDecimal("13.0");
+    BigDecimal tradableAmount = new BigDecimal("1");
+    BigDecimal limitPrice = new BigDecimal("0.0001");
 
     Date date = new Date();
     LimitOrder limitOrder;
@@ -195,21 +194,8 @@ public class HitbtcApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    HitbtcOrder hitbtcOrder = ((HitbtcTradeServiceRaw) marketDataService).getHitbtcOrder(orderId);
-    result += " - getOrderInfo \n" + hitbtcOrder + "\n";
-  }
-
-  @Test
-  public void getSymbolDetails() throws IOException {
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) marketDataService).getHitbtcSymbols();
-    result += " - getSymbolDetail \n";
-    for (HitbtcSymbol obj : hitbtcSymbols.getHitbtcSymbols())
-      result += obj.getCommodity() + "/" + obj.getCurrency() + "\n";
+    Map<String, KrakenOrder> stringKrakenOrderMap = ((KrakenTradeServiceRaw) marketDataService).queryKrakenOrders(orderId);
+    result += " - getOrderInfo \n" + stringKrakenOrderMap.get(orderId) + "\n";
   }
 
   @Test
@@ -221,13 +207,24 @@ public class HitbtcApiTests {
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
     result += " - getTradeHistory \n";
-    HitbtcTradeService.HitbtcTradeHistoryParams thp=new HitbtcTradeService.HitbtcTradeHistoryParams();
     for (final CurrencyPair currencyPair : currencyPairs) {
-      thp.setCurrencyPair(currencyPair);
-      UserTrades tradeHistory = marketDataService.getTradeHistory(thp);
+      UserTrades tradeHistory = marketDataService.getTradeHistory(null);
       result += tradeHistory;
     }
     result += "\n";
+  }
+
+  @Test
+  public void getSymbolDetails() throws IOException {
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    List<CurrencyPair> exchangeSymbols=((KrakenMarketDataServiceRaw)marketDataService).getExchangeSymbols();
+    result += " - getSymbolDetail \n";
+    for (CurrencyPair obj : exchangeSymbols)
+      result += obj+ "\n";
   }
 
   @After

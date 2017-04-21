@@ -14,19 +14,13 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.marketdata.OrderBook;
 import org.knowm.xchange.service.trade.TradeService;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.service.account.AccountService;
-import org.knowm.xchange.hitbtc.service.HitbtcTradeService;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import org.knowm.xchange.hitbtc.service.HitbtcTradeServiceRaw;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trades;
-import org.knowm.xchange.hitbtc.HitbtcExchange;
 import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.dto.marketdata.Ticker;
+import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.marketdata.MarketDataService;
-import org.knowm.xchange.hitbtc.service.HitbtcMarketDataServiceRaw;
+import org.knowm.xchange.mercadobitcoin.MercadoBitcoinExchange;
 
 import java.math.BigDecimal;
 import java.io.IOException;
@@ -36,9 +30,9 @@ import java.util.Date;
 /**
  * Created by developer on 27/03/17.
  */
-public class HitbtcApiTests {
+public class MerkadoApiTests {
   private String result = "\n";
-  private String orderId = "B_BTCUSD_1492770798797";
+  private String orderId = "OAWKPF-ZZSSW-LRUI6S";
 
   private Exchange anyExchangeInstance;
   private MarketDataService marketDataService;
@@ -48,19 +42,18 @@ public class HitbtcApiTests {
   public void initializing() {
     currencyPairs = new ArrayList<>();
 
-    currencyPairs.add(new CurrencyPair("LTC", "BTC"));
-    currencyPairs.add(new CurrencyPair("ZEC", "BTC"));
-    currencyPairs.add(new CurrencyPair("BTC", "USD"));
+    currencyPairs.add(new CurrencyPair("BTC", "BRL"));
+    currencyPairs.add(new CurrencyPair("LTC", "BRL"));
 
-    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(HitbtcExchange.class);
+    ExchangeSpecification exchangesSpecifics = new ExchangeSpecification(MercadoBitcoinExchange.class);
 
-    exchangesSpecifics.setSslUri("https://api.hitbtc.com");
-    exchangesSpecifics.setUserName("tabtrader");
-    exchangesSpecifics.setApiKey("2499c7c41da0496f96bfb4413d28ffc5");
-    exchangesSpecifics.setSecretKey("f1cad3d255944eb55c280e6e95daa652");
+    exchangesSpecifics.setSslUri("https://www.mercadobitcoin.net");
+    exchangesSpecifics.setUserName("tabtrading");
+    exchangesSpecifics.setApiKey("aab4e893cd6c7e029c20979862bc280c");
+    exchangesSpecifics.setSecretKey("371ab4e45ae9d7163de9eb8787b6cc541aeb76d4aed75412263542cec135c6c3");
 
     anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(exchangesSpecifics);
-    //anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(HitbtcExchange.class.getName());
+    //anyExchangeInstance = ExchangeFactory.INSTANCE.createExchange(MercadoBitcoinExchange.class.getName());
     marketDataService = anyExchangeInstance.getMarketDataService();
   }
 
@@ -100,7 +93,7 @@ public class HitbtcApiTests {
     TradeService marketDataService = anyExchangeInstance.getTradeService();
     CurrencyPair currencyPair = CurrencyPair.BTC_USD;
     Order.OrderType orderType = Order.OrderType.ASK;
-    BigDecimal tradableAmount = new BigDecimal("0.01");
+    BigDecimal tradableAmount = new BigDecimal("0.001");
     BigDecimal limitPrice = new BigDecimal("10000");
 
     Date date = new Date();
@@ -120,10 +113,10 @@ public class HitbtcApiTests {
       e.printStackTrace();
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
-    CurrencyPair currencyPair = new CurrencyPair("BTC", "USD");
+    CurrencyPair currencyPair = new CurrencyPair("LTC", "BTC");
     Order.OrderType orderType = Order.OrderType.BID;
-    BigDecimal tradableAmount = new BigDecimal("0.01");
-    BigDecimal limitPrice = new BigDecimal("13.0");
+    BigDecimal tradableAmount = new BigDecimal("1");
+    BigDecimal limitPrice = new BigDecimal("0.0001");
 
     Date date = new Date();
     LimitOrder limitOrder;
@@ -187,32 +180,6 @@ public class HitbtcApiTests {
   }
 
   @Test
-  @Ignore
-  public void getOrderInfo() throws IOException {
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    TradeService marketDataService = anyExchangeInstance.getTradeService();
-    HitbtcOrder hitbtcOrder = ((HitbtcTradeServiceRaw) marketDataService).getHitbtcOrder(orderId);
-    result += " - getOrderInfo \n" + hitbtcOrder + "\n";
-  }
-
-  @Test
-  public void getSymbolDetails() throws IOException {
-    try {
-      Thread.sleep(1000);
-    } catch (InterruptedException e) {
-      e.printStackTrace();
-    }
-    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) marketDataService).getHitbtcSymbols();
-    result += " - getSymbolDetail \n";
-    for (HitbtcSymbol obj : hitbtcSymbols.getHitbtcSymbols())
-      result += obj.getCommodity() + "/" + obj.getCurrency() + "\n";
-  }
-
-  @Test
   public void getTradeHistory() throws IOException {
     try {
       Thread.sleep(1000);
@@ -221,10 +188,8 @@ public class HitbtcApiTests {
     }
     TradeService marketDataService = anyExchangeInstance.getTradeService();
     result += " - getTradeHistory \n";
-    HitbtcTradeService.HitbtcTradeHistoryParams thp=new HitbtcTradeService.HitbtcTradeHistoryParams();
     for (final CurrencyPair currencyPair : currencyPairs) {
-      thp.setCurrencyPair(currencyPair);
-      UserTrades tradeHistory = marketDataService.getTradeHistory(thp);
+      UserTrades tradeHistory = marketDataService.getTradeHistory(null);
       result += tradeHistory;
     }
     result += "\n";

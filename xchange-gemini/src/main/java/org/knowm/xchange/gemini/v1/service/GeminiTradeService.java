@@ -107,6 +107,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements TradeSe
     }
 
     final GeminiTradeResponse[] trades = getGeminiTradeHistory(symbol, timestamp, limit);
+
     return GeminiAdapters.adaptTradeHistory(trades, symbol);
   }
 

@@ -19,7 +19,10 @@ import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinCancelOrderResul
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinPlaceLimitOrderResult;
 import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
 
+import org.knowm.xchange.mercadobitcoin.dto.v3.MercadoBitcoinBaseResponse;
+import org.knowm.xchange.mercadobitcoin.dto.v3.account.MercadoBitcoinAccount;
 import si.mazi.rescu.ParamsDigest;
+import si.mazi.rescu.SynchronizedValueFactory;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -31,16 +34,17 @@ import si.mazi.rescu.ParamsDigest;
 public interface MercadoBitcoinAuthenticated {
 
   @POST
-  @Path("/")
-  public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinAccountInfo> getInfo(@HeaderParam("Key") String key, @HeaderParam("Sign") ParamsDigest sign,
-      @FormParam("method") String method, @FormParam("tonce") long tonce) throws IOException;
+  @Path("v3/")
+  public MercadoBitcoinBaseResponse<MercadoBitcoinAccount> getInfo(@HeaderParam("TAPI-ID") String key,
+      @HeaderParam("TAPI-MAC") ParamsDigest sign,@FormParam("tapi_method")String method,
+      @FormParam("tapi_nonce") SynchronizedValueFactory<Long> nonce) throws IOException;
 
   @POST
   @Path("/")
   public MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> getOrderList(@HeaderParam("Key") String key,
-      @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method, @FormParam("tonce") long tonce,
+      @HeaderParam("Sign") ParamsDigest sign, @FormParam("method") String method, @FormParam("tonce")long tonce,
       @Nonnull @FormParam("pair") String pair, @Nullable @FormParam("type") String type, @FormParam("status") @Nullable String status,
-      @FormParam("fromId") @Nullable String fromId, @FormParam("endId") @Nullable String endId, @FormParam("since") @Nullable Long since,
+      @FormParam("fromId") @Nullable String fromId, @FormParam("endId") @Nullable String endId,@FormParam("since") @Nullable Long since,
       @FormParam("end") @Nullable Long end) throws IOException;
 
   @POST
