@@ -16,8 +16,6 @@ public class BtcUpAccount {
   private BtcUpBalance eth;
   private BtcUpBalance emc;
   private BtcUpBalance zec;
-  private BtcUpBalance snm;
-  private BtcUpBalance snt;
 
   // crypto currency pair
   private BtcUpBalance btcUsd;
@@ -25,8 +23,6 @@ public class BtcUpAccount {
   private BtcUpBalance ethUsd;
   private BtcUpBalance emcUsd;
   private BtcUpBalance zecUsd;
-  private BtcUpBalance snmUsd;
-  private BtcUpBalance sntUsd;
 
   private Integer margin;
   private Integer levelMC;
@@ -45,16 +41,12 @@ public class BtcUpAccount {
                       @JsonProperty("ETH") BtcUpBalance eth,
                       @JsonProperty("EMC") BtcUpBalance emc,
                       @JsonProperty("ZEC") BtcUpBalance zec,
-                      @JsonProperty("SNM") BtcUpBalance snm,
-                      @JsonProperty("SNT") BtcUpBalance snt,
 
                       @JsonProperty("BTC_USD") BtcUpBalance btcUsd,
                       @JsonProperty("LTC_USD") BtcUpBalance ltcUsd,
                       @JsonProperty("ETH_USD") BtcUpBalance ethUsd,
                       @JsonProperty("EMC_USD") BtcUpBalance emcUsd,
                       @JsonProperty("ZEC_USD") BtcUpBalance zecUsd,
-                      @JsonProperty("SNM_USD") BtcUpBalance snmUsd,
-                      @JsonProperty("SNT_USD") BtcUpBalance sntUsd,
 
                       @JsonProperty("equity") BigDecimal equity,
                       @JsonProperty("freeMargin") BigDecimal freeMargin,
@@ -72,16 +64,12 @@ public class BtcUpAccount {
     this.eth = eth;
     this.emc = emc;
     this.zec = zec;
-    this.snm = snm;
-    this.snt = snt;
 
     this.btcUsd = btcUsd;
     this.ltcUsd = ltcUsd;
     this.ethUsd = ethUsd;
     this.emcUsd = emcUsd;
     this.zecUsd = zecUsd;
-    this.snmUsd = snmUsd;
-    this.sntUsd = sntUsd;
 
     this.equity = equity;
     this.freeMargin = freeMargin;
@@ -119,14 +107,6 @@ public class BtcUpAccount {
     return zec;
   }
 
-  public BtcUpBalance getSnm() {
-    return snm;
-  }
-
-  public BtcUpBalance getSnt() {
-    return snt;
-  }
-
   public BtcUpBalance getBtcUsd() {
     return btcUsd;
   }
@@ -145,14 +125,6 @@ public class BtcUpAccount {
 
   public BtcUpBalance getZecUsd() {
     return zecUsd;
-  }
-
-  public BtcUpBalance getSnmUsd() {
-    return snmUsd;
-  }
-
-  public BtcUpBalance getSntUsd() {
-    return sntUsd;
   }
 
   public Integer getMargin() {
@@ -204,15 +176,11 @@ public class BtcUpAccount {
         ", eth=" + eth +
         ", emc=" + emc +
         ", zec=" + zec +
-        ", snm=" + snm +
-        ", snt=" + snt +
         ", btcUsd=" + btcUsd +
         ", ltcUsd=" + ltcUsd +
         ", ethUsd=" + ethUsd +
         ", emcUsd=" + emcUsd +
         ", zecUsd=" + zecUsd +
-        ", snmUsd=" + snmUsd +
-        ", sntUsd=" + sntUsd +
         ", margin=" + margin +
         ", levelMC=" + levelMC +
         ", levelFL=" + levelFL +

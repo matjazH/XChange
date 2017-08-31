@@ -120,15 +120,6 @@ public class BtcUpAdapters {
     balances.add(new Balance(new Currency("EMC"), account.getEmc().getAvailable().add(account.getEmc().getBlocked()),
         account.getEmc().getAvailable(), account.getEmc().getBlocked(),
         BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
-
-    balances.add(new Balance(new Currency("SNM"), account.getSnm().getAvailable().add(account.getSnm().getBlocked()),
-        account.getSnm().getAvailable(), account.getSnm().getBlocked(),
-        BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
-
-    balances.add(new Balance(new Currency("SNT"), account.getSnt().getAvailable().add(account.getSnt().getBlocked()),
-        account.getSnt().getAvailable(), account.getSnt().getBlocked(),
-        BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO, BigDecimal.ZERO));
-
     return new Wallet(balances);
   }
 

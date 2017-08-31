@@ -30,8 +30,6 @@ public class BtcUpPollingMarketDataService extends BtcUpPollingMarketDataService
     currencyPairs.add(CurrencyPair.LTC_USD);
     currencyPairs.add(new CurrencyPair("EMC", "USD"));
     currencyPairs.add(new CurrencyPair("ZEC", "USD"));
-    currencyPairs.add(new CurrencyPair("SNM", "USD"));
-    currencyPairs.add(new CurrencyPair("SNT", "USD"));
     return currencyPairs;
   }
 
