@@ -2,7 +2,6 @@ package org.knowm.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -181,7 +180,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
    *
    * @throws java.lang.IllegalArgumentException if the result were to be less than lot size for given currency pair
    */
-  protected BigInteger getLots(Order order) {
+  protected BigDecimal getLots(Order order) {
 
     CurrencyPair pair = order.getCurrencyPair();
     BigDecimal lotDivisor = LOT_SIZES.get(pair);
@@ -190,7 +189,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
     if (lots.compareTo(BigDecimal.ONE) < 0) {
       throw new IllegalArgumentException("Tradable amount too low");
     }
-    return lots.toBigIntegerExact();
+    return lots;
   }
 
 }
