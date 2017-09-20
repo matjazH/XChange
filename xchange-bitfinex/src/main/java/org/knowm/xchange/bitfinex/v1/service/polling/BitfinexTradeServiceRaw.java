@@ -52,9 +52,8 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
   public BitfinexOrderStatusResponse[] getBitfinexOpenOrders() throws IOException {
 
     try {
-      BitfinexOrderStatusResponse[] activeOrders = bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator,
+      return bitfinex.activeOrders(apiKey, payloadCreator, signatureCreator,
           new BitfinexNonceOnlyRequest("/v1/orders", String.valueOf(exchange.getNonceFactory().createValue())));
-      return activeOrders;
     } catch (BitfinexException e) {
       throw new ExchangeException(e.getMessage());
     }
@@ -174,7 +173,7 @@ public class BitfinexTradeServiceRaw extends BitfinexBasePollingService {
 
     try {
       bitfinex.cancelOrders(apiKey, payloadCreator, signatureCreator,
-          new BitfinexCancelOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), Integer.valueOf(orderId)));
+          new BitfinexCancelOrderRequest(String.valueOf(exchange.getNonceFactory().createValue()), Long.valueOf(orderId)));
       return true;
     } catch (BitfinexException e) {
       if (e.getMessage().equals("Order could not be cancelled.")) {
