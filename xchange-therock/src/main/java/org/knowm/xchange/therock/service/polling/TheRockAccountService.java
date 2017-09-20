@@ -10,28 +10,25 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.service.polling.account.PollingAccountService;
 import org.knowm.xchange.therock.TheRockAdapters;
 import org.knowm.xchange.therock.dto.account.TheRockWithdrawalResponse;
+import org.knowm.xchange.therock.service.TheRockAccountServiceRaw;
 
-/**
- * @author Matija Mazi
- */
-public class TheRockAccountService extends TheRockAccountServiceRaw implements PollingAccountService {
 
+public class TheRockAccountService
+    extends TheRockAccountServiceRaw
+    implements PollingAccountService {
   public TheRockAccountService(Exchange exchange) {
     super(exchange);
   }
 
-  @Override
   public AccountInfo getAccountInfo() throws IOException {
-    return TheRockAdapters.adaptAccountInfo(balances(), exchange.getExchangeSpecification().getUserName());
+    return TheRockAdapters.adaptAccountInfo(balances(), this.exchange.getExchangeSpecification().getUserName());
   }
 
-  @Override
   public String withdrawFunds(Currency currency, BigDecimal amount, String address) throws IOException {
-    final TheRockWithdrawalResponse response = withdrawDefault(currency, amount, address);
-    return String.format("%d", response.getTransactionId());
+    TheRockWithdrawalResponse response = withdrawDefault(currency, amount, address);
+    return String.format("%d", new Object[]{response.getTransactionId()});
   }
 
-  @Override
   public String requestDepositAddress(Currency currency, String... arguments) throws IOException {
     throw new NotAvailableFromExchangeException();
   }

@@ -3,18 +3,18 @@ package org.knowm.xchange.therock.dto.marketdata;
 import java.math.BigDecimal;
 
 public class TheRockBid {
-  private BigDecimal price, amount;
+  private BigDecimal price;
+  private BigDecimal amount;
 
   public BigDecimal getPrice() {
-    return price;
+    return this.price;
   }
 
   public BigDecimal getAmount() {
-    return amount;
+    return this.amount;
   }
 
-  @Override
   public String toString() {
-    return String.format("TheRockBid{price=%s, amount=%s}", price, amount);
+    return String.format("TheRockBid{price=%s, amount=%s}", new Object[]{this.price, this.amount});
   }
 }

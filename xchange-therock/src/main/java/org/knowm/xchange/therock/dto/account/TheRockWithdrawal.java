@@ -1,20 +1,16 @@
 package org.knowm.xchange.therock.dto.account;
 
-import java.math.BigDecimal;
-
 import com.fasterxml.jackson.databind.PropertyNamingStrategy;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 
+import java.math.BigDecimal;
+
+
 @JsonNaming(PropertyNamingStrategy.LowerCaseWithUnderscoresStrategy.class)
 public class TheRockWithdrawal {
-
   private String currency;
-
-  /** Should be null for the default method (ie. not Ripple) */
   private Method withdrawMethod;
-
   private String destinationAddress;
-
   private BigDecimal amount;
 
   private TheRockWithdrawal(String currency, BigDecimal amount, String destinationAddress) {
@@ -39,28 +35,29 @@ public class TheRockWithdrawal {
   }
 
   public String getCurrency() {
-    return currency;
+    return this.currency;
   }
 
   public Method getWithdrawMethod() {
-    return withdrawMethod;
+    return this.withdrawMethod;
   }
 
   public String getDestinationAddress() {
-    return destinationAddress;
+    return this.destinationAddress;
   }
 
   public BigDecimal getAmount() {
-    return amount;
+    return this.amount;
   }
 
-  @Override
   public String toString() {
-    return String.format("TheRockWithdrawal{currency='%s', withdrawMethod='%s', destinationAddress='%s', amount=%s}", currency,
-        withdrawMethod == null ? "<default>" : withdrawMethod, destinationAddress, amount);
+    return String.format("TheRockWithdrawal{currency='%s', withdrawMethod='%s', destinationAddress='%s', amount=%s}", new Object[]{this.currency, this.withdrawMethod == null ? "<default>" : this.withdrawMethod, this.destinationAddress, this.amount});
   }
 
-  public enum Method {
-    RIPPLE
+  public static enum Method {
+    RIPPLE;
+
+    private Method() {
+    }
   }
 }

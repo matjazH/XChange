@@ -1,18 +1,18 @@
 package org.knowm.xchange.therock.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.List;
 import java.util.Map;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import si.mazi.rescu.HttpStatusExceptionSupport;
 
-public class TheRockException extends HttpStatusExceptionSupport {
-
+public class TheRockException
+    extends HttpStatusExceptionSupport {
   private List<Error> errors;
 
   public List<Error> getErrors() {
-    return errors;
+    return this.errors;
   }
 
   protected TheRockException() {
@@ -24,29 +24,28 @@ public class TheRockException extends HttpStatusExceptionSupport {
   }
 
   private static String getFirstMessage(List<Error> errors) {
-    return errors == null || errors.isEmpty() ? null : errors.get(0).getMessage();
+    return (errors == null) || (errors.isEmpty()) ? null : ((Error) errors.get(0)).getMessage();
   }
 
   public static class Error {
     private String message;
     private Integer code;
-    private Map<String, String> meta;
+    private Map<String, Object> meta;
 
     public String getMessage() {
-      return message;
+      return this.message;
     }
 
     public Integer getCode() {
-      return code;
+      return this.code;
     }
 
-    public Map<String, String> getMeta() {
-      return meta;
+    public Map<String, Object> getMeta() {
+      return this.meta;
     }
 
-    @Override
     public String toString() {
-      return String.format("Error{message='%s', code=%d, meta=%s}", message, code, meta);
+      return String.format("Error{message='%s', code=%d, meta=%s}", new Object[]{this.message, this.code, this.meta});
     }
   }
 }
