@@ -5,12 +5,7 @@ package org.knowm.xchange.poloniex.service.polling;
  */
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -103,10 +98,12 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
     List<UserTrade> trades = new ArrayList<UserTrade>();
     if (currencyPair == null) {
       HashMap<String, PoloniexUserTrade[]> poloniexUserTrades = returnTradeHistory(startTime, endTime);
-      for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
-        currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
-        for (PoloniexUserTrade poloniexUserTrade : mapEntry.getValue()) {
-          trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+      if (poloniexUserTrades != null) {
+        for (Map.Entry<String, PoloniexUserTrade[]> mapEntry : poloniexUserTrades.entrySet()) {
+          currencyPair = PoloniexUtils.toCurrencyPair(mapEntry.getKey());
+          for (PoloniexUserTrade poloniexUserTrade : mapEntry.getValue()) {
+            trades.add(PoloniexAdapters.adaptPoloniexUserTrade(poloniexUserTrade, currencyPair));
+          }
         }
       }
     } else {
@@ -126,7 +123,13 @@ public class PoloniexTradeService extends PoloniexTradeServiceRaw implements Pol
   @Override
   public TradeHistoryParams createTradeHistoryParams() {
 
-    return new PoloniexTradeHistoryParams();
+    PoloniexTradeHistoryParams poloniexTradeHistoryParams = new PoloniexTradeHistoryParams();
+
+    GregorianCalendar startDate = new GregorianCalendar(Calendar.getInstance().get(Calendar.YEAR) - 1, Calendar.JANUARY, 1);
+    poloniexTradeHistoryParams.setStartTime(startDate.getTime());
+    poloniexTradeHistoryParams.setEndTime(new Date());
+
+    return poloniexTradeHistoryParams;
   }
 
   @Override
