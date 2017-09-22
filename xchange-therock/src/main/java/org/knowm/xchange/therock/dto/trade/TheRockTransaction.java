@@ -80,7 +80,6 @@ public class TheRockTransaction {
       return "TransferDetail [method=" + this.method + ", id=" + this.id + ", recipient=" + this.recipient + ", confirmations=" + this.confirmations + "]";
     }
 
-
     public String getMethod() {
       return this.method;
     }

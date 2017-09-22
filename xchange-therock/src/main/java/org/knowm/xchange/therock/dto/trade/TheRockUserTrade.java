@@ -27,7 +27,6 @@ public class TheRockUserTrade {
     this.side = tradeSide;
     this.orderId = orderId;
 
-
     TheRockUserTradeTransaction ft = null;
     for (TheRockUserTradeTransaction t : transactions) {
       if (t.type == TransactionType.paid_commission) {
@@ -37,7 +36,6 @@ public class TheRockUserTrade {
     }
     this.feeTransaction = ft;
   }
-
 
   public long getId() {
     return this.id;
@@ -71,7 +69,6 @@ public class TheRockUserTrade {
     return this.feeTransaction == null ? BigDecimal.ZERO : this.feeTransaction.price;
   }
 
-  /* 59 */
   public String getFeeCurrency() {
     return this.feeTransaction == null ? null : this.feeTransaction.currency;
   }

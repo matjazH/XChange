@@ -53,82 +53,66 @@ public class TheRockOrder {
   }
 
   public Long getId() {
-
     return this.id;
   }
 
   public TheRock.Pair getFundId() {
-
     return this.fundId;
   }
 
   public Side getSide() {
-
     return this.side;
   }
 
   public Type getType() {
-
     return this.type;
   }
 
   public String getStatus() {
-
     return this.status;
   }
 
   public BigDecimal getAmount() {
-
     return this.amount;
   }
 
   public BigDecimal getAmountUnfilled() {
-
     return this.amountUnfilled;
   }
 
   public BigDecimal getPrice() {
-
     return this.price;
   }
 
   public String getConditionalType() {
-
     return this.conditionalType;
   }
 
   public BigDecimal getConditionalPrice() {
-
     return this.conditionalPrice;
   }
 
   public String getDate() {
-
     return this.date;
   }
 
   public String getCloseOn() {
-
     return this.closeOn;
   }
 
   public boolean isDark() {
-
     return this.dark.booleanValue();
   }
 
   public BigDecimal getLeverage() {
-
     return this.leverage;
   }
 
   public long getPositionId() {
-
     return this.positionId.longValue();
   }
 
   public String toString() {
-
     return String.format("TheRockOrder{id=%d, side=%s, type=%s, amount=%s, amountUnfilled=%s, price=%s, fundId=%s, status='%s'}", new Object[]{this.id, this.side, this.type, this.amount, this.amountUnfilled, this.price, this.fundId, this.status});
   }
 

@@ -8,12 +8,10 @@ public class TheRockWithdrawalResponse {
   private Integer transactionId;
 
   public Integer getTransactionId() {
-
     return this.transactionId;
   }
 
   public String toString() {
-
     return String.format("TheRockWithdrawalResponse{transactionId=%d}", new Object[]{this.transactionId});
   }
 }

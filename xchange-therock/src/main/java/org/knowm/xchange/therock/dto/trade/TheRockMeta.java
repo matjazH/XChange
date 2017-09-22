@@ -14,32 +14,26 @@ public class TheRockMeta {
   private TheRockMetaItem last;
 
   public long getTotalCount() {
-
     return this.totalCount;
   }
 
   public TheRockMetaItem getFirst() {
-
     return this.first;
   }
 
   public TheRockMetaItem getPrevious() {
-
     return this.previous;
   }
 
   public TheRockMetaItem getCurrent() {
-
     return this.current;
   }
 
   public TheRockMetaItem getNext() {
-
     return this.next;
   }
 
   public TheRockMetaItem getLast() {
-
     return this.last;
   }
 }
