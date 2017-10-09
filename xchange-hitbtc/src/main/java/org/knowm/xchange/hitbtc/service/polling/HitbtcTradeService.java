@@ -40,7 +40,7 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   public OpenOrders getOpenOrders() throws IOException {
 
     HitbtcOrder[] openOrdersRaw = getOpenOrdersRaw();
-    return HitbtcAdapters.adaptOpenOrders(openOrdersRaw);
+    return HitbtcAdapters.adaptOpenOrders(openOrdersRaw, exchange.getMetaData());
   }
 
   @Override
@@ -82,11 +82,9 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
     int offset = count * (pageNumber != null ? pageNumber : 0);
 
     CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-    if (pair == null) {
-      pair = CurrencyPair.BTC_USD;
-    }
 
     HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, HitbtcAdapters.adaptCurrencyPair(pair));
+    
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getMetaData());
   }
 

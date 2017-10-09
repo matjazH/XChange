@@ -2,8 +2,6 @@ package org.knowm.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -20,22 +18,6 @@ import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
 public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
-
-  // TODO move this to metadata
-  private static Map<CurrencyPair, BigDecimal> LOT_SIZES = new HashMap<CurrencyPair, BigDecimal>();
-
-  static {
-
-    LOT_SIZES.put(new CurrencyPair("BTC/USD"), new BigDecimal("0.01"));
-    LOT_SIZES.put(new CurrencyPair("BTC/EUR"), new BigDecimal("0.01"));
-    LOT_SIZES.put(new CurrencyPair("LTC/BTC"), new BigDecimal("0.1"));
-    LOT_SIZES.put(new CurrencyPair("LTC/USD"), new BigDecimal("0.1"));
-    LOT_SIZES.put(new CurrencyPair("LTC/EUR"), new BigDecimal("0.1"));
-    LOT_SIZES.put(new CurrencyPair("DOGE/BTC"), new BigDecimal("1000"));
-    LOT_SIZES.put(new CurrencyPair("XMR/BTC"), new BigDecimal("0.01"));
-    LOT_SIZES.put(new CurrencyPair("BCN/BTC"), new BigDecimal("100"));
-    LOT_SIZES.put(new CurrencyPair("XDN/BTC"), new BigDecimal("100"));
-  }
 
   /**
    * Constructor
@@ -183,7 +165,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
   protected BigDecimal getLots(Order order) {
 
     CurrencyPair pair = order.getCurrencyPair();
-    BigDecimal lotDivisor = LOT_SIZES.get(pair);
+    BigDecimal lotDivisor = exchange.getMetaData().getMarketMetaDataMap().get(pair).getMinimumAmount();
 
     BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_UNNECESSARY);
     if (lots.compareTo(BigDecimal.ONE) < 0) {
