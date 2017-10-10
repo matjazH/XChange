@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.math.BigDecimal;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.btce.v3.BTCEExchange;
-import org.knowm.xchange.btce.v3.dto.marketdata.BTCEExchangeInfo;
-import org.knowm.xchange.btce.v3.dto.meta.BTCEMetaData;
-import org.knowm.xchange.btce.v3.service.polling.BTCEMarketDataService;
+import org.knowm.xchange.btce.v3.WEXExchange;
+import org.knowm.xchange.btce.v3.dto.marketdata.WEXExchangeInfo;
+import org.knowm.xchange.btce.v3.dto.meta.WEXMetaData;
+import org.knowm.xchange.btce.v3.service.polling.WEXMarketDataService;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
@@ -21,7 +21,7 @@ public class BTCEMetaDataDemo {
 
   public static void main(String[] args) throws IOException {
 
-    BTCEExchange btce = (BTCEExchange) BTCEExamplesUtils.createExchange();
+    WEXExchange btce = (WEXExchange) BTCEExamplesUtils.createExchange();
     rawLocal(btce);
 
     rawRemote(btce);
@@ -29,21 +29,21 @@ public class BTCEMetaDataDemo {
     generic(btce);
   }
 
-  private static void rawLocal(BTCEExchange exchange) throws IOException {
-    BTCEMetaData btceMetaData = exchange.getBtceMetaData();
+  private static void rawLocal(WEXExchange exchange) throws IOException {
+    WEXMetaData WEXMetaData = exchange.getWEXMetaData();
     System.out
-        .println("BTCE local meta data: amountScale=" + btceMetaData.amountScale + " public data TTL seconds" + btceMetaData.publicInfoCacheSeconds);
+        .println("WEX local meta data: amountScale=" + WEXMetaData.amountScale + " public data TTL seconds" + WEXMetaData.publicInfoCacheSeconds);
   }
 
   private static void rawRemote(Exchange btce) throws IOException {
-    BTCEExchangeInfo btceInfo = ((BTCEMarketDataService) btce.getPollingMarketDataService()).getBTCEInfo();
-    System.out.println("BTCE remote meta data: " + btceInfo);
+    WEXExchangeInfo btceInfo = ((WEXMarketDataService) btce.getPollingMarketDataService()).getBTCEInfo();
+    System.out.println("WEX remote meta data: " + btceInfo);
 
   }
 
   private static void generic(Exchange exchange) throws IOException {
     ExchangeMetaData metaData = (ExchangeMetaData) exchange.getMetaData();
-    System.out.println("BTCE generic meta data: " + metaData);
+    System.out.println("WEX generic meta data: " + metaData);
 
     exchange.getPollingTradeService()
         .verifyOrder(new MarketOrder.Builder(Order.OrderType.ASK, CurrencyPair.BTC_EUR).tradableAmount(BigDecimal.ONE).build());

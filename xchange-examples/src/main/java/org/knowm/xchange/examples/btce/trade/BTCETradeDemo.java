@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import java.util.Map;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.btce.v3.dto.trade.BTCECancelOrderResult;
-import org.knowm.xchange.btce.v3.dto.trade.BTCEOrder;
-import org.knowm.xchange.btce.v3.dto.trade.BTCEPlaceOrderResult;
-import org.knowm.xchange.btce.v3.service.polling.BTCETradeServiceRaw;
+import org.knowm.xchange.btce.v3.dto.trade.WEXCancelOrderResult;
+import org.knowm.xchange.btce.v3.dto.trade.WEXOrder;
+import org.knowm.xchange.btce.v3.dto.trade.WEXPlaceOrderResult;
+import org.knowm.xchange.btce.v3.service.polling.WEXTradeServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 import org.knowm.xchange.dto.trade.LimitOrder;
@@ -57,24 +57,24 @@ public class BTCETradeDemo {
 
   private static void raw(Exchange exchange) throws IOException {
 
-    BTCETradeServiceRaw tradeService = (BTCETradeServiceRaw) exchange.getPollingTradeService();
+    WEXTradeServiceRaw tradeService = (WEXTradeServiceRaw) exchange.getPollingTradeService();
 
     printRawOpenOrders(tradeService);
 
     // place buy order
-    BTCEOrder.Type type = BTCEOrder.Type.buy;
+    WEXOrder.Type type = WEXOrder.Type.buy;
     String pair = "btc_usd";
-    BTCEOrder btceOrder = new BTCEOrder(0, null, new BigDecimal("1"), new BigDecimal("0.1"), type, pair);
+    WEXOrder WEXOrder = new WEXOrder(0, null, new BigDecimal("1"), new BigDecimal("0.1"), type, pair);
 
-    BTCEPlaceOrderResult result = null;
+    WEXPlaceOrderResult result = null;
     try {
-      result = tradeService.placeBTCEOrder(btceOrder);
+      result = tradeService.placeBTCEOrder(WEXOrder);
       System.out.println("placeBTCEOrder return value: " + result);
 
       printRawOpenOrders(tradeService);
 
       // Cancel the added order
-      BTCECancelOrderResult cancelResult = tradeService.cancelBTCEOrder(result.getOrderId());
+      WEXCancelOrderResult cancelResult = tradeService.cancelBTCEOrder(result.getOrderId());
       System.out.println("Canceling returned " + cancelResult);
     } catch (ExchangeException e) {
       System.out.println(e.getMessage());
@@ -89,10 +89,10 @@ public class BTCETradeDemo {
     System.out.println("Open Orders: " + openOrders.toString());
   }
 
-  private static void printRawOpenOrders(BTCETradeServiceRaw tradeService) throws IOException {
+  private static void printRawOpenOrders(WEXTradeServiceRaw tradeService) throws IOException {
 
-    Map<Long, BTCEOrder> openOrders = tradeService.getBTCEActiveOrders(null);
-    for (Map.Entry<Long, BTCEOrder> entry : openOrders.entrySet()) {
+    Map<Long, WEXOrder> openOrders = tradeService.getBTCEActiveOrders(null);
+    for (Map.Entry<Long, WEXOrder> entry : openOrders.entrySet()) {
       System.out.println("ID: " + entry.getKey() + ", Order:" + entry.getValue());
     }
   }
