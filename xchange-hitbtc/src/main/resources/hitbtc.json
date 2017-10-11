@@ -1,12 +1,25 @@
 {
   "currency": {
-    "BNC": {"scale": 8},
     "BTC": {"scale": 8},
-    "EUR": {"scale": 8},
-    "DOGE": {"scale": 8},
     "LTC": {"scale": 8},
-    "USD": {"scale": 8},
+    "DSH": {"scale": 8},
+    "ETH": {"scale": 8},
+    "NXT": {"scale": 8},
+    "BCN": {"scale": 8},
     "XDN": {"scale": 8},
-    "XMR": {"scale": 8}
+    "DOGE": {"scale": 8},
+    "XMR": {"scale": 8},
+    "QCN": {"scale": 8},
+    "FCN": {"scale": 8},
+    "LSK": {"scale": 8},
+    "STEEM": {"scale": 8},
+    "SBD": {"scale": 8},
+    "DASH": {"scale": 8},
+    "XEM": {"scale": 8},
+    "EMC": {"scale": 8},
+    "SC": {"scale": 8},
+    "ARDR": {"scale": 8},
+    "ZEC": {"scale": 8},
+    "WAVES": {"scale": 8}
   }
 }

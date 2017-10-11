@@ -232,19 +232,28 @@ public class HitbtcAdapters {
     return adaptTrades(trades, currencyPair);
   }
 
+  public static BigDecimal getAmount(HitbtcOrder order, MarketMetaData marketMetaData) {
+    if (marketMetaData != null) {
+      BigDecimal minimumAmount = marketMetaData.getMinimumAmount();
+      if (minimumAmount != null) {
+        return order.getOrderQuantity().multiply(minimumAmount);
+      }
+    }
+    return order.getOrderQuantity();
+  }
+
   public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw, ExchangeMetaData metaData) {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>(openOrdersRaw.length);
 
     for (int i = 0; i < openOrdersRaw.length; i++) {
       HitbtcOrder o = openOrdersRaw[i];
-
       OrderType type = adaptOrderType(o.getSide());
-
       CurrencyPair pair = adaptSymbol(o.getSymbol());
-      BigDecimal orderAmount = o.getOrderQuantity().multiply(metaData.getMarketMetaDataMap().get(pair).getMinimumAmount());
-      LimitOrder order = new LimitOrder(type, orderAmount, pair, o.getClientOrderId(), new Date(o.getLastTimestamp()),
-          o.getOrderPrice());
+
+      BigDecimal orderAmount = getAmount(o, metaData.getMarketMetaDataMap().get(pair));
+      LimitOrder order = new LimitOrder(type, orderAmount, pair, o.getClientOrderId(),
+          new Date(o.getLastTimestamp()), o.getOrderPrice());
 
       openOrders.add(order);
     }

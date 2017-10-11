@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.meta.MarketMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
@@ -165,13 +166,18 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
   protected BigDecimal getLots(Order order) {
 
     CurrencyPair pair = order.getCurrencyPair();
-    BigDecimal lotDivisor = exchange.getMetaData().getMarketMetaDataMap().get(pair).getMinimumAmount();
-
-    BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_UNNECESSARY);
-    if (lots.compareTo(BigDecimal.ONE) < 0) {
-      throw new IllegalArgumentException("Tradable amount too low");
+    MarketMetaData marketMetaData = exchange.getMetaData().getMarketMetaDataMap().get(pair);
+    if (marketMetaData != null) {
+      BigDecimal lotDivisor = marketMetaData.getMinimumAmount();
+      if (lotDivisor != null) {
+        BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_UNNECESSARY);
+        if (lots.compareTo(BigDecimal.ONE) < 0) {
+          throw new IllegalArgumentException("Tradable amount too low");
+        }
+        return lots;
+      }
     }
-    return lots;
+    throw new IllegalArgumentException("HitBtc lots error");
   }
 
 }
