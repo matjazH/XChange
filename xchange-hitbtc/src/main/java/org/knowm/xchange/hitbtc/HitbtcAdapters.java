@@ -20,10 +20,7 @@ import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.MarketMetaData;
-import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
-import org.knowm.xchange.dto.trade.UserTrade;
-import org.knowm.xchange.dto.trade.UserTrades;
+import org.knowm.xchange.dto.trade.*;
 import org.knowm.xchange.hitbtc.dto.account.HitbtcBalance;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
@@ -235,17 +232,28 @@ public class HitbtcAdapters {
     return adaptTrades(trades, currencyPair);
   }
 
-  public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw) {
+  public static BigDecimal getAmount(HitbtcOrder order, MarketMetaData marketMetaData) {
+    if (marketMetaData != null) {
+      BigDecimal minimumAmount = marketMetaData.getMinimumAmount();
+      if (minimumAmount != null) {
+        return order.getOrderQuantity().multiply(minimumAmount);
+      }
+    }
+    return order.getOrderQuantity();
+  }
+
+  public static OpenOrders adaptOpenOrders(HitbtcOrder[] openOrdersRaw, ExchangeMetaData metaData) {
 
     List<LimitOrder> openOrders = new ArrayList<LimitOrder>(openOrdersRaw.length);
 
     for (int i = 0; i < openOrdersRaw.length; i++) {
       HitbtcOrder o = openOrdersRaw[i];
-
       OrderType type = adaptOrderType(o.getSide());
+      CurrencyPair pair = adaptSymbol(o.getSymbol());
 
-      LimitOrder order = new LimitOrder(type, o.getExecQuantity(), adaptSymbol(o.getSymbol()), o.getClientOrderId(), new Date(o.getLastTimestamp()),
-          o.getOrderPrice());
+      BigDecimal orderAmount = getAmount(o, metaData.getMarketMetaDataMap().get(pair));
+      LimitOrder order = new LimitOrder(type, orderAmount, pair, o.getClientOrderId(),
+          new Date(o.getLastTimestamp()), o.getOrderPrice());
 
       openOrders.add(order);
     }
@@ -301,12 +309,7 @@ public class HitbtcAdapters {
 
   public static String createOrderId(Order order, long nonce) {
 
-//    if (order.getId() == null || "".equals(order.getId())) {
-//      // encoding side in client order id
-      return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
-//    } else {
-//      return order.getId();
-//    }
+    return order.getType().name().substring(0, 1) + DELIM + adaptCurrencyPair(order.getCurrencyPair()) + DELIM + nonce;
   }
 
   public static OrderType readOrderType(String orderId) {

@@ -4,9 +4,9 @@ import java.io.IOException;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.btce.v3.BTCEExchange;
-import org.knowm.xchange.btce.v3.dto.marketdata.BTCETickerWrapper;
-import org.knowm.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
+import org.knowm.xchange.btce.v3.WEXExchange;
+import org.knowm.xchange.btce.v3.dto.marketdata.WEXTickerWrapper;
+import org.knowm.xchange.btce.v3.service.polling.WEXMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -22,7 +22,7 @@ public class BTCETickerDemo {
     CertHelper.trustAllCerts();
 
     // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    Exchange btce = ExchangeFactory.INSTANCE.createExchange(WEXExchange.class.getName());
     generic(btce);
     raw(btce);
   }
@@ -46,10 +46,10 @@ public class BTCETickerDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    WEXMarketDataServiceRaw marketDataService = (WEXMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest ticker data showing BTC to USD
-    BTCETickerWrapper ticker = marketDataService.getBTCETicker("btc_usd");
+    WEXTickerWrapper ticker = marketDataService.getBTCETicker("btc_usd");
     System.out.println(ticker.toString());
   }
 

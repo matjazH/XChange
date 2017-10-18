@@ -12,6 +12,7 @@ import org.knowm.xchange.poloniex.service.polling.PoloniexAccountService;
 import org.knowm.xchange.poloniex.service.polling.PoloniexMarketDataService;
 import org.knowm.xchange.poloniex.service.polling.PoloniexMarketDataServiceRaw;
 import org.knowm.xchange.poloniex.service.polling.PoloniexTradeService;
+import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import org.knowm.xchange.utils.nonce.TimestampIncrementingNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
@@ -22,7 +23,7 @@ import si.mazi.rescu.SynchronizedValueFactory;
 
 public class PoloniexExchange extends BaseExchange implements Exchange {
 
-  private SynchronizedValueFactory<Long> nonceFactory = new TimestampIncrementingNonceFactory();
+  private SynchronizedValueFactory<Long> nonceFactory = new CurrentTimeNonceFactory();
 
   @Override
   protected void initServices() {

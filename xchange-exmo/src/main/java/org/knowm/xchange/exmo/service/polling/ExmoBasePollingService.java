@@ -1,7 +1,6 @@
 package org.knowm.xchange.exmo.service.polling;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.service.polling.BasePollingService;
 

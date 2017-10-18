@@ -28,7 +28,7 @@ public class BitfinexTradeDataJSONTest {
     InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-place-order-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
-    assertEquals(4003264, response.getId());
+    assertEquals(4003264, response.getId().intValue());
     assertEquals("btcusd", response.getSymbol());
     assertEquals("bitfinex", response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());
@@ -50,7 +50,7 @@ public class BitfinexTradeDataJSONTest {
     InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-cancel-order-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
-    assertEquals(4003242, response.getId());
+    assertEquals(4003242, response.getId().intValue());
     assertEquals("btcusd", response.getSymbol());
     assertNull(response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());
@@ -72,7 +72,7 @@ public class BitfinexTradeDataJSONTest {
     InputStream resourceAsStream = BitfinexTradeDataJSONTest.class.getResourceAsStream("/v1/trade/example-open-orders-data.json");
     BitfinexOrderStatusResponse response = new ObjectMapper().readValue(resourceAsStream, BitfinexOrderStatusResponse.class);
 
-    assertEquals(4003242, response.getId());
+    assertEquals(4003242, response.getId().intValue());
     assertEquals("btcusd", response.getSymbol());
     assertNull(response.getExchange());
     assertEquals(new BigDecimal("900.0"), response.getPrice());

@@ -2,13 +2,11 @@ package org.knowm.xchange.hitbtc.service.polling;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.HashMap;
-import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
+import org.knowm.xchange.dto.meta.MarketMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
@@ -21,7 +19,6 @@ import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcTradeResponse;
 
 public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
-
 
   /**
    * Constructor
@@ -123,12 +120,11 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
   public HitbtcExecutionReportResponse cancelOrderRaw(String orderId) throws IOException {
 
     // extract symbol and side from original order id: buy/sell
-    String originalSide = null; // HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId)).toString();
-    String symbol = null; // HitbtcAdapters.readSymbol(orderId);
+    String originalSide = HitbtcAdapters.getSide(HitbtcAdapters.readOrderType(orderId)).toString();
+    String symbol = HitbtcAdapters.readSymbol(orderId);
 
-    //FIXED: originalSide, symbol & cancelRequestClientOrderId NOT required anymore
     try {
-      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, null, symbol, originalSide);
+      return hitbtc.postHitbtcCancelOrder(signatureCreator, exchange.getNonceFactory(), apiKey, orderId, orderId, symbol, originalSide);
     } catch (HitbtcException e) {
       throw handleException(e);
     }
@@ -167,16 +163,21 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
    *
    * @throws java.lang.IllegalArgumentException if the result were to be less than lot size for given currency pair
    */
-  protected BigInteger getLots(Order order) {
+  protected BigDecimal getLots(Order order) {
 
     CurrencyPair pair = order.getCurrencyPair();
-    BigDecimal lotDivisor = exchange.getMetaData().getMarketMetaDataMap().get(pair).getMinimumAmount();
-
-    BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_UNNECESSARY);
-    if (lots.compareTo(BigDecimal.ONE) < 0) {
-      throw new IllegalArgumentException("Tradable amount too low");
+    MarketMetaData marketMetaData = exchange.getMetaData().getMarketMetaDataMap().get(pair);
+    if (marketMetaData != null) {
+      BigDecimal lotDivisor = marketMetaData.getMinimumAmount();
+      if (lotDivisor != null) {
+        BigDecimal lots = order.getTradableAmount().divide(lotDivisor, BigDecimal.ROUND_UNNECESSARY);
+        if (lots.compareTo(BigDecimal.ONE) < 0) {
+          throw new IllegalArgumentException("Tradable amount too low");
+        }
+        return lots;
+      }
     }
-    return lots.toBigIntegerExact();
+    throw new IllegalArgumentException("HitBtc lots error");
   }
 
 }

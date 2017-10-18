@@ -5,9 +5,9 @@ import java.util.Map;
 
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeFactory;
-import org.knowm.xchange.btce.v3.BTCEExchange;
-import org.knowm.xchange.btce.v3.dto.marketdata.BTCETrade;
-import org.knowm.xchange.btce.v3.service.polling.BTCEMarketDataServiceRaw;
+import org.knowm.xchange.btce.v3.WEXExchange;
+import org.knowm.xchange.btce.v3.dto.marketdata.WEXTrade;
+import org.knowm.xchange.btce.v3.service.polling.WEXMarketDataServiceRaw;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
@@ -20,7 +20,7 @@ public class BTCETradesDemo {
   public static void main(String[] args) throws IOException {
 
     // Use the factory to get BTC-E exchange API using default settings
-    Exchange btce = ExchangeFactory.INSTANCE.createExchange(BTCEExchange.class.getName());
+    Exchange btce = ExchangeFactory.INSTANCE.createExchange(WEXExchange.class.getName());
     generic(btce);
     raw(btce);
   }
@@ -39,14 +39,14 @@ public class BTCETradesDemo {
   private static void raw(Exchange exchange) throws IOException {
 
     // Interested in the public polling market data feed (no authentication)
-    BTCEMarketDataServiceRaw marketDataService = (BTCEMarketDataServiceRaw) exchange.getPollingMarketDataService();
+    WEXMarketDataServiceRaw marketDataService = (WEXMarketDataServiceRaw) exchange.getPollingMarketDataService();
 
     // Get the latest trade data for BTC/USD
-    Map<String, BTCETrade[]> trades = marketDataService.getBTCETrades("btc_usd", 7).getTradesMap();
+    Map<String, WEXTrade[]> trades = marketDataService.getBTCETrades("btc_usd", 7).getTradesMap();
 
-    for (Map.Entry<String, BTCETrade[]> entry : trades.entrySet()) {
+    for (Map.Entry<String, WEXTrade[]> entry : trades.entrySet()) {
       System.out.println("Pair: " + entry.getKey() + ", Trades:");
-      for (BTCETrade trade : entry.getValue()) {
+      for (WEXTrade trade : entry.getValue()) {
         System.out.println(trade.toString());
       }
     }

@@ -27,7 +27,7 @@ public class ExmoAccountServiceRaw extends ExmoBasePollingService {
 
     super(exchange);
 
-    this.exmoAuthenticated = RestProxyFactory.createProxy(ExmoAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.exmoAuthenticated = RestProxyFactory.createProxy(ExmoAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.signatureCreator = ExmoDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
   }

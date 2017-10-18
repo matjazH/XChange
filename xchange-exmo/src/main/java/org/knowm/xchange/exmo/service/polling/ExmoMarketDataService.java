@@ -11,8 +11,8 @@ import org.knowm.xchange.dto.marketdata.Ticker;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoOrderbook;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoPair;
-import org.knowm.xchange.exmo.dto.marketdata.ExmoTicker;
 import org.knowm.xchange.exmo.dto.marketdata.ExmoTrade;
+import org.knowm.xchange.exmo.dto.marketdata.ExmoTicker;
 import org.knowm.xchange.service.polling.marketdata.PollingMarketDataService;
 
 public class ExmoMarketDataService extends ExmoMarketDataServiceRaw implements PollingMarketDataService {

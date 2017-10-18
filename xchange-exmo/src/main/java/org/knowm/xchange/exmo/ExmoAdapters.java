@@ -51,14 +51,14 @@ public final class ExmoAdapters {
   }
 
   public static AccountInfo adaptAccountInfo(ExmoUserInfo userInfo) {
+      List<Balance> balances = new ArrayList<>();
+      for (Map.Entry<String, BigDecimal> balancePair : userInfo.getBalances().entrySet()) {
+          Currency currency = Currency.getInstance(balancePair.getKey());
+          BigDecimal frozen = userInfo.getReserved().get(balancePair.getKey());
+          balances.add(new Balance(currency, balancePair.getValue().add(frozen), balancePair.getValue(), frozen));
+      }
 
-    List<Balance> balances = new ArrayList<Balance>();
-    for (Map.Entry<String, BigDecimal> balancePair : userInfo.getBalances().entrySet()) {
-      Currency currency = Currency.getInstance(balancePair.getKey());
-      balances.add(new Balance(currency, balancePair.getValue()));
-    }
-
-    return new AccountInfo(String.valueOf(userInfo.getUid()), new Wallet(balances));
+      return new AccountInfo(String.valueOf(userInfo.getUid()), new Wallet[] { new Wallet(balances) });
   }
 
   public static OrderBook adaptOrderBook(ExmoOrderbook exmoOrderbook, CurrencyPair currencyPair) {
