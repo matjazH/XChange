@@ -6,9 +6,6 @@ import org.knowm.xchange.ExchangeSpecification;
 import org.knowm.xchange.gemini.service.polling.GeminiAccountService;
 import org.knowm.xchange.gemini.service.polling.GeminiMarketDataService;
 import org.knowm.xchange.gemini.service.polling.GeminiTradeService;
-import org.knowm.xchange.gemini.service.streaming.GeminiStreamingService;
-import org.knowm.xchange.service.streaming.ExchangeStreamingConfiguration;
-import org.knowm.xchange.service.streaming.StreamingExchangeService;
 import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -41,13 +38,6 @@ public class GeminiExchange extends BaseExchange implements Exchange {
   @Override
   public SynchronizedValueFactory<Long> getNonceFactory() {
     return new CurrentTimeNonceFactory();
-  }
-
-
-  @Override
-  public StreamingExchangeService getStreamingExchangeService(ExchangeStreamingConfiguration configuration) {
-
-    return new GeminiStreamingService(configuration);
   }
 
 }

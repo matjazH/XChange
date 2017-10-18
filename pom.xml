@@ -84,7 +84,6 @@
 		<module>xchange-btc38</module>
 		<module>xchange-btccentral</module>
 		<module>xchange-btcchina</module>
-		<module>xchange-btce</module>
 		<module>xchange-btcmarkets</module>
 		<module>xchange-btctrade</module>
 		<module>xchange-bter</module>
@@ -105,7 +104,6 @@
 		<module>xchange-cryptonit</module>
 		<module>xchange-cryptsy</module>
 		<module>xchange-empoex</module>
-		<module>xchange-examples</module>
 		<module>xchange-exmo</module>
 		<module>xchange-gatecoin</module>
 		<module>xchange-hitbtc</module>
