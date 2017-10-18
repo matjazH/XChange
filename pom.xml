@@ -105,6 +105,7 @@
 		<module>xchange-cryptsy</module>
 		<module>xchange-empoex</module>
 		<module>xchange-exmo</module>
+		<module>xchange-gdax</module>
 		<module>xchange-gatecoin</module>
 		<module>xchange-hitbtc</module>
 		<module>xchange-itbit</module>
