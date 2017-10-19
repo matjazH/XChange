@@ -16,7 +16,8 @@ public class TheRockMarketDataServiceRaw extends TheRockBaseService {
 
   public TheRockMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
-    this.theRock = ((TheRock) RestProxyFactory.createProxy(TheRock.class, exchange.getExchangeSpecification().getSslUri()));
+    this.theRock = ((TheRock) RestProxyFactory.createProxy(TheRock.class, exchange.getExchangeSpecification().getSslUri(),
+            createClientConfig(exchange.getExchangeSpecification())));
   }
 
   public TheRockFunds getFunds() throws IOException {

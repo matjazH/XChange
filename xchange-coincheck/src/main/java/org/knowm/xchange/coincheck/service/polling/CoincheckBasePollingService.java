@@ -29,7 +29,7 @@ public class CoincheckBasePollingService extends BaseExchangeService implements 
   protected CoincheckBasePollingService(Exchange exchange) {
     super(exchange);
 
-    this.coincheck = RestProxyFactory.createProxy(CoincheckAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.coincheck = RestProxyFactory.createProxy(CoincheckAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = CoincheckDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

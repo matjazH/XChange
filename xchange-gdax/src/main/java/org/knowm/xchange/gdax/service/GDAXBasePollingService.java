@@ -22,7 +22,7 @@ public class GDAXBasePollingService<T extends GDAX> extends BaseExchangeService 
   protected GDAXBasePollingService(Class<T> type, Exchange exchange) {
 
     super(exchange);
-    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri()/*, createClientConfig(exchange.getExchangeSpecification())*/);
+    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.digest = GDAXDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
 
     this.apiKey = exchange.getExchangeSpecification().getApiKey();

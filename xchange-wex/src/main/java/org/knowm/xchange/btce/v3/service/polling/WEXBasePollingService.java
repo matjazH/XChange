@@ -31,7 +31,7 @@ public class WEXBasePollingService extends BaseExchangeService implements BasePo
 
     super(exchange);
 
-    this.btce = RestProxyFactory.createProxy(WEXAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+    this.btce = RestProxyFactory.createProxy(WEXAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = WEXHmacPostBodyDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }

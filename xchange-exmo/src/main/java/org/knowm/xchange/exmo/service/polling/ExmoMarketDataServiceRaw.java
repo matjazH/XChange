@@ -24,7 +24,7 @@ public class ExmoMarketDataServiceRaw extends ExmoBasePollingService {
   public ExmoMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.exmo = RestProxyFactory.createProxy(Exmo.class, exchange.getExchangeSpecification().getSslUri());
+    this.exmo = RestProxyFactory.createProxy(Exmo.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public Map<String, ExmoTicker> getExmoTickers() throws IOException {

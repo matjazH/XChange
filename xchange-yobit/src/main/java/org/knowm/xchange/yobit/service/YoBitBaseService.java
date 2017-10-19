@@ -13,7 +13,7 @@ public class YoBitBaseService<T extends YoBit> extends BaseExchangeService imple
   protected YoBitBaseService(Class<T> type, Exchange exchange) {
     super(exchange);
 
-    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri());
+    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
 }
