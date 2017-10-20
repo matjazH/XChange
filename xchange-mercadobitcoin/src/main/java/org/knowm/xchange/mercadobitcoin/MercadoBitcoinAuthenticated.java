@@ -27,6 +27,14 @@ import si.mazi.rescu.SynchronizedValueFactory;
 @Consumes(MediaType.APPLICATION_FORM_URLENCODED)
 @Produces(MediaType.APPLICATION_JSON)
 public interface MercadoBitcoinAuthenticated {
+  @POST
+  @Path("v3/")
+  public MercadoBitcoinBaseResponse<MercadoBitcoinOrderResponse> getOrder(@HeaderParam("TAPI-ID") String key,
+                                                                          @HeaderParam("TAPI-MAC") ParamsDigest sign,
+                                                                          @FormParam("tapi_method") String method,
+                                                                          @FormParam("tapi_nonce") SynchronizedValueFactory<Long> nonce,
+                                                                          @FormParam("coin_pair") String coinPair,
+                                                                          @FormParam("order_id") String id) throws IOException;
 
   @POST
   @Path("v3/")
@@ -57,10 +65,9 @@ public interface MercadoBitcoinAuthenticated {
   @POST
   @Path("v3/")
   public MercadoBitcoinBaseResponse<MercadoBitcoinOrderResponse> cancelOrder(@HeaderParam("TAPI-ID") String key,
-                                                                     @HeaderParam("TAPI-MAC") ParamsDigest sign,
-                                                                     @FormParam("tapi_method") String method,
-                                                                     @FormParam("tapi_nonce") SynchronizedValueFactory<Long> nonce,
-                                                                     @FormParam("coin_pair") String coinPair,
-                                                                     @FormParam("order_id") String id) throws IOException;
-
+                                                                             @HeaderParam("TAPI-MAC") ParamsDigest sign,
+                                                                             @FormParam("tapi_method") String method,
+                                                                             @FormParam("tapi_nonce") SynchronizedValueFactory<Long> nonce,
+                                                                             @FormParam("coin_pair") String coinPair,
+                                                                             @FormParam("order_id") String id) throws IOException;
 }

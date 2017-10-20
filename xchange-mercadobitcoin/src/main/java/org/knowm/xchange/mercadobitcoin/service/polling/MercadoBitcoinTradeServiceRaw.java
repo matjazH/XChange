@@ -17,6 +17,7 @@ import java.io.IOException;
  */
 public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingService {
 
+  private static final String GET_ORDER = "get_order";
   private static final String GET_ORDER_LIST = "list_orders";
   private static final String PLACE_BUY_ORDER = "place_buy_order";
   private static final String PLACE_SELL_ORDER = "place_sell_order";
@@ -71,6 +72,15 @@ public class MercadoBitcoinTradeServiceRaw extends MercadoBitcoinBasePollingServ
 
     checkResponse(response);
     return response.getStatusCode() == 100;
+  }
+
+  public MercadoBitcoinOrderResponse mercadoBitcoinGetOrder(String pair, String orderId) throws IOException  {
+    MercadoBitcoinBaseResponse<MercadoBitcoinOrderResponse> response = mercadoBitcoinAuthenticated.getOrder(
+        exchange.getExchangeSpecification().getApiKey(), signatureCreator, GET_ORDER,
+        exchange.getNonceFactory(), pair, orderId);
+
+    checkResponse(response);
+    return response.getResponseData();
   }
 
 }

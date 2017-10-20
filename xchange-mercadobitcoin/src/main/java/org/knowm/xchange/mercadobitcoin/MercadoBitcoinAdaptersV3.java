@@ -7,22 +7,10 @@ import org.knowm.xchange.dto.Order.OrderType;
 import org.knowm.xchange.dto.account.AccountInfo;
 import org.knowm.xchange.dto.account.Balance;
 import org.knowm.xchange.dto.account.Wallet;
-import org.knowm.xchange.dto.marketdata.OrderBook;
-import org.knowm.xchange.dto.marketdata.Ticker;
-import org.knowm.xchange.dto.marketdata.Trade;
 import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrade;
 import org.knowm.xchange.dto.trade.UserTrades;
-import org.knowm.xchange.mercadobitcoin.dto.MercadoBitcoinBaseTradeApiResult;
-import org.knowm.xchange.mercadobitcoin.dto.account.MercadoBitcoinAccountInfo;
-import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinOrderBook;
-import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTicker;
-import org.knowm.xchange.mercadobitcoin.dto.marketdata.MercadoBitcoinTransaction;
-import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrders;
-import org.knowm.xchange.mercadobitcoin.dto.trade.MercadoBitcoinUserOrdersEntry;
-import org.knowm.xchange.mercadobitcoin.dto.trade.OperationEntry;
 import org.knowm.xchange.mercadobitcoin.dto.v3.account.MercadoBitcoinAccount;
 import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOperation;
 import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrder;
@@ -30,7 +18,6 @@ import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrdersRespons
 import org.knowm.xchange.utils.DateUtils;
 
 import java.math.BigDecimal;
-import java.text.MessageFormat;
 import java.util.*;
 
 import static org.knowm.xchange.utils.DateUtils.fromUnixTime;
@@ -67,12 +54,12 @@ public final class MercadoBitcoinAdaptersV3 {
     List<LimitOrder> limitOrders = new ArrayList<>();
 
     for (MercadoBitcoinOrder mercadoBitcoinOrder : mercadoBitcoinOrders) {
-      limitOrders.add(adaprtOrder(mercadoBitcoinOrder));
+      limitOrders.add(adaptOrder(mercadoBitcoinOrder));
     }
     return limitOrders;
   }
 
-  public static LimitOrder adaprtOrder(MercadoBitcoinOrder mercadoBitcoinOrder) {
+  public static LimitOrder adaptOrder(MercadoBitcoinOrder mercadoBitcoinOrder) {
     Order.OrderType orderType = mercadoBitcoinOrder.getOrderType() == 1 ? Order.OrderType.BID : Order.OrderType.ASK;
     Date date = DateUtils.fromUnixTime(mercadoBitcoinOrder.getCreatedTimestamp());
 
