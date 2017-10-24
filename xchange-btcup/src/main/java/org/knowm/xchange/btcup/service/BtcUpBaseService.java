@@ -21,6 +21,7 @@ public class BtcUpBaseService extends BaseExchangeService implements BasePolling
     super(exchange);
     this.apiKey = exchange.getExchangeSpecification().getApiKey();
     this.signatureCreator = BtcUpDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
-    this.btcUp = RestProxyFactory.createProxy(BtcUpAuthenticated.class,exchange.getExchangeSpecification().getSslUri());
+    this.btcUp = RestProxyFactory.createProxy(BtcUpAuthenticated.class,exchange.getExchangeSpecification().getSslUri(),
+            createClientConfig(exchange.getExchangeSpecification()));
   }
 }
