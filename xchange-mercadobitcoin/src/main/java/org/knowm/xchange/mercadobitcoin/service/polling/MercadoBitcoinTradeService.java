@@ -10,6 +10,7 @@ import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdaptersV3;
+import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrder;
 import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrderResponse;
 import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrdersResponse;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
@@ -20,6 +21,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 import java.util.List;
+
+import static org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdaptersV3.adaptPair;
 
 /**
  * @author Felipe Micaroni Lalli
@@ -53,8 +56,13 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   }
 
   @Override
-  public Collection<Order> getOrder(String... orderIds) {
-    throw new NotYetImplementedForExchangeException();
+  public Collection<Order> getOrder(String... orderId) throws IOException {
+    List<Order> order = new ArrayList();
+    if (orderId.length > 1) {
+      CurrencyPair currencyPair = new CurrencyPair(orderId[0]);
+      order.add(MercadoBitcoinAdaptersV3.adaptOrder(mercadoBitcoinGetOrder(adaptPair(currencyPair), orderId[1]).getOrder()));
+    }
+    return order;
   }
 
   @Override
@@ -80,7 +88,7 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
-    MercadoBitcoinOrdersResponse orders = getMercadoBitcoinUserOrders(MercadoBitcoinAdaptersV3.adaptPair(pair), FILLED_ORDERS);
+    MercadoBitcoinOrdersResponse orders = getMercadoBitcoinUserOrders(adaptPair(pair), FILLED_ORDERS);
     return MercadoBitcoinAdaptersV3.toUserTrades(orders);
   }
 
