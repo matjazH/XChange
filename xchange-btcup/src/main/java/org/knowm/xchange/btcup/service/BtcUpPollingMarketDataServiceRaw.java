@@ -17,12 +17,15 @@ public class BtcUpPollingMarketDataServiceRaw extends BtcUpBaseService {
 
   public static final int FULL_LIMIT_SIZE = 2000;
 
+  private final BtcUp btcup;
+
   public BtcUpPollingMarketDataServiceRaw(Exchange exchange) {
     super(exchange);
+    btcup = RestProxyFactory.createProxy(BtcUp.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public BtcUpPrice getTicker(CurrencyPair pair) throws IOException {
-    BtcUpPrice result = btcUp.getTicker(pair.base.toString().toLowerCase(),
+    BtcUpPrice result = btcup.getTicker(pair.base.toString().toLowerCase(),
         pair.counter.toString().toLowerCase()).getResult();
 
     return result;
@@ -36,14 +39,14 @@ public class BtcUpPollingMarketDataServiceRaw extends BtcUpBaseService {
       size = FULL_LIMIT_SIZE;
     }
 
-    BtcUpTrade[] result = btcUp.getTrades(tickerPair.base.toString().toLowerCase(),
+    BtcUpTrade[] result = btcup.getTrades(tickerPair.base.toString().toLowerCase(),
         tickerPair.counter.toString().toLowerCase(), size).getResult();
 
     return result;
   }
 
   public BtcUpOrderBook getOrderBook(CurrencyPair pair, int depth) throws IOException {
-    BtcUpOrderBook result = btcUp.getOrderBook(pair.base.toString().toLowerCase(),
+    BtcUpOrderBook result = btcup.getOrderBook(pair.base.toString().toLowerCase(),
         pair.counter.toString().toLowerCase(), depth).getResult();
 
     return result;
