@@ -16,7 +16,7 @@ import java.io.IOException;
  */
 public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
 
-  private final Bitbay bitbay;
+  private final Bitbay bitBay;
 
   /**
    * Constructor
@@ -26,26 +26,26 @@ public class BitbayMarketDataServiceRaw extends BitbayBasePollingService {
   protected BitbayMarketDataServiceRaw(Exchange exchange) {
 
     super(exchange);
-    this.bitbay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
+    this.bitBay = RestProxyFactory.createProxy(Bitbay.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
   public BitbayTicker getBitbayTicker(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayTicker(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
+    return bitBay.getBitbayTicker(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
   }
 
   public BitbayOrderBook getBitbayOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
+    return bitBay.getBitbayOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toString());
   }
 
-  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Long since) throws IOException {
+  public BitbayTrade[] getBitbayTrades(CurrencyPair currencyPair, Long since, String sort) throws IOException {
 
-    return bitbay.getBitbayTrades(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode(), since);
+    return bitBay.getBitbayTrades(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode(), since, sort);
   }
 
   public BitbayMarketAll getBitbatAllMarketData(CurrencyPair currencyPair) throws IOException {
 
-    return bitbay.getAll(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
+    return bitBay.getAll(currencyPair.base.getCurrencyCode() + currencyPair.counter.getCurrencyCode());
   }
 }

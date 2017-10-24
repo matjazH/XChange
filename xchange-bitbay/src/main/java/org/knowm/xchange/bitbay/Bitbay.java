@@ -31,7 +31,8 @@ public interface Bitbay {
 
   @GET
   @Path("{currencyPair}/trades.json")
-  public BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("since") Long since) throws IOException;
+  public BitbayTrade[] getBitbayTrades(@PathParam("currencyPair") String currencyPair, @QueryParam("since") Long since,
+                                       @QueryParam("sort") String sort) throws IOException;
 
   @GET
   @Path("{currencyPair}/all.json")

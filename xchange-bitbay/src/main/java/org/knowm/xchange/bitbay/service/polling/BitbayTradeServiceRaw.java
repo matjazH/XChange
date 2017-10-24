@@ -19,16 +19,8 @@ import java.util.List;
  */
 public class BitbayTradeServiceRaw extends BitbayBasePollingService {
 
-  protected BitbayAuthentiacated bitbay;
-  protected final ParamsDigest signatureCreator;
-  protected final String apiKey;
-
   protected BitbayTradeServiceRaw(Exchange exchange) {
-
     super(exchange);
-    this.bitbay = RestProxyFactory.createProxy(BitbayAuthentiacated.class, exchange.getExchangeSpecification().getSslUri());
-    this.apiKey = exchange.getExchangeSpecification().getApiKey();
-    this.signatureCreator = BitbayDigest.createInstance(exchange.getExchangeSpecification().getSecretKey());
   }
 
   public List<BitbayOrder> getOrders() throws IOException {

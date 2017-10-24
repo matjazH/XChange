@@ -50,7 +50,7 @@ public class BitbayMarketDataService extends BitbayMarketDataServiceRaw implemen
           }
       }
 
-    return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair, sinceTid), currencyPair);
+    return BitbayAdapters.adaptTrades(getBitbayTrades(currencyPair, sinceTid, "desc"), currencyPair);
   }
 
     public MarketData getAllMarketData(CurrencyPair currencyPair) throws IOException {
