@@ -140,8 +140,9 @@ public final class MercadoBitcoinAdapters {
     Balance brlBalance = new Balance(Currency.BRL, accountInfo.getTheReturn().getFunds().getBrl());
     Balance btcBalance = new Balance(Currency.BTC, accountInfo.getTheReturn().getFunds().getBtc());
     Balance ltcBalance = new Balance(Currency.LTC, accountInfo.getTheReturn().getFunds().getLtc());
+    Balance bchBalance = new Balance(new Currency("BCH"), accountInfo.getTheReturn().getFunds().getBch());
 
-    return new AccountInfo(userName, new Wallet(brlBalance, btcBalance, ltcBalance));
+    return new AccountInfo(userName, new Wallet(brlBalance, btcBalance, ltcBalance, bchBalance));
   }
 
   public static List<LimitOrder> adaptOrders(CurrencyPair currencyPair, MercadoBitcoinBaseTradeApiResult<MercadoBitcoinUserOrders> input) {

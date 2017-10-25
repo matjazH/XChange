@@ -8,9 +8,7 @@ import org.knowm.xchange.dto.trade.MarketOrder;
 import org.knowm.xchange.dto.trade.OpenOrders;
 import org.knowm.xchange.dto.trade.UserTrades;
 import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
-import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.mercadobitcoin.MercadoBitcoinAdaptersV3;
-import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrder;
 import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrderResponse;
 import org.knowm.xchange.mercadobitcoin.dto.v3.trade.MercadoBitcoinOrdersResponse;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
@@ -49,9 +47,17 @@ public class MercadoBitcoinTradeService extends MercadoBitcoinTradeServiceRaw im
       e.printStackTrace();
     }
     MercadoBitcoinOrdersResponse ltcResponse = getMercadoBitcoinUserOrders("BRLLTC", ACTIVE_ORDERS);
+    try {
+      Thread.sleep(1000);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
+    MercadoBitcoinOrdersResponse bchResponse = getMercadoBitcoinUserOrders("BRLBCH", ACTIVE_ORDERS);
     List<LimitOrder> btcOrders = MercadoBitcoinAdaptersV3.adaptOrders(btcResponse.getOrders());
     List<LimitOrder> ltcOrders = MercadoBitcoinAdaptersV3.adaptOrders(ltcResponse.getOrders());
+    List<LimitOrder> bchOrders = MercadoBitcoinAdaptersV3.adaptOrders(bchResponse.getOrders());
     btcOrders.addAll(ltcOrders);
+    btcOrders.addAll(bchOrders);
     return new OpenOrders(btcOrders);
   }
 

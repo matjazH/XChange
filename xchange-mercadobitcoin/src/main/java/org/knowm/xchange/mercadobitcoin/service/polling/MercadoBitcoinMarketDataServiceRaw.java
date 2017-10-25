@@ -42,6 +42,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBasePollin
       return mercadoBitcoin.getOrderBookBTC();
     } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
       return mercadoBitcoin.getOrderBookLTC();
+    } else if (currencyPair.equals(new CurrencyPair(new Currency("BCH"), Currency.BRL))) {
+      return mercadoBitcoin.getOrderBookBCH();
     } else {
       throw new NotAvailableFromExchangeException();
     }
@@ -53,6 +55,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBasePollin
       return mercadoBitcoin.getTickerBTC();
     } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
       return mercadoBitcoin.getTickerLTC();
+    } else if (currencyPair.equals(new CurrencyPair(new Currency("BCH"), Currency.BRL))) {
+      return mercadoBitcoin.getTickerBCH();
     } else {
       throw new NotAvailableFromExchangeException();
     }
@@ -67,6 +71,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBasePollin
         transactions = mercadoBitcoin.getTransactionsBTC(); // default values: offset=0, limit=100
       } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
         transactions = mercadoBitcoin.getTransactionsLTC();
+      } else if (currencyPair.equals(new CurrencyPair(new Currency("BCH"), Currency.BRL))) {
+        transactions = mercadoBitcoin.getTransactionsBCH();
       } else {
         throw new NotAvailableFromExchangeException();
       }
@@ -77,6 +83,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBasePollin
         transactions = mercadoBitcoin.getTransactionsBTC(time.longValue() / 1000L);
       } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
         transactions = mercadoBitcoin.getTransactionsLTC(time.longValue() / 1000L);
+      } else if (currencyPair.equals(new CurrencyPair(new Currency("BCH"), Currency.BRL))) {
+        transactions = mercadoBitcoin.getTransactionsBCH(time.longValue() / 1000L);
       } else {
         throw new NotAvailableFromExchangeException();
       }
@@ -89,6 +97,8 @@ public class MercadoBitcoinMarketDataServiceRaw extends MercadoBitcoinBasePollin
         transactions = mercadoBitcoin.getTransactionsBTC(timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
       } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
         transactions = mercadoBitcoin.getTransactionsLTC(timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
+      } else if (currencyPair.equals(new CurrencyPair(new Currency("BCH"), Currency.BRL))) {
+        transactions = mercadoBitcoin.getTransactionsBCH(timeStart.longValue() / 1000L, timeEnd.longValue() / 1000L);
       } else {
         throw new NotAvailableFromExchangeException();
       }

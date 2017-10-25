@@ -47,17 +47,24 @@ public class MercadoBitcoinAccountInfo {
     private final BigDecimal ltc;
     private final BigDecimal brl;
     private final BigDecimal btc;
+    private final BigDecimal bch;
 
-    public Funds(@JsonProperty("ltc") BigDecimal ltc, @JsonProperty("brl") BigDecimal brl, @JsonProperty("btc") BigDecimal btc) {
+    public Funds(@JsonProperty("ltc") BigDecimal ltc, @JsonProperty("brl") BigDecimal brl, @JsonProperty("btc") BigDecimal btc, @JsonProperty("bch") BigDecimal bch) {
 
       this.ltc = ltc;
       this.brl = brl;
       this.btc = btc;
+      this.bch = bch;
     }
 
     public BigDecimal getLtc() {
 
       return ltc;
+    }
+
+    public BigDecimal getBch() {
+
+      return bch;
     }
 
     public BigDecimal getBrl() {
@@ -73,7 +80,7 @@ public class MercadoBitcoinAccountInfo {
     @Override
     public String toString() {
 
-      return "Funds [" + "ltc=" + ltc + ", brl=" + brl + ", btc=" + btc + ']';
+      return "Funds [" + "bch=" + bch + "ltc=" + ltc + ", brl=" + brl + ", btc=" + btc + ']';
     }
   }
 }

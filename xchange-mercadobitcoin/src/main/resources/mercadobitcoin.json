@@ -5,6 +5,9 @@
     },
     "LTC/BRL": {
       "priceScale": 8
+    },
+    "BCH/BRL": {
+      "priceScale": 8
     }
   },
   "currency": {},

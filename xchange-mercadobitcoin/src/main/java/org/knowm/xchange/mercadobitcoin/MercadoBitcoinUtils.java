@@ -25,6 +25,8 @@ public final class MercadoBitcoinUtils {
       pair = "btc_brl";
     } else if (currencyPair.equals(new CurrencyPair(Currency.LTC, Currency.BRL))) {
       pair = "ltc_brl";
+    } else if (currencyPair.equals(new CurrencyPair(new Currency("BCH"), Currency.BRL))) {
+      pair = "bch_brl";
     } else {
       throw new NotAvailableFromExchangeException();
     }
