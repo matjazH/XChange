@@ -19,7 +19,14 @@
       "ETH/AUD":{"priceScale":2},
       "ETH/PHP":{"priceScale":2},
       "ETH/CNY":{"priceScale":2},
-      "ETH/BTC":{"priceScale":5}
+      "ETH/BTC":{"priceScale":5},
+      "BCH/USD":{"priceScale":2},
+      "BCH/SGD":{"priceScale":2},
+      "BCH/JPY":{"priceScale":2},
+      "DASH/SGD":{"priceScale":2},
+      "DASH/USD":{"priceScale":2},
+      "DASH/JPY":{"priceScale":2},
+      "DASH/EUR":{"priceScale":2}
    },
    "currency":{}
 }

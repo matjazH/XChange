@@ -2,10 +2,10 @@ package org.knowm.xchange.quoine.service.polling;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.Locale;
-import java.util.TimeZone;
+import java.util.*;
 
+import org.knowm.xchange.currency.CurrencyPair;
+import org.knowm.xchange.quoine.QuoineUtils;
 import org.knowm.xchange.quoine.service.QuoineHmacPostBodyDigest;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.exceptions.ExchangeException;
@@ -61,5 +61,12 @@ public class QuoineBasePollingService extends BaseExchangeService implements Bas
       format = format.replace("+00:00", "");
     }
     return format;
+  }
+
+  @Override
+  public List<CurrencyPair> getExchangeSymbols() throws IOException {
+    List<CurrencyPair> symbols = new ArrayList<>();
+    symbols.addAll(QuoineUtils.CURRENCY_PAIR_2_ID_MAP.keySet());
+    return symbols;
   }
 }

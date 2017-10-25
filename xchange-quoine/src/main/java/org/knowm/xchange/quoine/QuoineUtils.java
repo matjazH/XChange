@@ -41,6 +41,13 @@ public final class QuoineUtils {
     CURRENCY_PAIR_2_ID_MAP.put(CurrencyPair.ETH_CNY, 35);
     CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("ETH", "INR"), 36);
     CURRENCY_PAIR_2_ID_MAP.put(CurrencyPair.ETH_BTC, 37);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("BCH", "USD"), 39);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("BCH", "SGD"), 40);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("BCH", "JPY"), 41);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("DASH", "SGD"), 42);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("DASH", "USD"), 43);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("DASH", "JPY"), 44);
+    CURRENCY_PAIR_2_ID_MAP.put(new CurrencyPair("DASH", "EUR"), 45);
   }
 
   public static int toID(CurrencyPair currencyPair) {
