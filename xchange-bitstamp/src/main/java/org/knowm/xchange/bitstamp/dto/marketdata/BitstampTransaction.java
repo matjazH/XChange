@@ -11,6 +11,7 @@ public class BitstampTransaction {
 
   private final long date;
   private final int tid;
+  private final int type;
   private final BigDecimal price;
   private final BigDecimal amount;
 
@@ -22,11 +23,12 @@ public class BitstampTransaction {
    * @param price BTC price
    * @param amount BTC amount
    */
-  public BitstampTransaction(@JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price,
+  public BitstampTransaction(@JsonProperty("type") int type, @JsonProperty("date") long date, @JsonProperty("tid") int tid, @JsonProperty("price") BigDecimal price,
       @JsonProperty("amount") BigDecimal amount) {
 
     this.date = date;
     this.tid = tid;
+    this.type = type;
     this.price = price;
     this.amount = amount;
   }
@@ -34,6 +36,11 @@ public class BitstampTransaction {
   public int getTid() {
 
     return tid;
+  }
+
+  public int getType() {
+
+    return type;
   }
 
   public BigDecimal getPrice() {
@@ -70,7 +77,7 @@ public class BitstampTransaction {
   @Override
   public String toString() {
 
-    return "Transaction [date=" + date + ", tid=" + tid + ", price=" + price + ", amount=" + amount + "]";
+    return "Transaction [date=" + date + ", type=" + type + ", tid=" + tid + ", price=" + price + ", amount=" + amount + "]";
   }
 
 }

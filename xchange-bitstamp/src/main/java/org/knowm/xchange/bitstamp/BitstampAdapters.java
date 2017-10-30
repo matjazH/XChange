@@ -121,8 +121,8 @@ public final class BitstampAdapters {
       if (tradeId > lastTradeId) {
         lastTradeId = tradeId;
       }
-      trades
-          .add(new Trade(null, tx.getAmount(), currencyPair, tx.getPrice(), DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
+      trades.add(new Trade(tx.getType() == 0 ? OrderType.BID : OrderType.ASK, tx.getAmount(), currencyPair, tx.getPrice(),
+          DateUtils.fromMillisUtc(tx.getDate() * 1000L), String.valueOf(tradeId)));
     }
 
     return new Trades(trades, lastTradeId, TradeSortType.SortByID);

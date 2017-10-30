@@ -242,7 +242,8 @@ public class BitstampPusherService extends BitstampBasePollingService implements
   private Trade parseTrade(String rawJson) throws IOException {
 
     BitstampTransaction transaction = streamObjectMapper.readValue(rawJson, BitstampStreamingTransaction.class);
-    return new Trade(null, transaction.getAmount(), CurrencyPair.BTC_USD, transaction.getPrice(), null, String.valueOf(transaction.getTid()));
+    return new Trade(transaction.getType() == 0 ? Order.OrderType.BID : Order.OrderType.ASK, transaction.getAmount(),
+        CurrencyPair.BTC_USD, transaction.getPrice(), null, String.valueOf(transaction.getTid()));
   }
 
   private void addToEventQueue(ExchangeEvent event) {
