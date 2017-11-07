@@ -11,7 +11,7 @@ public class GeminiTrade {
 
   private Long timestamp;
   private Long timestampms;
-  private Integer tid;
+  private Long tid;
   private BigDecimal price;
   private BigDecimal amount;
   private String exchange;
@@ -20,7 +20,7 @@ public class GeminiTrade {
 
   public GeminiTrade(@JsonProperty("timestamp") Long timestamp,
                      @JsonProperty("timestampms") Long timestampms,
-                     @JsonProperty("tid") Integer tid,
+                     @JsonProperty("tid") Long tid,
                      @JsonProperty("price") BigDecimal price,
                      @JsonProperty("amount") BigDecimal amount,
                      @JsonProperty("exchange") String exchange,
@@ -44,7 +44,7 @@ public class GeminiTrade {
     return timestampms;
   }
 
-  public Integer getTid() {
+  public Long getTid() {
     return tid;
   }
 

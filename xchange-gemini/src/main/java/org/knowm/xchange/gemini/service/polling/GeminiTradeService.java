@@ -55,14 +55,14 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements Polling
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    return cancelOrder(Integer.valueOf(orderId)) != null;
+    return cancelOrder(Long.valueOf(orderId)) != null;
   }
 
   @Override
   public UserTrades getTradeHistory(TradeHistoryParams params) throws IOException {
 
     CurrencyPair pair = null;
-    Integer limit  = null;
+    Long limit  = null;
     Long since  = null;
 
     if (params instanceof GeminiTradeHistoryParams) {
@@ -89,7 +89,7 @@ public class GeminiTradeService extends GeminiTradeServiceRaw implements Polling
 
     List<Order> orders = new ArrayList<>();
     for (String orderId : orderIds) {
-      orders.add(GeminiAdapters.adaprtOrder(getGeminiOrder(Integer.valueOf(orderId))));
+      orders.add(GeminiAdapters.adaprtOrder(getGeminiOrder(Long.valueOf(orderId))));
     }
     return orders;
   }

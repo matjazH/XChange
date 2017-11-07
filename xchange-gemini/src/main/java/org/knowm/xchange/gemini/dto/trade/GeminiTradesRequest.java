@@ -12,7 +12,7 @@ public class GeminiTradesRequest extends GeminiBaseRequest {
   private String symbol;
 
   @JsonProperty("limit_trades")
-  private Integer limitTrades;
+  private Long limitTrades;
 
   @JsonProperty("timestamp")
   private Long sinceTimestamp;
@@ -21,7 +21,7 @@ public class GeminiTradesRequest extends GeminiBaseRequest {
     this.symbol = symbol;
   }
 
-  public GeminiTradesRequest(String symbol, Integer limitTrades, Long sinceTimestamp) {
+  public GeminiTradesRequest(String symbol, Long limitTrades, Long sinceTimestamp) {
     this.symbol = symbol;
     this.limitTrades = limitTrades;
     this.sinceTimestamp = sinceTimestamp;
@@ -35,11 +35,11 @@ public class GeminiTradesRequest extends GeminiBaseRequest {
     this.symbol = symbol;
   }
 
-  public Integer getLimitTrades() {
+  public Long getLimitTrades() {
     return limitTrades;
   }
 
-  public void setLimitTrades(Integer limitTrades) {
+  public void setLimitTrades(Long limitTrades) {
     this.limitTrades = limitTrades;
   }
 

@@ -39,6 +39,6 @@ public interface Gemini {
   @Path("trades/{symbol}")
   List<GeminiTrade> getTrades(@PathParam("symbol") String symbol,
                               @QueryParam("since") Long since,
-                              @QueryParam("limit_trades") Integer limitTrades,
+                              @QueryParam("limit_trades") Long limitTrades,
                               @QueryParam("include_breaks") Boolean includeBreaks) throws IOException;
 }

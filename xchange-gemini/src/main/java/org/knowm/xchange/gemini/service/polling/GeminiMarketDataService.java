@@ -50,7 +50,7 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws ExchangeException, IOException {
 
     Long since = null;
-    Integer limit = null;
+    Long limit = null;
     Boolean includeBreakes = null;
 
     switch (args.length) {
@@ -61,8 +61,8 @@ public class GeminiMarketDataService extends GeminiMarketDataServiceRaw implemen
           throw new ExchangeException("args[2] must be of type Long!");
         }
       case 2:
-        if (args[1] instanceof Integer) {
-          limit = (Integer) args[1];
+        if (args[1] instanceof Long) {
+          limit = (Long) args[1];
         } else {
           throw new ExchangeException("args[1] must be of type Long!");
         }

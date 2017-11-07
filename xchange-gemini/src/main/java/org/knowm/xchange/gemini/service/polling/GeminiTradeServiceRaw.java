@@ -30,14 +30,14 @@ public class GeminiTradeServiceRaw extends GeminiBasePollingService {
     return gemini.getOrders(apiKey, geminiBaseRequest, signatureCreator);
   }
 
-  public List<GeminiUserTrade> getGeminiTrades(CurrencyPair pair, Integer limit, Long since) throws IOException {
+  public List<GeminiUserTrade> getGeminiTrades(CurrencyPair pair, Long limit, Long since) throws IOException {
     String symbol = GeminiAdapters.adaptPair(pair);
     GeminiTradesRequest geminiTradesRequest = new GeminiTradesRequest(symbol, limit, since);
     geminiTradesRequest.setNonce(exchange.getNonceFactory().createValue());
     return gemini.getTrades(apiKey, geminiTradesRequest, signatureCreator);
   }
 
-  public GeminiOrder getGeminiOrder(Integer orderId) throws IOException {
+  public GeminiOrder getGeminiOrder(Long orderId) throws IOException {
     GeminiOrderRequest geminiOrderRequest = new GeminiOrderRequest(orderId);
     geminiOrderRequest.setNonce(exchange.getNonceFactory().createValue());
     return gemini.getOrderStatus(apiKey, geminiOrderRequest, signatureCreator);
@@ -54,7 +54,7 @@ public class GeminiTradeServiceRaw extends GeminiBasePollingService {
     return gemini.postNewOrder(apiKey, request, signatureCreator);
   }
 
-  public GeminiOrder cancelOrder(Integer orderId) throws IOException {
+  public GeminiOrder cancelOrder(Long orderId) throws IOException {
     GeminiOrderRequest geminiOrderRequest = new GeminiOrderRequest(orderId);
     geminiOrderRequest.setNonce(exchange.getNonceFactory().createValue());
     return gemini.cancelOrder(apiKey, geminiOrderRequest, signatureCreator);

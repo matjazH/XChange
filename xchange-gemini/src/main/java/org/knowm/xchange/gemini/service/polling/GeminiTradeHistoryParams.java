@@ -11,7 +11,7 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 public class GeminiTradeHistoryParams implements TradeHistoryParamCurrencyPair {
 
   private CurrencyPair currencyPair;
-  private Integer limit;
+  private Long limit;
   private Long since;
 
   public GeminiTradeHistoryParams() {
@@ -31,11 +31,11 @@ public class GeminiTradeHistoryParams implements TradeHistoryParamCurrencyPair {
     return currencyPair;
   }
 
-  public Integer getLimit() {
+  public Long getLimit() {
     return limit;
   }
 
-  public void setLimit(Integer limit) {
+  public void setLimit(Long limit) {
     this.limit = limit;
   }
 

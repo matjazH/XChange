@@ -10,17 +10,17 @@ public class GeminiOrderRequest extends GeminiBaseRequest {
 
 
   @JsonProperty("order_id")
-  private Integer orderId;
+  private Long orderId;
 
-  public GeminiOrderRequest(Integer orderId) {
+  public GeminiOrderRequest(Long orderId) {
     this.orderId = orderId;
   }
 
-  public Integer getOrderId() {
+  public Long getOrderId() {
     return orderId;
   }
 
-  public void setOrderId(Integer orderId) {
+  public void setOrderId(Long orderId) {
     this.orderId = orderId;
   }
 }
