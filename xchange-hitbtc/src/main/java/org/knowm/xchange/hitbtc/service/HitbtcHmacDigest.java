@@ -1,56 +1,31 @@
 package org.knowm.xchange.hitbtc.service;
 
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-
-import javax.crypto.Mac;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
-
-import org.knowm.xchange.utils.DigestUtils;
-
-import si.mazi.rescu.ParamsDigest;
+import org.knowm.xchange.service.BaseParamsDigest;
+import si.mazi.rescu.BasicAuthCredentials;
 import si.mazi.rescu.RestInvocation;
 
-public class HitbtcHmacDigest implements ParamsDigest {
+public class HitbtcHmacDigest extends BaseParamsDigest {
 
-  private static final String HMAC_SHA_512 = "HmacSHA512";
-  private final Mac mac;
+  private final String exchangeAccessKey;
+  private final String exchangeSecretKey;
 
-  private HitbtcHmacDigest(String secretKeyBase) throws IllegalArgumentException {
+  public HitbtcHmacDigest(String exchangeAccessKey, String exchangeSecretKey) {
 
-    try {
+    super(exchangeSecretKey, HMAC_SHA_1);
 
-      SecretKey secretKey = new SecretKeySpec(secretKeyBase.getBytes(), HMAC_SHA_512);
-      mac = Mac.getInstance(HMAC_SHA_512);
-      mac.init(secretKey);
-
-    } catch (InvalidKeyException e) {
-      throw new IllegalArgumentException("Invalid key for hmac initialization.", e);
-    } catch (NoSuchAlgorithmException e) {
-      throw new RuntimeException("Illegal algorithm for post body digest. Check the implementation.");
-    }
+    this.exchangeAccessKey = exchangeAccessKey;
+    this.exchangeSecretKey = exchangeSecretKey;
   }
 
-  public static HitbtcHmacDigest createInstance(String secretKeyBase) {
+  public static HitbtcHmacDigest createInstance(String exchangeAccessKey, String exchangeSecretKey) {
 
-    return new HitbtcHmacDigest(secretKeyBase);
+    return exchangeSecretKey == null ? null : new HitbtcHmacDigest(exchangeAccessKey, exchangeSecretKey);
   }
 
   @Override
   public String digestParams(RestInvocation restInvocation) {
+    BasicAuthCredentials auth = new BasicAuthCredentials(exchangeAccessKey, exchangeSecretKey);
 
-    String postBody = restInvocation.getRequestBody();
-    if (postBody == null) {
-      postBody = "";
-    }
-
-    String uri = restInvocation.getPath() + "?" + restInvocation.getQueryString();
-    String message = uri + postBody;
-
-    mac.update(message.getBytes());
-
-    return DigestUtils.bytesToHex(mac.doFinal()).toLowerCase();
+    return auth.digestParams(restInvocation);
   }
-
 }

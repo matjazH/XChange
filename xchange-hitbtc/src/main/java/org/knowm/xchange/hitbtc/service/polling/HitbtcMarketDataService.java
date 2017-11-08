@@ -36,14 +36,15 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
   @Override
   public OrderBook getOrderBook(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    return HitbtcAdapters.adaptOrderBook(getHitbtcOrderBook(currencyPair), currencyPair);
+    return HitbtcAdapters.adaptOrderBook(getOrderBook(currencyPair), currencyPair);
   }
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
 
-    if (args.length == 0)
+    if (args.length == 0) {
       return HitbtcAdapters.adaptTrades(getHitbtcTradesRecent(currencyPair, 1000), currencyPair);
+    }
 
     long from = (Long) args[0]; // <trade_id> or <timestamp>
     HitbtcTradesSortField sortBy = (HitbtcTradesSortField) args[1]; // "trade_id" or "timestamp"
@@ -51,6 +52,7 @@ public class HitbtcMarketDataService extends HitbtcMarketDataServiceRaw implemen
     long startIndex = (Long) args[3]; // 0
     long max_results = (Long) args[4]; // max is 1000
 
-    return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, from, sortBy, sortDirection, startIndex, max_results), currencyPair);
+    return HitbtcAdapters.adaptTrades(getHitbtcTrades(currencyPair, from, sortBy, sortDirection,
+        startIndex, max_results), currencyPair);
   }
 }

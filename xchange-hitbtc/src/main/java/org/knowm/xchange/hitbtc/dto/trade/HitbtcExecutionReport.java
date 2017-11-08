@@ -1,56 +1,56 @@
 package org.knowm.xchange.hitbtc.dto.trade;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class HitbtcExecutionReport {
 
-  private final String orderId;
-  private final String clientOrderId;
-  private final String execReportType;
-  private final String orderRejectReason;
-  private final String symbol;
-  private final String side;
-  private final long timestamp;
-  private final BigDecimal price;
-  private final BigDecimal quantity;
-  private final String type;
-  private final String timeInForce;
-  private final BigDecimal lastQuantity;
-  private final BigDecimal lastPrice;
-  private final BigDecimal leavesQuantity;
-  private final BigDecimal cumQuantity;
-  private final BigDecimal averagePrice;
+  private Date createdAt;
+  private String side;
+  private String type;
+  private String symbol;
+  private String status;
+  private String clientOrderId;
+  private BigDecimal price;
+  private BigDecimal quantity;
+  private BigDecimal cumQuantity;
+  private Long orderId;
 
-  public HitbtcExecutionReport(@JsonProperty("orderId") String orderId, @JsonProperty("clientOrderId") String clientOrderId,
-      @JsonProperty("execReportType") String execReportType, @JsonProperty("orderRejectReason") String orderRejectReason,
-      @JsonProperty("symbol") String symbol, @JsonProperty("side") String side, @JsonProperty("timestamp") long timestamp,
-      @JsonProperty("price") BigDecimal price, @JsonProperty("quantity") BigDecimal quantity, @JsonProperty("type") String type,
-      @JsonProperty("timeInForce") String timeInForce, @JsonProperty("lastQuantity") BigDecimal lastQuantity,
-      @JsonProperty("lastPrice") BigDecimal lastPrice, @JsonProperty("leavesQuantity") BigDecimal leavesQuantity,
-      @JsonProperty("cumQuantity") BigDecimal cumQuantity, @JsonProperty("averagePrice") BigDecimal averagePrice) {
+  public HitbtcExecutionReport(@JsonProperty("id") Long orderId, @JsonProperty("clientOrderId") String clientOrderId,
+                               @JsonProperty("symbol") String symbol, @JsonProperty("side") String side,
+                               @JsonProperty("status") String status, @JsonProperty("type") String type,
+                               @JsonProperty("quantity") BigDecimal quantity,@JsonProperty("price") BigDecimal price,
+                               @JsonProperty("createdAt") String createdAt,
+                               @JsonProperty("cumQuantity") BigDecimal cumQuantity) {
 
     super();
-    this.orderId = orderId;
+    this.status = status;
+    this.cumQuantity= cumQuantity;
     this.clientOrderId = clientOrderId;
-    this.execReportType = execReportType;
-    this.orderRejectReason = orderRejectReason;
-    this.symbol = symbol;
     this.side = side;
-    this.timestamp = timestamp;
     this.price = price;
+    this.symbol = symbol;
+    this.orderId = orderId;
     this.quantity = quantity;
     this.type = type;
-    this.timeInForce = timeInForce;
-    this.lastQuantity = lastQuantity;
-    this.lastPrice = lastPrice;
-    this.leavesQuantity = leavesQuantity;
-    this.cumQuantity = cumQuantity;
-    this.averagePrice = averagePrice;
+    try {
+      this.createdAt = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(createdAt);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
   }
 
-  public String getOrderId() {
+  public String getSide() {
+
+    return side;
+  }
+
+  public Long getOrderId() {
 
     return orderId;
   }
@@ -60,29 +60,14 @@ public class HitbtcExecutionReport {
     return clientOrderId;
   }
 
-  public String getExecReportType() {
-
-    return execReportType;
-  }
-
-  public String getOrderRejectReason() {
-
-    return orderRejectReason;
-  }
-
   public String getSymbol() {
 
     return symbol;
   }
 
-  public String getSide() {
-
-    return side;
-  }
-
   public long getTimestamp() {
 
-    return timestamp;
+    return createdAt.getTime();
   }
 
   public BigDecimal getPrice() {
@@ -90,83 +75,44 @@ public class HitbtcExecutionReport {
     return price;
   }
 
-  public BigDecimal getQuantity() {
+  public String getType() {
+    return type;
+  }
 
+  public String getStatus() {
+    return status;
+  }
+
+  public BigDecimal getQuantity() {
     return quantity;
   }
 
-  public String getType() {
+  public String getExecReportType() {
 
     return type;
   }
 
-  public String getTimeInForce() {
-
-    return timeInForce;
-  }
-
-  public BigDecimal getLastQuantity() {
-
-    return lastQuantity;
-  }
-
-  public BigDecimal getLastPrice() {
-
-    return lastPrice;
-  }
-
-  public BigDecimal getLeavesQuantity() {
-
-    return leavesQuantity;
-  }
-
   public BigDecimal getCumQuantity() {
-
     return cumQuantity;
   }
 
-  public BigDecimal getAveragePrice() {
-
-    return averagePrice;
+  public Date getCreatedAt() {
+    return createdAt;
   }
 
   @Override
   public String toString() {
-
-    StringBuilder builder = new StringBuilder();
-    builder.append("HitbtcExecutionReport [orderId=");
-    builder.append(orderId);
-    builder.append(", clientOrderId=");
-    builder.append(clientOrderId);
-    builder.append(", execReportType=");
-    builder.append(execReportType);
-    builder.append(", orderRejectReason=");
-    builder.append(orderRejectReason);
-    builder.append(", symbol=");
-    builder.append(symbol);
-    builder.append(", side=");
-    builder.append(side);
-    builder.append(", timestamp=");
-    builder.append(timestamp);
-    builder.append(", price=");
-    builder.append(price);
-    builder.append(", quantity=");
-    builder.append(quantity);
-    builder.append(", type=");
-    builder.append(type);
-    builder.append(", timeInForce=");
-    builder.append(timeInForce);
-    builder.append(", lastQuantity=");
-    builder.append(lastQuantity);
-    builder.append(", lastPrice=");
-    builder.append(lastPrice);
-    builder.append(", leavesQuantity=");
-    builder.append(leavesQuantity);
-    builder.append(", cumQuantity=");
-    builder.append(cumQuantity);
-    builder.append(", averagePrice=");
-    builder.append(averagePrice);
-    builder.append("]");
-    return builder.toString();
+    return "HitbtcExecutionReport{" +
+        "side='" + side + '\'' +
+        ", type='" + type + '\'' +
+        ", symbol='" + symbol + '\'' +
+        ", status='" + status + '\'' +
+        ", price=" + price +
+        ", quantity=" + quantity +
+        ", clientOrderId='" + clientOrderId + '\'' +
+        ", cumQuantity=" + cumQuantity +
+        ", createdAt=" + createdAt +
+        ", orderId=" + orderId +
+        '}';
   }
 }

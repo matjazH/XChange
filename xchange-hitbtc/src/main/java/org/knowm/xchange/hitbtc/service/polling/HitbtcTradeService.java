@@ -15,7 +15,6 @@ import org.knowm.xchange.exceptions.NotAvailableFromExchangeException;
 import org.knowm.xchange.exceptions.NotYetImplementedForExchangeException;
 import org.knowm.xchange.hitbtc.HitbtcAdapters;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
-import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReportResponse;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOrder;
 import org.knowm.xchange.hitbtc.dto.trade.HitbtcOwnTrade;
 import org.knowm.xchange.service.polling.trade.PollingTradeService;
@@ -47,7 +46,6 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   public String placeMarketOrder(MarketOrder marketOrder) throws IOException {
 
     HitbtcExecutionReport placeMarketOrderRaw = placeMarketOrderRaw(marketOrder);
-    checkRejected(placeMarketOrderRaw);
     return placeMarketOrderRaw.getClientOrderId();
   }
 
@@ -55,15 +53,14 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
   public String placeLimitOrder(LimitOrder limitOrder) throws IOException {
 
     HitbtcExecutionReport placeLimitOrderRaw = placeLimitOrderRaw(limitOrder);
-    checkRejected(placeLimitOrderRaw);
     return placeLimitOrderRaw.getClientOrderId();
   }
 
   @Override
   public boolean cancelOrder(String orderId) throws IOException {
 
-    HitbtcExecutionReportResponse cancelOrderRaw = cancelOrderRaw(orderId);
-    return cancelOrderRaw.getCancelReject() == null && cancelOrderRaw.getExecutionReport() != null;
+    HitbtcExecutionReport hitbtcExecutionReport = cancelOrderRaw(orderId);
+    return hitbtcExecutionReport != null;
   }
 
   /**
@@ -83,7 +80,12 @@ public class HitbtcTradeService extends HitbtcTradeServiceRaw implements Polling
 
     CurrencyPair pair = ((TradeHistoryParamCurrencyPair) params).getCurrencyPair();
 
-    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, HitbtcAdapters.adaptCurrencyPair(pair));
+    String currency = "";
+    if (pair != null) {
+      currency = HitbtcAdapters.adaptCurrencyPair(pair);
+    }
+
+    HitbtcOwnTrade[] tradeHistoryRaw = getTradeHistoryRaw(offset, count, currency);
     
     return HitbtcAdapters.adaptTradeHistory(tradeHistoryRaw, exchange.getMetaData());
   }

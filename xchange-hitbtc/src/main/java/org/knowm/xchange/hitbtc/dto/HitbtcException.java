@@ -5,27 +5,54 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @SuppressWarnings("serial")
 public class HitbtcException extends RuntimeException {
 
-  @JsonProperty("message")
-  String message;
+  public static class HitbtcExecutionError {
 
-  @JsonProperty("code")
-  String code;
+    private final Integer code;
+    private final String message;
+    private final String description;
 
-  public HitbtcException(@JsonProperty("code") String code, @JsonProperty("message") String message) {
+    HitbtcExecutionError(@JsonProperty("code") Integer code,
+                         @JsonProperty("message") String message,
+                         @JsonProperty("description") String description) {
+
+      this.code = code;
+      this.message = message;
+      this.description = description;
+    }
+
+    public Integer getCode() {
+      return code;
+    }
+
+    public String getMessage() {
+      return message;
+    }
+
+    public String getDescription() {
+      return description;
+    }
+  }
+
+  private HitbtcExecutionError error;
+
+  public HitbtcException(@JsonProperty("error") HitbtcExecutionError error) {
 
     super();
-    this.code = code;
-    this.message = message;
+    this.error = error;
   }
 
   public String getCode() {
 
-    return code;
+    return String.valueOf(error.getCode());
   }
 
   public String getMessage() {
 
-    return message;
+    return error.getMessage();
   }
 
+  public String getDescription() {
+
+    return error.getDescription();
+  }
 }

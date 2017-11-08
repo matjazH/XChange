@@ -1,6 +1,9 @@
 package org.knowm.xchange.hitbtc.dto.trade;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -8,7 +11,7 @@ public class HitbtcOwnTrade {
 
   private final long tradeId;
   private final BigDecimal execPrice;
-  private final long timestamp;
+  private Date timestamp;
   private final long originalOrderId;
   private final BigDecimal fee;
   private final String clientOrderId;
@@ -16,15 +19,24 @@ public class HitbtcOwnTrade {
   private final String side;
   private final BigDecimal execQuantity;
 
-  public HitbtcOwnTrade(@JsonProperty("tradeId") long tradeId, @JsonProperty("execPrice") BigDecimal execPrice,
-      @JsonProperty("timestamp") long timestamp, @JsonProperty("originalOrderId") long originalOrderId, @JsonProperty("fee") BigDecimal fee,
-      @JsonProperty("clientOrderId") String clientOrderId, @JsonProperty("symbol") String symbol, @JsonProperty("side") String side,
-      @JsonProperty("execQuantity") BigDecimal execQuantity) {
+  public HitbtcOwnTrade(@JsonProperty("id") long tradeId,
+                        @JsonProperty("clientOrderId") String clientOrderId,
+                        @JsonProperty("symbol") String symbol,
+                        @JsonProperty("orderId") long originalOrderId,
+                        @JsonProperty("side") String side,
+                        @JsonProperty("quantity") BigDecimal execQuantity,
+                        @JsonProperty("price") BigDecimal execPrice,
+                        @JsonProperty("fee") BigDecimal fee,
+                        @JsonProperty("timestamp") String timestamp) {
 
     super();
     this.tradeId = tradeId;
     this.execPrice = execPrice;
-    this.timestamp = timestamp;
+    try {
+      this.timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestamp);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
     this.originalOrderId = originalOrderId;
     this.fee = fee;
     this.clientOrderId = clientOrderId;
@@ -45,7 +57,7 @@ public class HitbtcOwnTrade {
 
   public long getTimestamp() {
 
-    return timestamp;
+    return timestamp.getTime();
   }
 
   public long getOriginalOrderId() {

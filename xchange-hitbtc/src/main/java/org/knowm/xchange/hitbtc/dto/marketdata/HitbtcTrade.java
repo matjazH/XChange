@@ -1,6 +1,9 @@
 package org.knowm.xchange.hitbtc.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonValue;
@@ -10,7 +13,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
  */
 public class HitbtcTrade {
 
-  private final long date;
+  private Date date = null;
   private final BigDecimal price;
   private final BigDecimal amount;
   private final String tid;
@@ -18,17 +21,23 @@ public class HitbtcTrade {
 
   /**
    * Constructor
-   * 
+   *
    * @param date
    * @param price
    * @param amount
    * @param tid
    * @param side
    */
-  public HitbtcTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("tid") String tid, @JsonProperty("side") HitbtcTradeSide side) {
+  public HitbtcTrade(@JsonProperty("timestamp") String date, @JsonProperty("price") BigDecimal price,
+                     @JsonProperty("quantity") BigDecimal amount, @JsonProperty("id") String tid,
+                     @JsonProperty("side") HitbtcTradeSide side) {
 
-    this.date = date;
+    SimpleDateFormat parser = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+    try {
+      this.date = parser.parse(date);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
     this.price = price;
     this.amount = amount;
     this.tid = tid;
@@ -37,7 +46,7 @@ public class HitbtcTrade {
 
   public long getDate() {
 
-    return date;
+    return date.getTime();
   }
 
   public BigDecimal getPrice() {

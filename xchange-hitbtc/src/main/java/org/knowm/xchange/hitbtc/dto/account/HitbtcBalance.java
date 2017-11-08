@@ -7,14 +7,15 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 public class HitbtcBalance {
 
   private final String currencyCode;
-  private final BigDecimal cash;
+  private final BigDecimal available;
   private final BigDecimal reserved;
 
-  public HitbtcBalance(@JsonProperty("currency_code") String currencyCode, @JsonProperty("cash") BigDecimal cash,
-      @JsonProperty("reserved") BigDecimal reserved) {
+  public HitbtcBalance(@JsonProperty("currency") String currencyCode,
+                       @JsonProperty("available") BigDecimal available,
+                       @JsonProperty("reserved") BigDecimal reserved) {
 
     this.currencyCode = currencyCode;
-    this.cash = cash;
+    this.available = available;
     this.reserved = reserved;
   }
 
@@ -23,9 +24,9 @@ public class HitbtcBalance {
     return currencyCode;
   }
 
-  public BigDecimal getCash() {
+  public BigDecimal getAvailable() {
 
-    return cash;
+    return available;
   }
 
   public BigDecimal getReserved() {
@@ -39,8 +40,8 @@ public class HitbtcBalance {
     StringBuilder builder = new StringBuilder();
     builder.append("HitbtcBalance [currencyCode=");
     builder.append(currencyCode);
-    builder.append(", cash=");
-    builder.append(cash);
+    builder.append(", available=");
+    builder.append(available);
     builder.append(", reserved=");
     builder.append(reserved);
     builder.append("]");

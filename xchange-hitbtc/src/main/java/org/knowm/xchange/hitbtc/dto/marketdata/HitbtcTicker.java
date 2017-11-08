@@ -1,6 +1,10 @@
 package org.knowm.xchange.hitbtc.dto.marketdata;
 
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -17,32 +21,38 @@ public final class HitbtcTicker {
   private final BigDecimal open;
   private final BigDecimal volume;
   private final BigDecimal volume_quote;
-  private final long timestamp;
+  private Date timestamp = null;
 
   /**
    * Constructor
-   * 
+   *
    * @param ask
    * @param bid
    * @param last
    * @param low
    * @param high
    * @param volume
-   * @param timetamp
    */
   public HitbtcTicker(@JsonProperty("ask") BigDecimal ask, @JsonProperty("bid") BigDecimal bid, @JsonProperty("last") BigDecimal last,
-      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,
-      @JsonProperty("volume") BigDecimal volume, @JsonProperty("volume_quote") BigDecimal volume_quote, @JsonProperty("timestamp") long timestamp) {
+                      @JsonProperty("low") BigDecimal low, @JsonProperty("high") BigDecimal high, @JsonProperty("open") BigDecimal open,
+                      @JsonProperty("volume") BigDecimal volume, @JsonProperty("volumeQuote") BigDecimal volume_quote,
+                      @JsonProperty("timestamp") String timestamp) {
 
+    this.volume_quote = volume_quote;
     this.ask = ask;
     this.bid = bid;
-    this.last = last;
     this.low = low;
+    this.last = last;
     this.high = high;
     this.open = open;
+
+    try {
+      this.timestamp = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(timestamp);
+    } catch (ParseException e) {
+      e.printStackTrace();
+    }
+
     this.volume = volume;
-    this.volume_quote = volume_quote;
-    this.timestamp = timestamp;
   }
 
   public BigDecimal getAsk() {
@@ -87,7 +97,7 @@ public final class HitbtcTicker {
 
   public long getTimestamp() {
 
-    return timestamp;
+    return timestamp.getTime();
   }
 
   @Override

@@ -22,13 +22,7 @@ import org.knowm.xchange.dto.marketdata.Trades;
 import org.knowm.xchange.dto.meta.ExchangeMetaData;
 import org.knowm.xchange.dto.meta.MarketMetaData;
 import org.knowm.xchange.dto.trade.LimitOrder;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcIncrementalRefresh;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcOrderBook;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSnapshotFullRefresh;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTicker;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTime;
-import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcTrades;
+import org.knowm.xchange.hitbtc.dto.marketdata.*;
 import org.knowm.xchange.hitbtc.dto.meta.HitbtcMetaData;
 
 public class HitbtcAdapterTest {
@@ -77,7 +71,7 @@ public class HitbtcAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    HitbtcOrderBook orderBook = mapper.readValue(is, HitbtcOrderBook.class);
+    HitbtcOrderBookResponse orderBook = mapper.readValue(is, HitbtcOrderBookResponse.class);
 
     OrderBook adaptedOrderBook = HitbtcAdapters.adaptOrderBook(orderBook, CurrencyPair.BTC_USD);
 
@@ -97,14 +91,14 @@ public class HitbtcAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    HitbtcSymbols symbols = mapper.readValue(is, HitbtcSymbols.class);
+    HitbtcSymbol[] symbols = mapper.readValue(is, HitbtcSymbol[].class);
 
     ExchangeMetaData adaptedMetaData = HitbtcAdapters.adaptToExchangeMetaData(symbols, new HitbtcMetaData());
-    Map<CurrencyPair, MarketMetaData> metaDataMap = adaptedMetaData.getMarketMetaDataMap();
+    Map<CurrencyPair, MarketMetaData> metaMap = adaptedMetaData.getMarketMetaDataMap();
 
-    assertThat(metaDataMap.size()).isEqualTo(15);
+    assertThat(metaMap.size()).isEqualTo(15);
 
-    MarketMetaData BTC_USD = metaDataMap.get(CurrencyPair.BTC_USD);
+    MarketMetaData BTC_USD = metaMap.get(CurrencyPair.BTC_USD);
     assertThat(BTC_USD.getTradingFee()).isEqualTo("0.001");
     assertThat(BTC_USD.getMinimumAmount()).isEqualTo("0.01");
     assertThat(BTC_USD.getPriceScale()).isEqualTo(2);
@@ -118,7 +112,7 @@ public class HitbtcAdapterTest {
 
     // Use Jackson to parse it
     ObjectMapper mapper = new ObjectMapper();
-    HitbtcTrades trades = mapper.readValue(is, HitbtcTrades.class);
+    HitbtcTrade[] trades = new HitbtcTrade[]{mapper.readValue(is, HitbtcTrade.class)};
 
     Trades adaptedTrades = HitbtcAdapters.adaptTrades(trades, CurrencyPair.BTC_USD);
     assertThat(adaptedTrades.getlastID()).isEqualTo(4191471L);

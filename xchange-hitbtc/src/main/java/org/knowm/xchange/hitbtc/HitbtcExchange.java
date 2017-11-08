@@ -2,10 +2,12 @@ package org.knowm.xchange.hitbtc;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 import org.knowm.xchange.BaseExchange;
 import org.knowm.xchange.Exchange;
 import org.knowm.xchange.ExchangeSpecification;
+import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbol;
 import org.knowm.xchange.hitbtc.dto.marketdata.HitbtcSymbols;
 import org.knowm.xchange.hitbtc.dto.meta.HitbtcMetaData;
 import org.knowm.xchange.hitbtc.service.polling.HitbtcAccountService;
@@ -37,7 +39,7 @@ public class HitbtcExchange extends BaseExchange implements Exchange {
 
   @Override
   public void remoteInit() throws IOException {
-    HitbtcSymbols hitbtcSymbols = ((HitbtcMarketDataServiceRaw) pollingMarketDataService).getHitbtcSymbols();
+    HitbtcSymbol[] hitbtcSymbols = ((HitbtcMarketDataServiceRaw) pollingMarketDataService).getHitbtcSymbols();
     metaData = HitbtcAdapters.adaptToExchangeMetaData(hitbtcSymbols, hitbtcMetaData);
   }
 
