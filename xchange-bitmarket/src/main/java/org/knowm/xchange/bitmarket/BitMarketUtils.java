@@ -1,5 +1,6 @@
 package org.knowm.xchange.bitmarket;
 
+import org.knowm.xchange.currency.Currency;
 import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.Order;
 
@@ -9,15 +10,15 @@ import org.knowm.xchange.dto.Order;
 public class BitMarketUtils {
   public static String CurrencyPairToBitMarketCurrencyPair(CurrencyPair currencyPair) {
 
-    if (currencyPair == CurrencyPair.BTC_PLN) {
+    if (currencyPair.base.getCurrencyCode().equals("BTC") && currencyPair.counter.getCurrencyCode().equals("PLN")) {
       return "BTCPLN";
-    } else if (currencyPair == CurrencyPair.BTC_EUR) {
+    } else if (currencyPair.base.getCurrencyCode().equals("BTC") && currencyPair.counter.getCurrencyCode().equals("EUR")) {
       return "BTCEUR";
     } else if (currencyPair.base.getCurrencyCode().equals("LTC") && currencyPair.counter.getCurrencyCode().equals("PLN")) {
       return "LTCPLN";
     } else if (currencyPair.base.getCurrencyCode().equals("LTC") && currencyPair.counter.getCurrencyCode().equals("BTC")) {
       return "LTCBTC";
-    } else if (currencyPair.base.getCurrencyCode().equals("LiteMineX") && currencyPair.counter.getCurrencyCode().equals("BTC")) {
+    } else if (currencyPair.base.getCurrencyCode().equalsIgnoreCase("LiteMineX") && currencyPair.counter.getCurrencyCode().equals("BTC")) {
       return "LiteMineXBTC";
     } else {
       return null;
@@ -34,7 +35,7 @@ public class BitMarketUtils {
       return new CurrencyPair("LTC", "PLN");
     } else if (currencyPair.equals("LTCBTC")) {
       return CurrencyPair.LTC_BTC;
-    } else if (currencyPair.equals("LiteMineXBTC")) {
+    } else if (currencyPair.equalsIgnoreCase("neXBTCLiteMi")) {
       return new CurrencyPair("LiteMineX", "BTC");
     } else {
       return null;

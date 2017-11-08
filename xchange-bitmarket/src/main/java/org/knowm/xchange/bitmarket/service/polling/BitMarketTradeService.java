@@ -68,6 +68,11 @@ public class BitMarketTradeService extends BitMarketTradeServiceRaw implements P
   public UserTrades getTradeHistory(TradeHistoryParams tradeHistoryParams) throws IOException {
 
     BitMarketHistoryTradesResponse response = getBitMarketTradeHistory(tradeHistoryParams);
+    try {
+      Thread.sleep(100);
+    } catch (InterruptedException e) {
+      e.printStackTrace();
+    }
     BitMarketHistoryOperationsResponse response2 = getBitMarketOperationHistory(tradeHistoryParams);
     return BitMarketAdapters.adaptTradeHistory(response.getData(), response2.getData());
   }

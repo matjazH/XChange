@@ -11,6 +11,9 @@
     },
     "LTC/BTC": {
       "priceScale": 8
+    },
+    "LiteMineX/BTC": {
+      "priceScale": 8
     }
   },
   "currency": {}

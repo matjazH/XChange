@@ -21,6 +21,8 @@ import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamCurrencyP
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParamOffset;
 import org.knowm.xchange.service.polling.trade.params.TradeHistoryParams;
 
+import static org.knowm.xchange.bitmarket.service.polling.BitMarketDataServiceRaw.LITEMINEX;
+
 /**
  * Created by krzysztoffonal on 25/05/15.
  */
@@ -48,6 +50,7 @@ public class BitMarketTradeServiceRaw extends BitMarketBasePollingService {
   public BitMarketTradeResponse placeBitMarketOrder(LimitOrder order) throws IOException, ExchangeException {
 
     String market = order.getCurrencyPair().toString().replace("/", "");
+    market = market.replace("LITEMINEX", LITEMINEX);
     String type = order.getType() == Order.OrderType.ASK ? "sell" : "buy";
 
     BitMarketTradeResponse response = bitMarketAuthenticated.trade(apiKey, sign, exchange.getNonceFactory(), market, type, order.getTradableAmount(),
@@ -118,8 +121,13 @@ public class BitMarketTradeServiceRaw extends BitMarketBasePollingService {
       count = ((BitMarketHistoryParams) params).getCount();
     }
 
+    String currencyCode = currencyPair.base.getCurrencyCode();
+    if (currencyCode.equalsIgnoreCase(LITEMINEX)) {
+      currencyCode = LITEMINEX;
+    }
+
     BitMarketHistoryOperationsResponse response = bitMarketAuthenticated.history(apiKey, sign, exchange.getNonceFactory(),
-        currencyPair.base.getCurrencyCode(), count, offset);
+        currencyCode , count, offset);
 
     BitMarketHistoryOperationsResponse response2 = bitMarketAuthenticated.history(apiKey, sign, exchange.getNonceFactory(),
         currencyPair.counter.getCurrencyCode(), count, offset);

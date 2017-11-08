@@ -13,6 +13,8 @@ import org.knowm.xchange.currency.CurrencyPair;
  */
 public class BitMarketDataServiceRaw extends BitMarketBasePollingService {
 
+  public static final String LITEMINEX = "LiteMineX";
+
   /**
    * Constructor
    *
@@ -24,17 +26,32 @@ public class BitMarketDataServiceRaw extends BitMarketBasePollingService {
 
   public BitMarketTicker getBitMarketTicker(CurrencyPair currencyPair) throws IOException {
 
-    return bitMarket.getTicker(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toUpperCase());
+    String currencyCode = currencyPair.base.getCurrencyCode();
+    if (LITEMINEX.equalsIgnoreCase(currencyCode)) {
+      currencyCode = LITEMINEX;
+    }
+
+    return bitMarket.getTicker(currencyCode + currencyPair.counter.getCurrencyCode().toUpperCase());
   }
 
   public BitMarketOrderBook getBitMarketOrderBook(CurrencyPair currencyPair) throws IOException {
 
-    return bitMarket.getOrderBook(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toUpperCase());
+    String currencyCode = currencyPair.base.getCurrencyCode();
+    if (LITEMINEX.equalsIgnoreCase(currencyCode)) {
+      currencyCode = LITEMINEX;
+    }
+
+    return bitMarket.getOrderBook(currencyCode + currencyPair.counter.getCurrencyCode().toUpperCase());
   }
 
   public BitMarketTrade[] getBitMarketTrades(CurrencyPair currencyPair) throws IOException {
 
-    return bitMarket.getTrades(currencyPair.base.getCurrencyCode().toUpperCase() + currencyPair.counter.getCurrencyCode().toUpperCase());
+    String currencyCode = currencyPair.base.getCurrencyCode();
+    if (LITEMINEX.equalsIgnoreCase(currencyCode)) {
+      currencyCode = LITEMINEX;
+    }
+
+    return bitMarket.getTrades(currencyCode + currencyPair.counter.getCurrencyCode().toUpperCase());
   }
 
 }
