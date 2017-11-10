@@ -9,7 +9,6 @@ import org.knowm.xchange.quoine.service.polling.QuoineAccountService;
 import org.knowm.xchange.quoine.service.polling.QuoineMarketDataService;
 import org.knowm.xchange.quoine.service.polling.QuoineMarketDataServiceRaw;
 import org.knowm.xchange.quoine.service.polling.QuoineTradeService;
-import org.knowm.xchange.utils.nonce.CurrentTimeNonceFactory;
 
 import si.mazi.rescu.SynchronizedValueFactory;
 
@@ -47,8 +46,10 @@ public class QuoineExchange extends BaseExchange implements Exchange {
       QuoineMarketDataServiceRaw marketDataServiceRaw = (QuoineMarketDataServiceRaw) pollingMarketDataService;
       QuoineProduct[] quoineProducts = marketDataServiceRaw.getQuoineProducts();
       for (QuoineProduct product : quoineProducts) {
-        CurrencyPair pair = new CurrencyPair(product.getBaseCurrency(), product.getQuotedCurrency());
-        QuoineUtils.CURRENCY_PAIR_2_ID_MAP.put(pair, product.getId());
+        if (!product.getDisabled()) {
+          CurrencyPair pair = new CurrencyPair(product.getBaseCurrency(), product.getQuotedCurrency());
+          QuoineUtils.CURRENCY_PAIR_2_ID_MAP.put(pair, product.getId());
+        }
       }
     } catch (Exception e) {
       logger.warn("An exception occurred while loading the metadata file from the file. This may lead to unexpected results.", e);

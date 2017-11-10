@@ -18,7 +18,6 @@
       "ETH/IDR":{"priceScale":2},
       "ETH/AUD":{"priceScale":2},
       "ETH/PHP":{"priceScale":2},
-      "ETH/CNY":{"priceScale":2},
       "ETH/BTC":{"priceScale":5},
       "BCH/USD":{"priceScale":2},
       "BCH/SGD":{"priceScale":2},

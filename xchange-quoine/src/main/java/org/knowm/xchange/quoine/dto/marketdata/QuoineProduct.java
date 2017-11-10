@@ -55,12 +55,12 @@ public final class QuoineProduct {
   private final BigDecimal cashSpotBid;
   @JsonProperty("last_traded_price")
   private final BigDecimal lastTradedPrice;
-
   @JsonProperty("quoted_currency")
   private final String quotedCurrency;
   @JsonProperty("base_currency")
   private final String baseCurrency;
-
+  @JsonProperty("disabled")
+  private final Boolean disabled;
 
   /**
    * Constructor
@@ -89,17 +89,20 @@ public final class QuoineProduct {
    * @param cashSpotBid
    * @param lastTradedPrice
    */
-  public QuoineProduct(@JsonProperty("id") int id, @JsonProperty("product_type") String productType, @JsonProperty("code") String code,
-      @JsonProperty("name") String name, @JsonProperty("market_ask") BigDecimal marketAsk, @JsonProperty("market_bid") BigDecimal marketBid,
-      @JsonProperty("indicator") int indicator, @JsonProperty("currency_pair_id") String currencyPairId, @JsonProperty("currency") String currency,
+  public QuoineProduct(@JsonProperty("id") int id, @JsonProperty("product_type") String productType,
+      @JsonProperty("code") String code, @JsonProperty("name") String name, @JsonProperty("market_ask") BigDecimal marketAsk,
+      @JsonProperty("market_bid") BigDecimal marketBid, @JsonProperty("indicator") int indicator,
+      @JsonProperty("currency_pair_id") String currencyPairId, @JsonProperty("currency") String currency,
       @JsonProperty("currency_pair_code") String currencyPairCode, @JsonProperty("symbol") String symbol,
-      @JsonProperty("btc_minimum_withdraw") BigDecimal btcMinimumWithdraw, @JsonProperty("fiat_minimum_withdraw") BigDecimal fiatMinimumWithdraw,
+      @JsonProperty("btc_minimum_withdraw") BigDecimal btcMinimumWithdraw,
+      @JsonProperty("fiat_minimum_withdraw") BigDecimal fiatMinimumWithdraw,
       @JsonProperty("pusher_channel") String pusherChannel, @JsonProperty("taker_fee") BigDecimal takerFee,
       @JsonProperty("maker_fee") BigDecimal makerFee, @JsonProperty("low_market_bid") BigDecimal lowMarketBid,
       @JsonProperty("high_market_ask") BigDecimal highMarketAsk, @JsonProperty("volume_24h") BigDecimal volume24h,
       @JsonProperty("last_price_24h") BigDecimal lastPrice24h, @JsonProperty("cash_spot_ask") BigDecimal cashSpotAsk,
       @JsonProperty("cash_spot_bid") BigDecimal cashSpotBid, @JsonProperty("last_traded_price") BigDecimal lastTradedPrice,
-      @JsonProperty("quoted_currency") String quotedCurrency, @JsonProperty("base_currency") String baseCurrency) {
+      @JsonProperty("quoted_currency") String quotedCurrency, @JsonProperty("base_currency") String baseCurrency,
+      @JsonProperty("disabled") Boolean disabled) {
     this.id = id;
     this.productType = productType;
     this.code = code;
@@ -125,6 +128,7 @@ public final class QuoineProduct {
     this.lastTradedPrice = lastTradedPrice;
     this.quotedCurrency = quotedCurrency;
     this.baseCurrency = baseCurrency;
+    this.disabled = disabled;
   }
 
   public int getId() {
@@ -225,6 +229,10 @@ public final class QuoineProduct {
 
   public String getBaseCurrency() {
     return baseCurrency;
+  }
+
+  public Boolean getDisabled() {
+    return disabled;
   }
 
   @Override
