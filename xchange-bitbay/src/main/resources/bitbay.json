@@ -9,6 +9,30 @@
     "BTC/USD": {
       "priceScale": 2
     },
+    "ETH/EUR": {
+      "priceScale": 2
+    },
+    "ETH/PLN": {
+      "priceScale": 2
+    },
+    "ETH/USD": {
+      "priceScale": 2
+    },
+    "ETH/BTC": {
+      "priceScale": 2
+    },
+    "LSK/EUR": {
+      "priceScale": 2
+    },
+    "LSK/PLN": {
+      "priceScale": 2
+    },
+    "LSK/USD": {
+      "priceScale": 2
+    },
+    "LSK/BTC": {
+      "priceScale": 2
+    },
     "LTC/BTC": {
       "priceScale": 8
     },
@@ -19,6 +43,42 @@
       "priceScale": 2
     },
     "LTC/USD": {
+      "priceScale": 2
+    },
+    "GAME/BTC": {
+      "priceScale": 8
+    },
+    "GAME/EUR": {
+      "priceScale": 2
+    },
+    "GAME/PLN": {
+      "priceScale": 2
+    },
+    "GAME/USD": {
+      "priceScale": 2
+    },
+    "DASH/BTC": {
+      "priceScale": 8
+    },
+    "DASH/EUR": {
+      "priceScale": 2
+    },
+    "DASH/PLN": {
+      "priceScale": 2
+    },
+    "DASH/USD": {
+      "priceScale": 2
+    },
+    "BCC/BTC": {
+      "priceScale": 8
+    },
+    "BCC/EUR": {
+      "priceScale": 2
+    },
+    "BCC/PLN": {
+      "priceScale": 2
+    },
+    "BCC/USD": {
       "priceScale": 2
     }
   },
