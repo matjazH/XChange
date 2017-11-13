@@ -132,7 +132,7 @@ public class GeminiAdapters {
   }
 
   public static LimitOrder adaprtOrder(GeminiOrder geminiOrder) {
-    Order.OrderType orderType = geminiOrder.getSide() == GeminiOrder.Side.buy ? Order.OrderType.BID : Order.OrderType.ASK;
+    Order.OrderType orderType = geminiOrder.getSide().equalsIgnoreCase("buy") ? Order.OrderType.BID : Order.OrderType.ASK;
     Date date = DateUtils.fromMillisUtc(geminiOrder.getTimestampms());
 
     LimitOrder.Builder builder = new LimitOrder.Builder(orderType, adaptPair(geminiOrder.getSymbol()))

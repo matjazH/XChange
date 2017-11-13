@@ -15,7 +15,7 @@ public class GeminiOrder {
   private String exchange;
   private BigDecimal price;
   private BigDecimal avgExecutionPrice;
-  private Side side;
+  private String side;
   private String type;
   private Long timestampms;
   private Long timestamp;
@@ -32,7 +32,7 @@ public class GeminiOrder {
                      @JsonProperty("exchange") String exchange,
                      @JsonProperty("price") BigDecimal price,
                      @JsonProperty("avg_execution_price") BigDecimal avgExecutionPrice,
-                     @JsonProperty("side") Side side,
+                     @JsonProperty("side") String side,
                      @JsonProperty("type") String type,
                      @JsonProperty("timestampms") Long timestampms,
                      @JsonProperty("timestamp") Long timestamp,
@@ -42,6 +42,7 @@ public class GeminiOrder {
                      @JsonProperty("remaining_amount") BigDecimal remainingAmount,
                      @JsonProperty("original_amount") BigDecimal originalAmount) {
 
+    this.side = side;
     this.orderId = orderId;
     this.clientOrderId = clientOrderId;
     this.symbol = symbol;
@@ -82,7 +83,7 @@ public class GeminiOrder {
     return avgExecutionPrice;
   }
 
-  public Side getSide() {
+  public String getSide() {
     return side;
   }
 
@@ -136,10 +137,5 @@ public class GeminiOrder {
         ", remainingAmount=" + remainingAmount +
         ", originalAmount=" + originalAmount +
         '}';
-  }
-
-  public enum Side {
-    buy,
-    sell
   }
 }
