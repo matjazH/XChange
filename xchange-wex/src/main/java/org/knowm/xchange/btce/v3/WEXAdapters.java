@@ -162,9 +162,6 @@ public final class WEXAdapters {
     for (String lcCurrency : funds.keySet()) {
       /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */ 
       BigDecimal fund = funds.get(lcCurrency);
-      if (lcCurrency.equals("dsh")) {
-    	  lcCurrency = "dash";
-      }
       Currency currency = Currency.getInstance(lcCurrency);
       balances.add(new Balance(currency, fund));
     }
@@ -206,13 +203,6 @@ public final class WEXAdapters {
   public static CurrencyPair adaptCurrencyPair(String btceCurrencyPair) {
 
     String[] currencies = btceCurrencyPair.split("_");
-    /* BTC-E signals DASH as DSH. This is a different coin. Translate in correct DASH name */ 
-    if (currencies[0].equals("dsh")) {
-    	currencies[0] = "dash";
-    }
-    if (currencies[1].equals("dsh")) {
-    	currencies[1] = "dash";
-    }
     return new CurrencyPair(currencies[0].toUpperCase(), currencies[1].toUpperCase());
   }
 
