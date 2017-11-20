@@ -50,26 +50,45 @@ public class GDAXAdapters {
 
   private static Date parseDate(String rawDate) {
 
-    //    System.out.println("before: " + rawDate);
-    try {
-      if (rawDate.length() == 20 && rawDate.endsWith("Z")) {
-        rawDate = rawDate.substring(0, 19) + ".000Z";
-      } else if (rawDate.length() == 21) {
-        rawDate = rawDate.substring(0, 20) + "000";
-      } else if (rawDate.length() == 22) {
-        rawDate = rawDate.substring(0, 21) + "00";
-      } else if (rawDate.length() == 23) {
-        rawDate = rawDate.substring(0, 22) + "0";
-      } else {
-        rawDate = rawDate.substring(0, rawDate.length() < 23 ? rawDate.length() : 23);
+    String modified;
+    if (rawDate.length() > 23) {
+      modified = rawDate.substring(0, 23);
+    } else if (rawDate.endsWith("Z")) {
+      switch (rawDate.length()) {
+        case 20:
+          modified = rawDate.substring(0, 19) + ".000";
+          break;
+        case 22:
+          modified = rawDate.substring(0, 21) + "00";
+          break;
+        case 23:
+          modified = rawDate.substring(0, 22) + "0";
+          break;
+        default:
+          modified = rawDate;
+          break;
       }
-      //      System.out.println("after: " + rawDate);
-      //      System.out.println("");
-
-      return dateFormat.parse(rawDate);
+    } else {
+      switch (rawDate.length()) {
+        case 19:
+          modified = rawDate + ".000";
+          break;
+        case 21:
+          modified = rawDate + "00";
+          break;
+        case 22:
+          modified = rawDate + "0";
+          break;
+        default:
+          modified = rawDate;
+          break;
+      }
+    }
+    try {
+      SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS");
+      dateFormat.setTimeZone(TimeZone.getTimeZone("UTC"));
+      return dateFormat.parse(modified);
     } catch (ParseException e) {
-      System.err.println("rawDate: " + rawDate);
-      e.printStackTrace();
       return null;
     }
   }
