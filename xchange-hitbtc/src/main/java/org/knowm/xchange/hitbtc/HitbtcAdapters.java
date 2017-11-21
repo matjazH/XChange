@@ -256,7 +256,7 @@ public class HitbtcAdapters {
       CurrencyPair pair = adaptSymbol(t.getSymbol());
 
       // minimumAmount is equal to lot size
-      BigDecimal amount = t.getExecQuantity().multiply(metaData.getMarketMetaDataMap().get(pair).getMinimumAmount());
+      BigDecimal amount = t.getExecQuantity();
       Date time = new Date(t.getTimestamp());
       String id = Long.toString(t.getTradeId());
 
