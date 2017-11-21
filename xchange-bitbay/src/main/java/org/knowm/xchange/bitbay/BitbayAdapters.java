@@ -102,7 +102,8 @@ public class BitbayAdapters {
 
     for (BitbayTrade bitbayTrade : bitbayTrades) {
 
-      Trade trade = new Trade(null, bitbayTrade.getAmount(), currencyPair, bitbayTrade.getPrice(), new Date(bitbayTrade.getDate()*1000),
+      Trade trade = new Trade(bitbayTrade.getType().toLowerCase().equals("buy") ? Order.OrderType.BID : Order.OrderType.ASK,
+          bitbayTrade.getAmount(), currencyPair, bitbayTrade.getPrice(), new Date(bitbayTrade.getDate()*1000),
           bitbayTrade.getTid());
 
       tradeList.add(trade);

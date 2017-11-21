@@ -13,6 +13,7 @@ public class BitbayTrade {
   private final BigDecimal price;
   private final BigDecimal amount;
   private final String tid;
+  private final String type;
 
   /**
    * Constructor
@@ -23,8 +24,9 @@ public class BitbayTrade {
    * @param tid
    */
   public BitbayTrade(@JsonProperty("date") long date, @JsonProperty("price") BigDecimal price, @JsonProperty("amount") BigDecimal amount,
-      @JsonProperty("tid") String tid) {
+      @JsonProperty("tid") String tid, @JsonProperty("type") String type) {
 
+    this.type = type;
     this.date = date;
     this.price = price;
     this.amount = amount;
@@ -49,6 +51,11 @@ public class BitbayTrade {
   public String getTid() {
 
     return tid;
+  }
+
+  public String getType() {
+
+    return type;
   }
 
   @Override
