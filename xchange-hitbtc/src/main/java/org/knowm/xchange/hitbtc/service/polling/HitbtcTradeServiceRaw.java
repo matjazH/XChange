@@ -126,6 +126,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
    */
   protected BigDecimal getLots(Order order) {
 
+    /*
     CurrencyPair pair = order.getCurrencyPair();
     MarketMetaData marketMetaData = exchange.getMetaData().getMarketMetaDataMap().get(pair);
     if (marketMetaData != null) {
@@ -139,6 +140,8 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
       }
     }
     throw new IllegalArgumentException("HitBtc lots error");
+    */
+    return order.getTradableAmount();
   }
 
 }

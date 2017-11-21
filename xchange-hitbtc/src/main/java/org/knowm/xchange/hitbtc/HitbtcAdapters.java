@@ -211,12 +211,14 @@ public class HitbtcAdapters {
   }
 
   public static BigDecimal getAmount(HitbtcOrder order, MarketMetaData marketMeta) {
+    /*
     if (marketMeta != null) {
       BigDecimal minimumAmount = marketMeta.getMinimumAmount();
       if (minimumAmount != null) {
         return order.getOrderQuantity().multiply(minimumAmount);
       }
     }
+    */
     return order.getOrderQuantity();
   }
 
