@@ -301,9 +301,9 @@ public final class BitstampUserTransaction {
   }
 
   public String getBaseCurrency() {
-    if (isBtc()) {
+    if (isBtc() && (isBtcEur() || isBtcUsd())) {
       return "BTC";
-    } else if (isEur()) {
+    } else if (isEur() && isEurUsd()) {
       return "EUR";
     } else if (isXrp()) {
       return "XRP";
