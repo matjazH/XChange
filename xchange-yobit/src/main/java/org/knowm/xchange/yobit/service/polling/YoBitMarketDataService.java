@@ -32,7 +32,7 @@ public class YoBitMarketDataService extends YoBitMarketDataServiceRaw implements
 
   @Override
   public Trades getTrades(CurrencyPair currencyPair, Object... args) throws IOException {
-    long level = 50;
+    long level = 1000;
     if (args != null && args.length > 0) {
       if (args[0] instanceof Number) {
         Number arg = (Number) args[0];
