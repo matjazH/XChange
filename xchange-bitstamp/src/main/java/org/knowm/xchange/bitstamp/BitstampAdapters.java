@@ -194,7 +194,7 @@ public final class BitstampAdapters {
     for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
         OrderType orderType = bitstampUserTransaction.getCounterAmount().doubleValue() > 0.0 ? OrderType.BID : OrderType.ASK;
-        BigDecimal tradableAmount = bitstampUserTransaction.getAmount();
+        BigDecimal tradableAmount = bitstampUserTransaction.getCounterAmount();
         BigDecimal price = bitstampUserTransaction.getPrice().abs();
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
         long transactionId = bitstampUserTransaction.getId();

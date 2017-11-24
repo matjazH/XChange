@@ -130,6 +130,11 @@ public final class BitstampUserTransaction {
     return type;
   }
 
+  public boolean isMarketTrade() {
+
+    return type == TransactionType.trade;
+  }
+
   public boolean isDeposit() {
 
     return type == TransactionType.deposit;
@@ -138,11 +143,6 @@ public final class BitstampUserTransaction {
   public boolean isWithdrawal() {
 
     return type == TransactionType.withdrawal;
-  }
-
-  public boolean isMarketTrade() {
-
-    return type == TransactionType.trade;
   }
 
   public BigDecimal getUsd() {
@@ -291,15 +291,29 @@ public final class BitstampUserTransaction {
   }
 
   public String getCounterCurrency() {
-    return isUsd() ? "USD" : "EUR";
+    if (isBtcEur() || isXrpEur() || isLtcEur() || isEthEur()) {
+      return "EUR";
+    } else if (isBtcUsd() || isXrpUsd() || isLtcUsd() || isEthUsd()) {
+      return "USD";
+    } else {
+      return "BTC";
+    }
   }
 
   public String getBaseCurrency() {
-    return isXrp() ? "XRP" : "BTC";
-  }
-
-  public BigDecimal getAmount() {
-    return isBtc() ? btc : xrp;
+    if (isBtc()) {
+      return "BTC";
+    } else if (isEur()) {
+      return "EUR";
+    } else if (isXrp()) {
+      return "XRP";
+    } else if (isUsd()) {
+      return "USD";
+    } else if (isLtc()) {
+      return "LTC";
+    } else {
+      return "ETH";
+    }
   }
 
   public BigDecimal getFee() {
