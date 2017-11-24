@@ -12,12 +12,18 @@ public final class BitstampBalance {
   private final BigDecimal usdBalance;
   private final BigDecimal eurBalance;
   private final BigDecimal btcBalance;
+  private final BigDecimal xrpBalance;
+  private final BigDecimal ltcBalance;
   private final BigDecimal usdReserved;
   private final BigDecimal eurReserved;
   private final BigDecimal btcReserved;
+  private final BigDecimal xrpReserved;
+  private final BigDecimal ltcReserved;
   private final BigDecimal usdAvailable;
   private final BigDecimal eurAvailable;
   private final BigDecimal btcAvailable;
+  private final BigDecimal xrpAvailable;
+  private final BigDecimal ltcAvailable;
   private final BigDecimal fee;
   private final String error;
 
@@ -32,22 +38,51 @@ public final class BitstampBalance {
    * @param btcAvailable
    * @param fee
    */
-  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance, @JsonProperty("eur_balance") BigDecimal eurBalance, @JsonProperty("btc_balance") BigDecimal btcBalance,
-                         @JsonProperty("usd_reserved") BigDecimal usdReserved, @JsonProperty("eur_reserved") BigDecimal eurReserved, @JsonProperty("btc_reserved") BigDecimal btcReserved,
-                         @JsonProperty("usd_available") BigDecimal usdAvailable, @JsonProperty("eur_available") BigDecimal eurAvailable, @JsonProperty("btc_available") BigDecimal btcAvailable,
-                         @JsonProperty("fee") BigDecimal fee, @JsonProperty("error") String error) {
+  public BitstampBalance(@JsonProperty("usd_balance") BigDecimal usdBalance,
+                         @JsonProperty("eur_balance") BigDecimal eurBalance,
+                         @JsonProperty("btc_balance") BigDecimal btcBalance,
+                         @JsonProperty("xrp_balance") BigDecimal xrpBalance,
+                         @JsonProperty("ltc_balance") BigDecimal ltcBalance,
+                         @JsonProperty("usd_reserved") BigDecimal usdReserved,
+                         @JsonProperty("eur_reserved") BigDecimal eurReserved,
+                         @JsonProperty("btc_reserved") BigDecimal btcReserved,
+                         @JsonProperty("xrp_reserved") BigDecimal xrpReserved,
+                         @JsonProperty("ltc_reserved") BigDecimal ltcReserved,
+                         @JsonProperty("usd_available") BigDecimal usdAvailable,
+                         @JsonProperty("eur_available") BigDecimal eurAvailable,
+                         @JsonProperty("btc_available") BigDecimal btcAvailable,
+                         @JsonProperty("xrp_available") BigDecimal xrpAvailable,
+                         @JsonProperty("ltc_available") BigDecimal ltcAvailable,
+                         @JsonProperty("fee") BigDecimal fee,
+                         @JsonProperty("error") String error) {
 
     this.usdBalance = usdBalance;
     this.eurBalance = eurBalance;
     this.btcBalance = btcBalance;
+    this.xrpBalance = xrpBalance;
+    this.ltcBalance = ltcBalance;
     this.usdReserved = usdReserved;
     this.eurReserved = eurReserved;
     this.btcReserved = btcReserved;
+    this.xrpReserved = xrpReserved;
+    this.ltcReserved = ltcReserved;
     this.usdAvailable = usdAvailable;
     this.eurAvailable = eurAvailable;
     this.btcAvailable = btcAvailable;
+    this.xrpAvailable = xrpAvailable;
+    this.ltcAvailable = ltcAvailable;
     this.fee = fee;
     this.error = error;
+  }
+
+  public BigDecimal getLtcBalance() {
+
+    return ltcBalance;
+  }
+
+  public BigDecimal getXrpBalance() {
+
+    return xrpBalance;
   }
 
   public BigDecimal getUsdBalance() {
@@ -65,6 +100,16 @@ public final class BitstampBalance {
     return btcBalance;
   }
 
+  public BigDecimal getXrpReserved() {
+
+    return xrpReserved;
+  }
+
+  public BigDecimal getLtcReserved() {
+
+    return ltcReserved;
+  }
+
   public BigDecimal getUsdReserved() {
 
     return usdReserved;
@@ -79,6 +124,16 @@ public final class BitstampBalance {
   public BigDecimal getBtcReserved() {
 
     return btcReserved;
+  }
+
+  public BigDecimal getXrpAvailable() {
+
+    return xrpAvailable;
+  }
+
+  public BigDecimal getLtcAvailable() {
+
+    return ltcAvailable;
   }
 
   public BigDecimal getUsdAvailable() {

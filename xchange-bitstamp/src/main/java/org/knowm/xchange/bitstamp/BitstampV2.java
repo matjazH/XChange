@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 
 import org.knowm.xchange.bitstamp.dto.BitstampException;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampOrderBook;
+import org.knowm.xchange.bitstamp.dto.marketdata.BitstampSymbol;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTicker;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampTransaction;
 import org.knowm.xchange.bitstamp.service.polling.BitstampMarketDataServiceRaw;
@@ -32,6 +33,10 @@ public interface BitstampV2 {
   @GET
   @Path("ticker/{pair}/")
   BitstampTicker getTicker(@PathParam("pair") BitstampV2.Pair pair) throws IOException, BitstampException;
+
+  @GET
+  @Path("trading-pairs-info")
+  BitstampSymbol[] getSymbols() throws IOException, BitstampException;
 
   /**
    * Returns descending list of transactions.

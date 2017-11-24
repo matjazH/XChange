@@ -58,14 +58,29 @@ public final class BitstampAdapters {
             .subtract(bitstampBalance.getEurReserved());
     final BigDecimal btcWithdrawing = bitstampBalance.getBtcBalance().subtract(bitstampBalance.getBtcAvailable())
         .subtract(bitstampBalance.getBtcReserved());
+    final BigDecimal xrpWithdrawing = bitstampBalance.getXrpBalance().subtract(bitstampBalance.getXrpAvailable())
+        .subtract(bitstampBalance.getXrpReserved());
     Balance usdBalance = new Balance(Currency.USD, bitstampBalance.getUsdBalance(), bitstampBalance.getUsdAvailable(),
         bitstampBalance.getUsdReserved(), ZERO, ZERO, usdWithdrawing, ZERO);
     Balance eurBalance = new Balance(Currency.EUR, bitstampBalance.getEurBalance(), bitstampBalance.getEurAvailable(),
             bitstampBalance.getEurReserved(), ZERO, ZERO, eurWithdrawing, ZERO);
     Balance btcBalance = new Balance(Currency.BTC, bitstampBalance.getBtcBalance(), bitstampBalance.getBtcAvailable(),
         bitstampBalance.getBtcReserved(), ZERO, ZERO, btcWithdrawing, ZERO);
+    Balance xrpBalance = new Balance(Currency.XRP, bitstampBalance.getXrpBalance(), bitstampBalance.getXrpAvailable(),
+        bitstampBalance.getXrpReserved(), ZERO, ZERO, xrpWithdrawing, ZERO);
 
-    return new AccountInfo(userName, bitstampBalance.getFee(), new Wallet(usdBalance, eurBalance, btcBalance));
+    Wallet wallet;
+    if (bitstampBalance.getLtcBalance() != null) {
+      BigDecimal ltcWithdrawing = bitstampBalance.getLtcBalance().subtract(bitstampBalance.getLtcAvailable())
+          .subtract(bitstampBalance.getLtcReserved());
+      Balance ltcBalance = new Balance(Currency.LTC, bitstampBalance.getLtcBalance(), bitstampBalance.getLtcAvailable(),
+          bitstampBalance.getLtcReserved(), ZERO, ZERO, ltcWithdrawing, ZERO);
+      wallet = new Wallet(usdBalance, eurBalance, btcBalance, xrpBalance, ltcBalance);
+    } else {
+      wallet = new Wallet(usdBalance, eurBalance, btcBalance, xrpBalance);
+    }
+
+    return new AccountInfo(userName, bitstampBalance.getFee(), wallet);
   }
 
   /**
