@@ -193,8 +193,8 @@ public final class BitstampAdapters {
     long lastTradeId = 0;
     for (BitstampUserTransaction bitstampUserTransaction : bitstampUserTransactions) {
       if (bitstampUserTransaction.getType().equals(BitstampUserTransaction.TransactionType.trade)) { // skip account deposits and withdrawals.
-        OrderType orderType = bitstampUserTransaction.getCounterAmount().doubleValue() > 0.0 ? OrderType.ASK : OrderType.BID;
-        BigDecimal tradableAmount = bitstampUserTransaction.getBtc();
+        OrderType orderType = bitstampUserTransaction.getCounterAmount().doubleValue() > 0.0 ? OrderType.BID : OrderType.ASK;
+        BigDecimal tradableAmount = bitstampUserTransaction.getAmount();
         BigDecimal price = bitstampUserTransaction.getPrice().abs();
         Date timestamp = BitstampUtils.parseDate(bitstampUserTransaction.getDatetime());
         long transactionId = bitstampUserTransaction.getId();
@@ -204,9 +204,9 @@ public final class BitstampAdapters {
         final String tradeId = String.valueOf(transactionId);
         final String orderId = String.valueOf(bitstampUserTransaction.getOrderId());
         final BigDecimal feeAmount = bitstampUserTransaction.getFee();
-        final CurrencyPair currencyPair = new CurrencyPair(Currency.BTC, new Currency(bitstampUserTransaction.getCounterCurrency()));
+        final CurrencyPair currencyPair = new CurrencyPair(new Currency(bitstampUserTransaction.getBaseCurrency()), new Currency(bitstampUserTransaction.getCounterCurrency()));
 
-        UserTrade trade = new UserTrade(orderType, tradableAmount, currencyPair, price, timestamp, tradeId, orderId, feeAmount,
+        UserTrade trade = new UserTrade(orderType, tradableAmount.abs(), currencyPair, price, timestamp, tradeId, orderId, feeAmount,
             Currency.getInstance(currencyPair.counter.getCurrencyCode()));
         trades.add(trade);
       }

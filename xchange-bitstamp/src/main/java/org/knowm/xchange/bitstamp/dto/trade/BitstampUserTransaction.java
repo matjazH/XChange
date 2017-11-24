@@ -235,6 +235,8 @@ public final class BitstampUserTransaction {
       return eur_usd;
     } else if (isEthEur()) {
       return eth_eur;
+    } else if (isEthUsd()) {
+      return eth_usd;
     } else {
       return eth_btc;
     }
@@ -280,12 +282,24 @@ public final class BitstampUserTransaction {
     return eth_eur != null && eth_eur.compareTo(BigDecimal.ZERO) != 0;
   }
 
+  private boolean isEthUsd() {
+    return eth_usd != null && eth_usd.compareTo(BigDecimal.ZERO) != 0;
+  }
+
   private boolean isEthBtc() {
     return eth_btc != null && eth_btc.compareTo(BigDecimal.ZERO) != 0;
   }
 
   public String getCounterCurrency() {
     return isUsd() ? "USD" : "EUR";
+  }
+
+  public String getBaseCurrency() {
+    return isXrp() ? "XRP" : "BTC";
+  }
+
+  public BigDecimal getAmount() {
+    return isBtc() ? btc : xrp;
   }
 
   public BigDecimal getFee() {
