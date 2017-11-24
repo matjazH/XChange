@@ -8,12 +8,12 @@ import org.knowm.xchange.service.polling.BasePollingService;
 import si.mazi.rescu.RestProxyFactory;
 
 public class YoBitBaseService<T extends YoBit> extends BaseExchangeService implements BasePollingService {
-  protected final T coinbaseEx;
+  protected final T yobit;
 
   protected YoBitBaseService(Class<T> type, Exchange exchange) {
     super(exchange);
 
-    this.coinbaseEx = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
+    this.yobit = RestProxyFactory.createProxy(type, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
 }

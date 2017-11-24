@@ -70,22 +70,28 @@ public class YoBitAdapters {
   public static Trades adaptTrades(YoBitTrades coinbaseTrades, CurrencyPair currencyPair) {
     List<YoBitTrade> ctrades = coinbaseTrades.getTrades();
 
-    List<Trade> trades = new ArrayList<Trade>(ctrades.size());
+    List<Trade> trades = new ArrayList<Trade>();
+
+    long tid = 0;
 
     int lastTrade = 0;
 
-    for (int i = 0; i < ctrades.size(); i++) {
-      YoBitTrade trade = ctrades.get(i);
+    if (!ctrades.isEmpty()) {
+      for (int i = 0; i < ctrades.size(); i++) {
+        YoBitTrade trade = ctrades.get(i);
 
-      OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
+        OrderType type = trade.getType().equals("bid") ? OrderType.BID : OrderType.ASK;
 
-      Trade t = new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(),
-          parseDate(trade.getTimestamp()), String.valueOf(trade.getTid()));
-      trades.add(t);
-      lastTrade = i;
+        Trade t = new Trade(type, trade.getAmount(), currencyPair, trade.getPrice(),
+            parseDate(trade.getTimestamp()), String.valueOf(trade.getTid()));
+        trades.add(t);
+        lastTrade = i;
+      }
+
+      tid = ctrades.get(lastTrade).getTid();
     }
 
-    return new Trades(trades, ctrades.get(lastTrade).getTid(), TradeSortType.SortByID);
+    return new Trades(trades, tid, TradeSortType.SortByID);
   }
 
   private static Date parseDate(Long rawDateLong) {

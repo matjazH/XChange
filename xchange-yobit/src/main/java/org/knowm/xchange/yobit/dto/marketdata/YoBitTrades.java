@@ -32,29 +32,24 @@ public class YoBitTrades {
 
   static class YoBitTradesDeserializer extends JsonDeserializer<YoBitTrades> {
 
-    private List<YoBitTrade> trades = new ArrayList<>();
-
     @Override
-    public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt)
-        throws IOException, JsonProcessingException {
+    public YoBitTrades deserialize(JsonParser p, DeserializationContext ctxt) throws IOException {
 
       ObjectCodec oc = p.getCodec();
       JsonNode node = oc.readTree(p);
 
-      if (node.isObject()) {
-        Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
-        while (priceEntryIter.hasNext()) {
-          Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
+      List<YoBitTrade> trades = new ArrayList<>();
 
-          JsonNode priceNode = priceEntryNode.getValue();
+      Iterator<Entry<String, JsonNode>> priceEntryIter = node.fields();
+      while (priceEntryIter.hasNext()) {
+        Entry<String, JsonNode> priceEntryNode = priceEntryIter.next();
 
-          if (priceNode.isArray()) {
-            for (JsonNode jsonNode : priceNode) {
-              ObjectMapper jsonObjectMapper = new ObjectMapper();
-              YoBitTrade yoBitTrade = jsonObjectMapper.convertValue(jsonNode, YoBitTrade.class);
-              trades.add(yoBitTrade);
-            }
-          }
+        JsonNode priceNode = priceEntryNode.getValue();
+
+        for (JsonNode jsonNode : priceNode) {
+          ObjectMapper jsonObjectMapper = new ObjectMapper();
+          YoBitTrade yoBitTrade = jsonObjectMapper.convertValue(jsonNode, YoBitTrade.class);
+          trades.add(yoBitTrade);
         }
       }
 

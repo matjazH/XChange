@@ -35,7 +35,7 @@ public interface YoBit {
 
   @GET
   @Path("api/3/trades/{baseCurrency}_{targetCurrency}")
-  YoBitTrades getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String target)
+  YoBitTrades getTrades(@PathParam("baseCurrency") String baseCurrency, @PathParam("targetCurrency") String target, @QueryParam("limit") long limit)
       throws IOException;
 
 }
