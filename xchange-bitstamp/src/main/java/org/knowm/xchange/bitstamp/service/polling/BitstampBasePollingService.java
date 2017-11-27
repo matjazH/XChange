@@ -1,7 +1,6 @@
 package org.knowm.xchange.bitstamp.service.polling;
 
 import org.knowm.xchange.Exchange;
-import org.knowm.xchange.bitstamp.Bitstamp;
 import org.knowm.xchange.bitstamp.BitstampV2;
 import org.knowm.xchange.bitstamp.dto.marketdata.BitstampSymbol;
 import org.knowm.xchange.currency.CurrencyPair;
@@ -26,11 +25,16 @@ public class BitstampBasePollingService extends BaseExchangeService implements B
     this.bitstampV2 = RestProxyFactory.createProxy(BitstampV2.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
+  public BitstampSymbol[] getExchangesInfo() throws IOException {
+    return bitstampV2.getSymbols();
+  }
+
   @Override
   public List<CurrencyPair> getExchangeSymbols() throws IOException {
 
     List<CurrencyPair> currencyPairs = new ArrayList<CurrencyPair>();
-    for (BitstampSymbol symbol : bitstampV2.getSymbols()) {
+    BitstampSymbol[] exchanges = getExchangesInfo();
+    for (BitstampSymbol symbol : exchanges) {
       String base = symbol.getSymbol().substring(0, 3);
       String counter = symbol.getSymbol().substring(3);
       currencyPairs.add(new CurrencyPair(base, counter));
