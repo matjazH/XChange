@@ -1,6 +1,7 @@
 package org.knowm.xchange.cexio.service.polling;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.knowm.xchange.Exchange;
@@ -10,6 +11,8 @@ import org.knowm.xchange.cexio.dto.marketdata.*;
 import org.knowm.xchange.currency.CurrencyPair;
 
 import org.knowm.xchange.exceptions.ExchangeException;
+import org.knowm.xchange.utils.CertHelper;
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.RestProxyFactory;
 
 /**
@@ -28,7 +31,12 @@ public class CexIOMarketDataServiceRaw extends CexIOBasePollingService {
 
     super(exchange);
 
-    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
+    ClientConfig config = new ClientConfig();
+    // config.setSslSocketFactory(CertHelper.createRestrictedSSLSocketFactory("TLSv1"));
+    config.setProxyHost(exchange.getExchangeSpecification().getProxyHost());
+    config.setProxyPort(exchange.getExchangeSpecification().getProxyPort());
+
+    this.cexio = RestProxyFactory.createProxy(CexIO.class, exchange.getExchangeSpecification().getSslUri(), config);
   }
 
   public CexIOTicker getCexIOTicker(CurrencyPair currencyPair) throws IOException {
@@ -58,10 +66,15 @@ public class CexIOMarketDataServiceRaw extends CexIOBasePollingService {
     return trades;
   }
 
-  public List<CexIOCurrency> getCexIOCurrencies() throws IOException {
+  public List<CurrencyPair> getCexIOCurrencies() throws IOException {
+    List<CurrencyPair> currencyPairs = new ArrayList<>();
     CexIOResponse<CexIOPairs> response = cexio.getCurrencyBoundaries();
     if ("ok".equals(response.getOk())) {
-      return response.getData().getPairs();
+      List<CexIOCurrency> pairs = response.getData().getPairs();
+      for (CexIOCurrency pair : pairs) {
+        currencyPairs.add(new CurrencyPair(pair.getSymbol1(), pair.getSymbol2()));
+      }
+      return currencyPairs;
     }
     throw new ExchangeException("CexIO response error");
   }

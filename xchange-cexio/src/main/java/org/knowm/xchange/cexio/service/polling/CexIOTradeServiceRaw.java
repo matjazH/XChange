@@ -15,6 +15,8 @@ import org.knowm.xchange.currency.CurrencyPair;
 import org.knowm.xchange.dto.trade.LimitOrder;
 import org.knowm.xchange.exceptions.ExchangeException;
 
+import org.knowm.xchange.utils.CertHelper;
+import si.mazi.rescu.ClientConfig;
 import si.mazi.rescu.ParamsDigest;
 import si.mazi.rescu.RestProxyFactory;
 
@@ -35,7 +37,13 @@ public class CexIOTradeServiceRaw extends CexIOBasePollingService {
   public CexIOTradeServiceRaw(Exchange exchange) {
 
     super(exchange);
-    cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri());
+
+    ClientConfig config = new ClientConfig();
+    // config.setSslSocketFactory(CertHelper.createRestrictedSSLSocketFactory("TLSv1"));
+    config.setProxyHost(exchange.getExchangeSpecification().getProxyHost());
+    config.setProxyPort(exchange.getExchangeSpecification().getProxyPort());
+
+    cexIOAuthenticated = RestProxyFactory.createProxy(CexIOAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), config);
     signatureCreator = CexIODigest.createInstance(exchange.getExchangeSpecification().getSecretKey(),
         exchange.getExchangeSpecification().getUserName(), exchange.getExchangeSpecification().getApiKey());
   }

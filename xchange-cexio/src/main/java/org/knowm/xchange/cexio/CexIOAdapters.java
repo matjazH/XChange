@@ -117,62 +117,32 @@ public class CexIOAdapters {
     List<Balance> balances = new ArrayList<Balance>();
 
     // Adapt to XChange DTOs
+    if (balance.getBalanceBCH() != null) {
+      balances.add(adaptBalance(new Currency("BCH"), balance.getBalanceBCH()));
+    }
     if (balance.getBalanceBTC() != null) {
       balances.add(adaptBalance(Currency.BTC, balance.getBalanceBTC()));
-    }
-    if (balance.getBalanceLTC() != null) {
-      balances.add(adaptBalance(Currency.LTC, balance.getBalanceLTC()));
-    }
-    if (balance.getBalanceNMC() != null) {
-      balances.add(adaptBalance(Currency.NMC, balance.getBalanceNMC()));
-    }
-    if (balance.getBalanceIXC() != null) {
-      balances.add(adaptBalance(Currency.IXC, balance.getBalanceIXC()));
-    }
-    if (balance.getBalanceDVC() != null) {
-      balances.add(adaptBalance(Currency.DVC, balance.getBalanceDVC()));
-    }
-    if (balance.getBalanceGHS() != null) {
-      balances.add(adaptBalance(Currency.GHs, balance.getBalanceGHS()));
-    }
-    if (balance.getBalanceUSD() != null) {
-      balances.add(adaptBalance(Currency.USD, balance.getBalanceUSD()));
-    }
-    if (balance.getBalanceDRK() != null) {
-      balances.add(adaptBalance(Currency.DRK, balance.getBalanceDRK()));
     }
     if (balance.getBalanceEUR() != null) {
       balances.add(adaptBalance(Currency.EUR, balance.getBalanceEUR()));
     }
-    if (balance.getBalanceDOGE() != null) {
-      balances.add(adaptBalance(Currency.DOGE, balance.getBalanceDOGE()));
+    if (balance.getBalanceGBP() != null) {
+      balances.add(adaptBalance(Currency.GBP, balance.getBalanceGBP()));
     }
-    if (balance.getBalanceFTC() != null) {
-      balances.add(adaptBalance(Currency.FTC, balance.getBalanceFTC()));
+    if (balance.getBalanceUSD() != null) {
+      balances.add(adaptBalance(Currency.USD, balance.getBalanceUSD()));
     }
-    if (balance.getBalanceMEC() != null) {
-      balances.add(adaptBalance(Currency.MEC, balance.getBalanceMEC()));
+    if (balance.getBalanceRUB() != null) {
+      balances.add(adaptBalance(Currency.RUB, balance.getBalanceRUB()));
     }
-    if (balance.getBalanceWDC() != null) {
-      balances.add(adaptBalance(Currency.WDC, balance.getBalanceWDC()));
+    if (balance.getBalanceDASH() != null) {
+      balances.add(adaptBalance(new Currency("DASH"), balance.getBalanceDASH()));
     }
-    if (balance.getBalanceMYR() != null) {
-      balances.add(adaptBalance(Currency.MYR, balance.getBalanceMYR()));
+    if (balance.getBalanceGHS() != null) {
+      balances.add(adaptBalance(Currency.GHS, balance.getBalanceGHS()));
     }
-    if (balance.getBalanceAUR() != null) {
-      balances.add(adaptBalance(Currency.AUR, balance.getBalanceAUR()));
-    }
-    if (balance.getBalancePOT() != null) {
-      balances.add(adaptBalance(Currency.POT, balance.getBalancePOT()));
-    }
-    if (balance.getBalanceANC() != null) {
-      balances.add(adaptBalance(Currency.ANC, balance.getBalanceANC()));
-    }
-    if (balance.getBalanceDGB() != null) {
-      balances.add(adaptBalance(Currency.DGB, balance.getBalanceDGB()));
-    }
-    if (balance.getBalanceUSDE() != null) {
-      balances.add(adaptBalance(Currency.USDE, balance.getBalanceUSDE()));
+    if (balance.getBalanceZEC() != null) {
+      balances.add(adaptBalance(new Currency("ZEC"), balance.getBalanceZEC()));
     }
     if (balance.getBalanceETH() != null) {
       balances.add(adaptBalance(Currency.ETH, balance.getBalanceETH()));

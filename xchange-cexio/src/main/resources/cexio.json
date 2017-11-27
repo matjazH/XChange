@@ -1,54 +1,109 @@
 {
   "currencyPair": {
     "BTC/USD": {
-      "priceScale": 4,
-      "tradingFee": 0.002,
+      "priceScale": 8,
+      "tradingFee": 0.0000,
       "minimumAmount": 0.010000000
     },
-    "GHS/USD": {
+    "ETH/USD": {
       "priceScale": 8,
-      "tradingFee": 0.002,
-      "minimumAmount": 1.000000000
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.100000000
     },
-    "LTC/USD": {
-      "priceScale": 3,
-      "tradingFee": 0.002,
-      "minimumAmount": 1.200000000
+    "BCH/USD": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "DASH/USD": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "ZEC/USD": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "BTC/EUR": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "ETH/EUR": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.100000000
+    },
+    "BCH/EUR": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "DASH/EUR": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "ZEC/EUR": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "BTC/GBP": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "ETH/GBP": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.100000000
+    },
+    "BCH/GBP": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "DASH/GBP": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "ZEC/GBP": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "BTC/RUB": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "ETH/BTC": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.100000000
+    },
+    "BCH/BTC": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.100000000
+    },
+    "DASH/BTC": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
+    },
+    "ZEC/BTC": {
+      "priceScale": 8,
+      "tradingFee": 0.0000,
+      "minimumAmount": 0.010000000
     },
     "GHS/BTC": {
       "priceScale": 8,
       "tradingFee": 0.0000,
       "minimumAmount": 1.000000000
-    },
-    "LTC/BTC": {
-      "priceScale": 8,
-      "tradingFee": 0.0000,
-      "minimumAmount": 1.200000000
-    },
-    "ETH/BTC": {
-      "priceScale": 8,
-      "tradingFee": 0.0000,
-      "minimumAmount": 0.500000000
-    },
-    "ETH/USD": {
-      "priceScale": 3,
-      "tradingFee": 0.002,
-      "minimumAmount": 0.500000000
-    },
-    "BTC/EUR": {
-      "priceScale": 4,
-      "tradingFee": 0.001,
-      "minimumAmount": 0.010000000
-    },
-    "LTC/EUR": {
-      "priceScale": 3,
-      "tradingFee": 0.001,
-      "minimumAmount": 1.200000000
-    },
-    "BTC/RUB": {
-      "priceScale": 2,
-      "tradingFee": 0.001,
-      "minimumAmount": 0.010000000
     }
   },
   "currency": {},
