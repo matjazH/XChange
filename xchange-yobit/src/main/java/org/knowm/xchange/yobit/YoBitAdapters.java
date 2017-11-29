@@ -60,7 +60,7 @@ public class YoBitAdapters {
 
       while (itOrders.hasNext()) {
         Map.Entry<String, BigDecimal> pairOrders = itOrders.next();
-        balances.add(new Balance(new Currency(pairOrders.getKey().toUpperCase()), funds.get(pairOrders.getKey()), pairOrders.getValue()));
+        balances.add(new Balance(new Currency(pairOrders.getKey().toUpperCase()), pairOrders.getValue(), funds.get(pairOrders.getKey())));
       }
     }
 
