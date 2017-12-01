@@ -46,7 +46,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
 
       return response;
     } catch (HitbtcException e) {
-      handleException(e);
+      checkRejected(e);
       return null;
     }
   }
@@ -58,12 +58,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
 
   public HitbtcExecutionReport placeLimitOrderRaw(LimitOrder limitOrder) throws IOException {
 
-    try {
-      return fillHitbtcExecutionReportResponse(limitOrder);
-    } catch (HitbtcException e) {
-      handleException(e);
-      return null;
-    }
+    return fillHitbtcExecutionReportResponse(limitOrder);
   }
 
   public  HitbtcExecutionReport placeLimitOrderRawReturningHitbtcExecutionReportResponse(LimitOrder limitOrder) throws IOException {
@@ -83,7 +78,7 @@ public class HitbtcTradeServiceRaw extends HitbtcBasePollingService {
       return hitbtc.postHitbtcNewOrder(signatureCreator, orderId, symbol, side, limitOrder.getLimitPrice(),
           getLots(limitOrder), "limit", "GTC");
     } catch (HitbtcException e) {
-      handleException(e);
+      checkRejected(e);
       return null;
     }
   }

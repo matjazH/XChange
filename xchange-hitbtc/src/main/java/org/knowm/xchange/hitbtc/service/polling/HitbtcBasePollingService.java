@@ -1,6 +1,8 @@
 package org.knowm.xchange.hitbtc.service.polling;
 
 import org.knowm.xchange.Exchange;
+import org.knowm.xchange.exceptions.NonceException;
+import org.knowm.xchange.hitbtc.dto.trade.HitbtcExecutionReport;
 import org.knowm.xchange.service.BaseExchangeService;
 import org.knowm.xchange.exceptions.ExchangeException;
 import org.knowm.xchange.hitbtc.service.HitbtcHmacDigest;
@@ -32,16 +34,23 @@ public class HitbtcBasePollingService extends BaseExchangeService implements Bas
     this.hitbtc = RestProxyFactory.createProxy(HitbtcAuthenticated.class, exchange.getExchangeSpecification().getSslUri(), createClientConfig(exchange.getExchangeSpecification()));
   }
 
-  void handleException(HitbtcException hitbtcException) {
-    if (hitbtcException != null) {
-      if (hitbtcException.getMessage().toLowerCase().contains("funds")) {
-        throw new FundsExceededException(hitbtcException.getMessage());
-      } else if (hitbtcException.getMessage().toLowerCase().contains("order")) {
-        throw new IllegalStateException(hitbtcException.getMessage());
-      } else {
-        throw new IllegalArgumentException("Order was rejected " + hitbtcException.getMessage());
-      }
+  protected void checkRejected(HitbtcException hitbtcException) {
+    if (hitbtcException.getMessage().toLowerCase().contains("funds")) {
+      throw new FundsExceededException(hitbtcException.getMessage());
+    } else if (hitbtcException.getMessage().toLowerCase().contains("order")) {
+      throw new IllegalStateException(hitbtcException.getMessage());
+    } else {
+      throw new IllegalArgumentException("Order rejected, " + hitbtcException.getMessage());
     }
-    throw new ExchangeException(hitbtcException.getCode() + ": " + hitbtcException.getMessage());
+  }
+
+  protected void handleException(HitbtcException exception) {
+    String code = exception.getCode();
+    String message = exception.getMessage();
+
+    if ("Nonce has been used".equals(message)) {
+      throw new NonceException(code + ": " + message);
+    }
+    throw new ExchangeException(code + ": " + message);
   }
 }
